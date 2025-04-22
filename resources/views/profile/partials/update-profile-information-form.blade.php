@@ -1,11 +1,11 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Profile Information') }}
+            {{ __('Información de perfil') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("Update your account's profile information and email address.") }}
+            {{ __("Actualice la información del perfil y la dirección de correo electrónico de su cuenta.") }}
         </p>
     </header>
 
@@ -18,13 +18,13 @@
         @method('patch')
 
         <div class="mb-3">
-            <x-input-label for="name" class="form-label" :value="__('Name')" />
+            <x-input-label for="name" class="form-label" :value="__('Nombre')" />
             <x-text-input id="name" name="name" type="text" class="form-control" :value="old('name', $user->name)" required
                 autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
         <div class="mb-3">
-            <x-input-label for="Mode" class="form-label" :value="__('Mode')" />
+            <x-input-label for="Mode" class="form-label" :value="__('Modo')" />
             <select name="mode" id="Mode" class="form-control">
                 <option {{ Auth::user()->mode == 'dark' ? 'selected' : '' }} value="dark">Dark</option>
                 <option {{ Auth::user()->mode == 'light' ? 'selected' : '' }} value="light">Light</option>
@@ -32,7 +32,7 @@
             <x-input-error class="mt-2" :messages="$errors->get('mode')" />
         </div>
         <div class="mb-3">
-            <x-input-label for="email" class="form-label" :value="__('Email')" />
+            <x-input-label for="email" class="form-label" :value="__('Correo electrónico')" />
             <x-text-input id="email" name="email" type="email" class="form-control" :value="old('email', $user->email)" required
                 autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
@@ -58,7 +58,7 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <button type="submit" class="btn btn-primary btn-sm">{{ __('Save') }}</button>
+            <button type="submit" class="btn btn-primary btn-sm">{{ __('Guardar') }}</button>
             @if (session('status') === 'profile-updated')
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     {{ 'Saved' }}

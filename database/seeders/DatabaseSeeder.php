@@ -32,6 +32,8 @@ class DatabaseSeeder extends Seeder
         $this->call(PropuestaTgSeeder::class);
         $this->call(PropuestaTpSeeder::class);
         $this->call(LineamientoDocenteSeeder::class);
+        $this->call(DocenteRoleSeeder::class);
+
 
     }
 }

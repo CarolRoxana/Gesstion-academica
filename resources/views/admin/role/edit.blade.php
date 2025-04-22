@@ -6,10 +6,10 @@
             <div class="col-lg-6">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Edit Role</h3>
+                        <h3 class="card-title">Editar Rol</h3>
                         <div class="card-tools">
                             <a href="{{ route('admin.role.index') }}"
-                                class="btn btn-sm btn-dark">Back</a>
+                                class="btn btn-sm btn-dark">Volver</a>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -22,11 +22,11 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label for="name" class="form-label">Role Name</label>
+                                        <label for="name" class="form-label">Nombre Rol</label>
                                         <input type="text" class="form-control" name="name" id="name"
                                             required="" value="{{ $data->name }}">
                                             <x-error>name</x-error>
-                                        <div class="invalid-feedback">Role name field is required.</div>
+                                        <div class="invalid-feedback">El campo de nombre del rol es obligatorio.</div>
                                     </div>
                                 </div>
                             </div>

@@ -29,7 +29,7 @@ class HorarioPDFController extends Controller
         $pdf = Pdf::loadView('admin.horario.pdf', $data)
             ->setPaper('A4', 'landscape');
 
-        return $pdf->download('horarios_'.now()->format('Ymd_His').'.pdf');
+        return $pdf->download('horarios_'.now()->format('dmy_His').'.pdf');
     
     }
 }

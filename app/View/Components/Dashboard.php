@@ -20,14 +20,6 @@ class Dashboard extends Component
         $user = User::count();
         view()->share('user',$user);
         
-        $category = Category::count();
-        view()->share('category',$category);
-        
-        $product = Product::count();
-        view()->share('product',$product);
-        
-        $collection = Collection::count();
-        view()->share('collection',$collection);
     }
 
     /**
