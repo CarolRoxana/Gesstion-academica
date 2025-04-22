@@ -102,6 +102,7 @@ return [
      */
 
     'register_permission_check_method' => true,
+    'guard_name' => 'web',
 
     /*
      * When set to true, the Spatie\Permission\Listeners\OctaneReloadPermissions listener will be registered

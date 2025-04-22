@@ -1,20 +1,24 @@
 <x-guest-layout>
     @section('title')
-        {{ 'Log in' }}
+        {{ 'Iniciar sessión' }}
     @endsection
     <div class="login-box">
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
+            <div class=" text-center">
+                <img src="{{ asset('admin/dist/img/UnegLogo.jpg') }}" alt="Uneg-Logo" class="mt-3" style="max-width: 100px;">
+            </div>
             <div class="card-header text-center">
                 <a href="/" class="h1"><b>{{ config('app.name') }}</a>
             </div>
             <div class="card-body">
-                <p class="login-box-msg">Sign in to start your session</p>
+                <p class="login-box-msg">Iniciar sessión</p>
 
                 <form action="{{ route('login') }}" method="POST">
                     @csrf
+                    <label for="">Correo electrónico</label>
                     <div class="input-group mb-3">
-                        <input id="email" class="form-control" type="email" name="email" :value="old('email')"
+                        <input id="email" class="form-control" type="email" name="email" :value="old('email') plaseholder="Correo electrónico"
                             required autofocus autocomplete="username">
                         <div class="input-group-append">
                             <div class="input-group-text">
@@ -23,8 +27,9 @@
                         </div>
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
+                    <label for="">Contraseña</label>
                     <div class="input-group mb-3">
-                        <input id="password" class="form-control" type="password" name="password" required
+                        <input id="password" class="form-control" type="password" name="password" required placeholder="**********"
                             autocomplete="current-password">
                         <div class="input-group-append">
                             <div class="input-group-text">
@@ -38,34 +43,22 @@
                             <div class="icheck-primary">
                                 <input type="checkbox" name="remember" id="remember">
                                 <label for="remember">
-                                    Remember Me
+                                    Recuerdame
                                 </label>
                             </div>
                         </div>
                         <!-- /.col -->
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                        <div class="col-6 mx-auto">
+                            <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
                         </div>
                         <!-- /.col -->
                     </div>
                 </form>
-                <div class="social-auth-links text-center mb-3">
-                    <p>- OR -</p>
-                    <a href="{{ route('facebook.login') }}" class="btn btn-block btn-primary">
-                        <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-                    </a>
-                    <a href="{{ route('google.login') }}" class="btn btn-block btn-danger">
-                        <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-                    </a>
-                    <a href="{{ route('github.login') }}" class="btn btn-block btn-dark">
-                        <i class="fab fa-github mr-2"></i> Sign in using Github
-                    </a>
-                </div>
-                <p class="mb-1">
-                    <a href="{{ route('password.request') }}">I forgot my password</a>
+                <p class="mb-1 text-center">
+                    <a href="{{ route('password.request') }}">Recuperar contraseña</a>
                 </p>
-                <p class="mb-0">
-                    <a href="{{ route('register') }}" class="text-center">Register a new Account</a>
+                <p class="mb-0 text-center">
+                    <a href="{{ route('register') }}" class="text-center">Registrar una nueva cuenta</a>
                 </p>
             </div>
             <!-- /.card-body -->

@@ -1,5 +1,5 @@
 <x-guest-layout>
-    @section('title', 'Welcome')
+    @section('title', 'UNEG')
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8 ">

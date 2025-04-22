@@ -5,8 +5,8 @@
             <div class="card mt-4">
                 <div class="card-body p-4">
                     <div class="text-center mt-2">
-                        <h5 class="text-primary">Welcome Back !</h5>
-                        <p class="text-muted">Sign in to continue to {{ config('app.name') }}.</p>
+                        <h5 class="text-primary">BIENVENIDO DE VUELTA !</h5>
+                        <p class="text-muted">Iniciar sesión para continuar {{ config('app.name') }}.</p>
                         <x-auth-session-status class="mb-4" :status="session('status')" />
                         @if (session('error'))
                             <div class="text-danger">{{ session('success') }}</div>
@@ -17,18 +17,18 @@
                             @csrf
 
                             <div class="mb-3">
-                                <label for="phonenumber" class="form-label">Enter Your phonenumber</label>
+                                <label for="phonenumber" class="form-label">Introduzca su número de teléfono</label>
                                 <x-text-input id="phonenumber" class="form-control" type="phonenumber" name="phonenumber"
                                     :value="old('phonenumber')" required autofocus autocomplete="phonenumber" />
                                 <x-input-error :messages="$errors->get('phonenumber')" class="mt-2" />
                             </div>
                             <div class="mt-4">
-                                <button class="btn btn-success w-100" type="submit">Generate OTP</button>
+                                <button class="btn btn-success w-100" type="submit">Generar OTP</button>
                             </div>
                         </form>
                     </div>
                     <div class="mt-4 text-center">
-                        <p class="mb-0">Login With <a href="{{ route('login') }}"
+                        <p class="mb-0">Iniciar sesión con <a href="{{ route('login') }}"
                                 class="fw-semibold text-primary text-decoration-underline"> Email </a> </p>
                     </div>
                 </div>

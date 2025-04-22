@@ -1,19 +1,19 @@
 <x-admin>
-    @section('title', 'Users')
+    @section('title', 'Usuarios')
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">User Table</h3>
-            <div class="card-tools"><a href="{{ route('admin.user.create') }}" class="btn btn-sm btn-primary">Add</a></div>
+            <h3 class="card-title">Tabla de Usuarios</h3>
+            <div class="card-tools"><a href="{{ route('admin.user.create') }}" class="btn btn-sm btn-primary">Crear</a></div>
         </div>
         <div class="card-body">
             <table class="table table-striped" id="userTable">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Created</th>
-                        <th>Action</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Fecha de creación</th>
+                        <th>Acción</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -26,14 +26,14 @@
                             <td>{{ $user->created_at }}</td>
                             <td>
                                 <a href="{{ route('admin.user.edit', encrypt($user->id)) }}"
-                                    class="btn btn-sm btn-primary">Edit</a>
+                                    class="btn btn-sm btn-primary">Editar</a>
                             </td>
                             <td>
                                 <form action="{{ route('admin.user.destroy', encrypt($user->id)) }}" method="POST"
                                     onsubmit="return confirm('Are sure want to delete?')">
                                     @method('DELETE')
                                     @csrf
-                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
                                 </form>
                             </td>
                         </tr>
