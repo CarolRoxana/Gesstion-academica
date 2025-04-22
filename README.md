@@ -47,7 +47,7 @@ password: ```p$ssw#rd```
 - Coordinador
 
 email: ```coordinador@gmail.com```
-password: ``````
+password: ```p$ssw#rd```
 
 - Jefe area
 
