@@ -39,10 +39,6 @@ Ahora puede niciar el servidor para ejecutar el proyecto.
 email: ```testadmin@gmail.com```
 password: ```p$ssw#rd```
 
-
-email: ```testuser@gmail.com```
-password: ```p$ssw#rd```
-
 - Secretaria
 
 email: ```secretaria@gmail.com```
