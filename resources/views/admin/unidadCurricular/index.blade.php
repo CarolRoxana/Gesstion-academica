@@ -12,7 +12,6 @@
                         <th>Unidad</th>
                         <th>Carrera</th>
                         <th>Semestre</th>
-                        <th>Docente</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -23,7 +22,6 @@
                             <td>{{ $unidad->unidad_curricular }}</td>
                             <td>{{ $unidad->carrera }}</td>
                             <td>{{ $unidad->semestre }}</td>
-                            <td>{{ $unidad->docente->nombre }} {{ $unidad->docente->apellido ?? '' }}</td>
                             <td>
                                 <a href="{{ route('admin.unidad-curricular.edit', $unidad->id) }}" class="btn btn-sm btn-warning">Editar</a>
                                 <form action="{{ route('admin.unidad-curricular.destroy', $unidad->id) }}" method="POST" class="d-inline">

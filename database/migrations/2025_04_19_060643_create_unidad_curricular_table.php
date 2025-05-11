@@ -8,12 +8,10 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('unidad_curricular', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('docente_id');
             $table->string('nombre');
             $table->integer('unidad_curricular');
             $table->string('carrera');
             $table->string('semestre');
-            $table->foreign('docente_id')->references('id')->on('docentes');
             $table->timestamps();
         });
     }

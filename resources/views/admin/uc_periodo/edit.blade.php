@@ -30,24 +30,17 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Docente</label>
-                    <select name="docente_id" class="form-control" required>
-                        @foreach($docentes as $docente)
-                            <option value="{{ $docente->id }}" {{ $registro->docente_id == $docente->id ? 'selected' : '' }}>
-                                {{ $docente->nombre }} {{ $docente->apellido }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="form-group">
                     <label>Sede</label>
                     <input type="text" name="sede" class="form-control" value="{{ $registro->sede }}" required>
                 </div>
 
                 <div class="form-group">
                     <label>Modalidad</label>
-                    <input type="text" name="modalidad" class="form-control" value="{{ $registro->modalidad }}" required>
+                    <select name="modalidad" class="form-control" required>
+                        <option value="">Seleccione</option>
+                        <option value="Presencial">Presencial</option>
+                        <option value="Virtual">Virtual</option>
+                    </select>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Actualizar</button>

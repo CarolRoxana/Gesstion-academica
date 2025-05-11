@@ -65,7 +65,6 @@
                 <th>Día</th>
                 <th>Hora Inicio</th>
                 <th>Hora Fin</th>
-                <th>Duración</th>
             </tr>
         </thead>
         <tbody>
@@ -75,15 +74,10 @@
                     <td>{{ $horario->docente->apellido }}, {{ $horario->docente->nombre }}</td>
                     <td>{{ $horario->docente->cedula }}</td>
                     <td>{{ $horario->unidadCurricular->nombre }}</td>
-                    <td>{{ $horario->seccion }}</td>
-                    <td>{{ \Carbon\Carbon::parse($horario->dia)->isoFormat('dddd DD/MM/YYYY') }}</td>
+                    <td>{{ $horario->seccion->nombre }}</td>
+                    <td>{{ $horario->dia }}</td>
                     <td>{{ \Carbon\Carbon::parse($horario->hora_inicio)->format('h:i A') }}</td>
                     <td>{{ \Carbon\Carbon::parse($horario->hora_finalizacion)->format('h:i A') }}</td>
-                    <td>
-                        {{ \Carbon\Carbon::parse($horario->hora_inicio)
-                            ->diff(\Carbon\Carbon::parse($horario->hora_finalizacion))
-                            ->format('%Hh %Im') }}
-                    </td>
                 </tr>
             @endforeach
         </tbody>

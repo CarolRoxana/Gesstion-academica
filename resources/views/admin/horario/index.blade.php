@@ -28,12 +28,12 @@
                 <tbody>
                     @foreach ($horarios as $horario)
                         <tr>
-                            <td>{{ $horario->docente->nombre }}</td>
+                            <td>{{ $horario->docente->nombre }} {{ $horario->docente->apellido }}</td>
                             <td>{{ $horario->unidadCurricular->nombre }}</td>
-                            <td>{{ $horario->seccion }}</td>
-                            <td>{{ \Carbon\Carbon::parse($horario->dia)->format('d/m/Y') }}</td>
-                            <td>{{ $horario->hora_inicio }}</td>
-                            <td>{{ $horario->hora_finalizacion }}</td>
+                            <td>{{ $horario->seccion->nombre }}</td>
+                            <td>{{ $horario->dia }}</td>
+                            <td>{{ \Carbon\Carbon::parse($horario->hora_inicio)->format('H:i') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($horario->hora_finalizacion)->format('H:i') }}</td>
                             <td class="d-flex gap-1">
                                 <a href="{{ route('admin.horario.show', $horario->id) }}" class="btn btn-sm btn-secondary">Ver</a>
                                 <a href="{{ route('admin.horario.edit', $horario->id) }}" class="btn btn-sm btn-primary">Editar</a>

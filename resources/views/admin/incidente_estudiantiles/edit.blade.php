@@ -25,7 +25,7 @@
                 
                 <div class="mb-3">
                     <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea name="descripcion" class="form-control"> value="{{ ( $incidente_estudiantil->descripcion) }}"</textarea>
+                    <textarea name="descripcion" class="form-control">{{ ( $incidente_estudiantil->descripcion) }}</textarea>
                 </div>
                 
                 <div class="mb-3">
@@ -33,7 +33,7 @@
                     <input type="datetime-local" name="fecha_incidente" class="form-control" value="{{ $incidente_estudiantil->fecha_incidente}}">
                 </div>
                 
-                <button type="submit" class="btn btn-success mt-3">Actualizar</button>
+                <button type="submit" class="btn btn-success mt-3">Actualizar</button> 
             </form>
         </div>
     </div>

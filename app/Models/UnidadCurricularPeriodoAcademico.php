@@ -31,7 +31,7 @@ class UnidadCurricularPeriodoAcademico extends Model
 
     public function docente()
     {
-        return $this->belongsTo(Docente::class);
+        return $this->belongsTo(Docente::class)->withDefault();
     }
     
 }

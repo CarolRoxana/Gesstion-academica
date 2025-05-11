@@ -51,5 +51,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
         Route::get('/horarios/pdf', [HorarioPDFController::class, 'exportHorarioPDF'])->name('admin.horarios.pdf');
         Route::get('/propuestas/grado/pdf', [PropuestaPDFController::class, 'exportGradoPDF'])->name('admin.propuestas.grado.pdf');
         Route::get('/propuestas/pasantia/pdf', [PropuestaPDFController::class, 'exportPasantiaPDF'])->name('admin.propuestas.pasantia.pdf');
+        Route::get('/unidad-curricular/{id}/secciones', [UnidadCurricularController::class, 'getSecciones']);
     });
 });

@@ -9,10 +9,10 @@
             <ul class="list-group">
                 <li class="list-group-item"><strong>Docente:</strong> {{ $horario->docente->nombre }} {{ $horario->docente->apellido }}</li>
                 <li class="list-group-item"><strong>Unidad Curricular:</strong> {{ $horario->unidadCurricular->nombre }}</li>
-                <li class="list-group-item"><strong>Día:</strong> {{ $horario->dia->format('d/m/Y') }}</li>
-                <li class="list-group-item"><strong>Inicio:</strong> {{ $horario->hora_inicio->format('H:i') }}</li>
-                <li class="list-group-item"><strong>Fin:</strong> {{ $horario->hora_finalizacion->format('H:i') }}</li>
-                <li class="list-group-item"><strong>Sección:</strong> {{ $horario->seccion }}</li>
+                <li class="list-group-item"><strong>Día:</strong> {{ $horario->dia }}</li>
+                <li class="list-group-item"><strong>Inicio:</strong> {{ \Carbon\Carbon::parse($horario->hora_inicio)->format('H:i') }}</li>
+                <li class="list-group-item"><strong>Fin:</strong> {{ \Carbon\Carbon::parse($horario->hora_finalizacion)->format('H:i') }}</li>
+                <li class="list-group-item"><strong>Sección:</strong> {{ $horario->seccion->nombre }}</li>
                 <li class="list-group-item"><strong>Período Académico:</strong> {{ $horario->periodoAcademico->periodo }}</li>
             </ul>
         </div>

@@ -2,7 +2,7 @@
     @section('title', 'Editar Talento Humano')
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('talento_humano.update', $talentoHumano->id) }}" method="POST">
+            <form action="{{ route('admin.talento_humano.update', $talentoHumano->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <!-- Aquí van los mismos campos de la vista create, pero con valores prellenados -->

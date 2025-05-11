@@ -66,7 +66,7 @@ class IncidenteEstudiantilController extends Controller
 
         $incidente_estudiantil->update($data);
 
-        return redirect()->route('admin\incidente_estudiantiles\index')->with('success', 'Incidente actualizado correctamente');
+        return redirect()->route('admin.incidente-estudiantil.index')->with('success', 'Incidente actualizado correctamente');
     }
 
     public function destroy(IncidenteEstudiantil $incidente_estudiantil)

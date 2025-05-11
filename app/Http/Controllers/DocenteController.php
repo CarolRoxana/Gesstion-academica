@@ -25,6 +25,7 @@ class DocenteController extends Controller
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
             'cedula' => 'required|string|max:20|unique:docentes',
+            'titulo' => 'required|string|max:255',
             'correo' => 'required|email|unique:docentes',
             'telefono' => 'nullable|string|max:20',
         ]);
@@ -52,6 +53,7 @@ class DocenteController extends Controller
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
             'cedula' => 'required|string|max:20|unique:docentes,cedula,' . $docente->id,
+            'titulo' => 'required|string|max:255',
             'correo' => 'required|email|unique:docentes,correo,' . $docente->id,
             'telefono' => 'nullable|string|max:20',
         ]);

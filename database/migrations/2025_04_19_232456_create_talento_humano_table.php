@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('estatus');
             $table->text('observaciones')->nullable();
             $table->dateTime('fecha_aprobacion')->nullable();
-            $table->dateTime('fecha_ingreso');
+            $table->dateTime('fecha_ingreso')->nullable();
             $table->timestamps();
         });
     }

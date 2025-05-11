@@ -10,10 +10,11 @@ use Maatwebsite\Excel\Facades\Excel;
 class ProfesorController extends Controller
 {
     public function index()
-    { 
-        $profesores = DB::table('unidad_curricular_periodo_academico as ucpa')
+{
+    $profesores = DB::table('unidad_curricular_periodo_academico as ucpa')
         ->join('docentes', 'ucpa.docente_id', '=', 'docentes.id')
         ->join('unidad_curricular as uc', 'uc.id', '=', 'ucpa.unidad_curricular_id')
+        ->leftJoin('seccions as s', 's.unidad_curricular_id', '=', 'uc.id')
         ->select(
             'ucpa.sede',
             DB::raw("CONCAT(docentes.nombre, ' ', docentes.apellido) as docente"),
@@ -21,22 +22,22 @@ class ProfesorController extends Controller
             'docentes.correo',
             'uc.carrera',
             'uc.nombre as unidad_curricular',
-            DB::raw("(
-                SELECT COUNT(DISTINCT h.seccion) 
-                FROM horarios h 
-                WHERE h.docente_id = docentes.id
-                AND h.unidad_curricular_id = uc.id
-                AND h.periodo_academico_id = ucpa.periodo_academico_id
-            ) as num_secciones"),
+            DB::raw("COUNT(DISTINCT s.id) as num_secciones"),
+            'ucpa.modalidad'
+        )
+        ->groupBy(
+            'ucpa.sede',
+            'docentes.nombre',
+            'docentes.apellido',
+            'docentes.cedula',
+            'docentes.correo',
+            'uc.carrera',
+            'uc.nombre',
             'ucpa.modalidad'
         )
         ->get();
 
     return view('admin.profesores.index', compact('profesores'));
-    }
+}
 
-    public function export()
-    {
-        return Excel::download(new DocentesExport, 'lista_docentes.xlsx');
-    }
 }

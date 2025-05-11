@@ -13,7 +13,6 @@
                         <th>ID</th>
                         <th>Unidad Curricular</th>
                         <th>Periodo</th>
-                        <th>Docente</th>
                         <th>Sede</th>
                         <th>Modalidad</th>
                         <th>Acciones</th>
@@ -25,7 +24,6 @@
                             <td>{{ $registro->id }}</td>
                             <td>{{ $registro->unidadCurricular->nombre }}</td>
                             <td>{{ $registro->periodoAcademico->periodo }}</td>
-                            <td>{{ $registro->docente->nombre }} {{ $registro->docente->apellido }}</td>
                             <td>{{ $registro->sede }}</td>
                             <td>{{ $registro->modalidad }}</td>
                             <td>

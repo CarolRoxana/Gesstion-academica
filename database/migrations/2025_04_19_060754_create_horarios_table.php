@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('horarios', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('docente_id');
-            $table->dateTime('dia');
-            $table->dateTime('hora_inicio');
-            $table->dateTime('hora_finalizacion');
+            $table->string('dia');
+            $table->time('hora_inicio');
+            $table->time('hora_finalizacion');
             $table->unsignedBigInteger('unidad_curricular_id');
-            $table->string('seccion');
             $table->unsignedBigInteger('periodo_academico_id');
             $table->foreign('docente_id')->references('id')->on('docentes');
+            $table->foreignId('seccion_id')->constrained()->onDelete('cascade');
             $table->foreign('unidad_curricular_id')->references('id')->on('unidad_curricular');
             $table->foreign('periodo_academico_id')->references('id')->on('periodo_academico');
             $table->timestamps();

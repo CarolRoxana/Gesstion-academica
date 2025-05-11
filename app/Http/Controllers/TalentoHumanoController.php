@@ -33,7 +33,7 @@ class TalentoHumanoController extends Controller
             'estatus' => 'required|string',
             'observaciones' => 'nullable|string',
             'fecha_aprobacion' => 'nullable|date',
-            'fecha_ingreso' => 'required|date',
+            'fecha_ingreso' => 'nullable|date',
         ]);
 
         TalentoHumano::create($request->all());
@@ -68,7 +68,7 @@ class TalentoHumanoController extends Controller
             'estatus' => 'required|string',
             'observaciones' => 'nullable|string',
             'fecha_aprobacion' => 'nullable|date',
-            'fecha_ingreso' => 'required|date',
+            'fecha_ingreso' => 'nullable|date',
         ]);
 
         $talentoHumano = TalentoHumano::findOrFail($id);

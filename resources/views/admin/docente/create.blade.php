@@ -17,6 +17,10 @@
                     <input type="text" name="cedula" class="form-control" required>
                 </div>
                 <div class="form-group">
+                    <label>Título Profesional</label>
+                    <input type="text" name="titulo" class="form-control" required>
+                </div>
+                <div class="form-group">
                     <label>Correo</label>
                     <input type="email" name="correo" class="form-control">
                 </div>

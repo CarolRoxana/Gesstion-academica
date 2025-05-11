@@ -28,14 +28,22 @@
                     <select name="docente_id" id="docente_id" class="form-control" required>
                         <option value="">Seleccione un docente</option>
                         @foreach ($docentes as $docente)
-                            <option value="{{ $docente->id }}">{{ $docente->nombre }}</option>
+                            <option value="{{ $docente->id }}">{{ $docente->nombre }} {{ $docente->apellido }}</option>
                         @endforeach
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="dia">Día de la clase</label>
-                    <input type="date" name="dia" id="dia" class="form-control" required>
+                    <label for="dia">Día de la semana</label>
+                    <select name="dia" id="dia" class="form-control" required>
+                        <option value="">Seleccione un día</option>
+                        <option value="Lunes">Lunes</option>
+                        <option value="Martes">Martes</option>
+                        <option value="Miércoles">Miércoles</option>
+                        <option value="Jueves">Jueves</option>
+                        <option value="Viernes">Viernes</option>
+                        <option value="Sábado">Sábado</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
@@ -58,9 +66,12 @@
                     </select>
                 </div>
 
+                {{-- Este campo se actualizará dinámicamente --}}
                 <div class="form-group">
-                    <label for="seccion">Sección</label>
-                    <input type="number" name="seccion" id="seccion" class="form-control" required min="1">
+                    <label for="seccion_id">Sección</label>
+                    <select name="seccion_id" id="seccion_id" class="form-control" required>
+                        <option value="">Seleccione una unidad curricular primero</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
@@ -68,7 +79,7 @@
                     <select name="periodo_academico_id" id="periodo_academico_id" class="form-control" required>
                         <option value="">Seleccione un período</option>
                         @foreach ($periodos as $periodo)
-                            <option value="{{ $periodo->id }}">{{ $periodo->nombre }}</option>
+                            <option value="{{ $periodo->id }}">{{ $periodo->periodo }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -79,4 +90,32 @@
             </form>
         </div>
     </div>
+
+    {{-- Script para cargar secciones dinámicamente --}}
+    <script>
+        document.getElementById('unidad_curricular_id').addEventListener('change', function () {
+            const unidadId = this.value;
+            const seccionSelect = document.getElementById('seccion_id');
+            seccionSelect.innerHTML = '<option value="">Cargando secciones...</option>';
+
+            if (unidadId) {
+                fetch(`/admin/unidad-curricular/${unidadId}/secciones`)
+                    .then(res => res.json())
+                    .then(secciones => {
+                        seccionSelect.innerHTML = '<option value="">Seleccione una sección</option>';
+                        secciones.forEach(seccion => {
+                            const option = document.createElement('option');
+                            option.value = seccion.id;
+                            option.text = seccion.nombre;
+                            seccionSelect.appendChild(option);
+                        });
+                    })
+                    .catch(() => {
+                        seccionSelect.innerHTML = '<option value="">Error al cargar</option>';
+                    });
+            } else {
+                seccionSelect.innerHTML = '<option value="">Seleccione una unidad curricular primero</option>';
+            }
+        });
+    </script>
 </x-admin>

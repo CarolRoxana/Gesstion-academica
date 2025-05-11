@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('unidad_curricular_id');
             $table->unsignedBigInteger('periodo_academico_id');
-            $table->unsignedBigInteger('docente_id');
+            $table->unsignedBigInteger('docente_id')->nullable();
             $table->string('sede');
             $table->string('modalidad');
             $table->foreign('unidad_curricular_id')->references('id')->on('unidad_curricular');

@@ -10,30 +10,64 @@
         </div>
 
         <div class="form-group">
-            <label>Unidad Curricular (número o código)</label>
+            <label>Unidad Curricular (número)</label>
             <input type="number" name="unidad_curricular" class="form-control" required>
         </div>
 
         <div class="form-group">
-            <label>Carrera</label>
-            <input type="text" name="carrera" class="form-control" required>
-        </div>
-
-        <div class="form-group">
-            <label>Semestre</label>
-            <input type="text" name="semestre" class="form-control" required>
-        </div>
-
-        <div class="form-group">
-            <label>Docente</label>
-            <select name="docente_id" class="form-control" required>
+            <label for="carrera">Carrera</label>
+            <select name="carrera" class="form-control" required>
                 <option value="">Seleccione</option>
-                @foreach($docentes as $docente)
-                    <option value="{{ $docente->id }}">{{ $docente->nombre }} {{ $docente->apellido ?? '' }}</option>
+                @foreach($carreras as $carrera)
+                    <option value="{{ $carrera }}">{{ $carrera }}</option>
                 @endforeach
             </select>
         </div>
+        
+        <div class="form-group">
+            <label>Semestre</label>
+            <select name="semestre" class="form-control" required>
+                <option value="">Seleccione un semestre</option>
+                @for ($i = 1; $i <= 9; $i++)
+                    <option value="{{ $i }}">{{ $i }}</option>
+                @endfor
+            </select>
+        </div>
 
-        <button class="btn btn-primary">Guardar</button>
+        <hr>
+
+        <div class="form-group">
+            <label>Secciones</label>
+            <div id="secciones-container">
+                <div class="d-flex mb-2">
+                    <input type="text" name="secciones[]" class="form-control" placeholder="Ej: 1" required>
+                    <button type="button" class="btn btn-danger ml-2 remove-seccion">&times;</button>
+                </div>
+            </div>
+            <button type="button" class="btn btn-secondary mt-2" id="add-seccion">Agregar Sección</button>
+        </div>
+
+        <button class="btn btn-primary mt-3">Guardar</button>
     </form>
+
+    @push('scripts')
+    <script>
+        document.getElementById('add-seccion').addEventListener('click', function () {
+            const container = document.getElementById('secciones-container');
+            const div = document.createElement('div');
+            div.className = 'd-flex mb-2';
+            div.innerHTML = `
+                <input type="text" name="secciones[]" class="form-control" placeholder="Ej: 2" required>
+                <button type="button" class="btn btn-danger ml-2 remove-seccion">&times;</button>
+            `;
+            container.appendChild(div);
+        });
+
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.classList.contains('remove-seccion')) {
+                e.target.parentElement.remove();
+            }
+        });
+    </script>
+    @endpush
 </x-admin>

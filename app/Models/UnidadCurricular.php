@@ -12,15 +12,23 @@ class UnidadCurricular extends Model
     protected $table = 'unidad_curricular';
 
     protected $fillable = [
-        'docente_id',
         'nombre',
         'unidad_curricular',
         'carrera',
         'semestre',
     ];
 
-    public function docente()
+    public function secciones()
     {
-        return $this->belongsTo(Docente::class);
+        return $this->hasMany(Seccion::class);
     }
+    public function periodos()
+    {
+        return $this->hasMany(UnidadCurricularPeriodoAcademico::class);
+    }
+
+    public function horarios()
+{
+    return $this->hasMany(Horario::class);
+}
 }

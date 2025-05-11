@@ -90,6 +90,6 @@ class DesempenoDocenteController extends Controller
     public function destroy(DesempenoDocente $desempenoDocente)
     {
         $desempenoDocente->delete();
-        return redirect()->route('admin.desempeno_docente.index')->with('success', 'Desempeño docente eliminado correctamente.');
+        return redirect()->route('admin.desempeno-docente.index')->with('success', 'Desempeño docente eliminado correctamente.');
     }
 }

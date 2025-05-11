@@ -18,6 +18,10 @@
                     <input type="text" name="cedula" class="form-control" value="{{ $docente->cedula }}" required>
                 </div>
                 <div class="form-group">
+                    <label>Título Profesional</label>
+                    <input type="text" name="titulo" class="form-control" value="{{ $docente->titulo }}" required>
+                </div>
+                <div class="form-group">
                     <label>Correo</label>
                     <input type="email" name="correo" class="form-control" value="{{ $docente->correo }}">
                 </div>

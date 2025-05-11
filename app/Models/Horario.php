@@ -10,23 +10,32 @@ use App\Models\PeriodoAcademico;
 
 
 class Horario extends Model
-    {
+{
     use HasFactory;
 
     protected $casts = [
-        'dia' => 'datetime',
-        'hora_inicio' => 'datetime',
-        'hora_finalizacion' => 'datetime',
+        'hora_inicio' => 'datetime:H:i',
+        'hora_finalizacion' => 'datetime:H:i',
     ];
 
-        public function docente()
+    protected $fillable = [
+        'docente_id',
+        'dia',
+        'hora_inicio',
+        'hora_finalizacion',
+        'unidad_curricular_id',
+        'seccion_id',
+        'periodo_academico_id',
+    ];
+
+    public function docente()
     {
-        return $this->belongsTo(docente::class);
+        return $this->belongsTo(Docente::class);
     }
 
     public function unidadCurricular()
     {
-        return $this->belongsTo(unidadCurricular::class);
+        return $this->belongsTo(UnidadCurricular::class);
     }
 
     public function periodoAcademico()
@@ -34,5 +43,9 @@ class Horario extends Model
         return $this->belongsTo(PeriodoAcademico::class);
     }
 
-
+    public function seccion()
+    {
+        return $this->belongsTo(Seccion::class);
+    }
 }
+

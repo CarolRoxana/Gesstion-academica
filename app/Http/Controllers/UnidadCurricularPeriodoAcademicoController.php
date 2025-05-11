@@ -30,14 +30,17 @@ class UnidadCurricularPeriodoAcademicoController extends Controller
         $request->validate([
             'unidad_curricular_id' => 'required|exists:unidad_curricular,id',
             'periodo_academico_id' => 'required|exists:periodo_academico,id',
-            'docente_id' => 'required|exists:docentes,id',
+           'docente_id' => 'nullable|exists:docentes,id',
             'sede' => 'required|string|max:100',
-            'modalidad' => 'required|string|max:100',
+            'modalidad' => 'required|in:Presencial,Virtual',
         ]);
-
-        UnidadCurricularPeriodoAcademico::create($request->all());
-
-        return redirect()->route('admin\uc_periodo\index')->with('success', 'Registro creado exitosamente.');
+    
+        UnidadCurricularPeriodoAcademico::create($request->only([
+            'unidad_curricular_id', 'periodo_academico_id', 'docente_id', 'sede', 'modalidad'
+        ]));
+    
+        return redirect()->route('admin.unidad-curricular-periodo.index')
+        ->with('success', 'Registro creado exitosamente.');
     }
 
     public function edit($id)
@@ -45,9 +48,8 @@ class UnidadCurricularPeriodoAcademicoController extends Controller
         $registro = UnidadCurricularPeriodoAcademico::findOrFail($id);
         $unidad_curricular = UnidadCurricular::all();
         $periodos = PeriodoAcademico::all();
-        $docentes = Docente::all();
 
-        return view('admin\uc_periodo\edit', compact('registro', 'unidad_curricular', 'periodos', 'docentes'));
+        return view('admin\uc_periodo\edit', compact('registro', 'unidad_curricular', 'periodos'));
     }
 
     public function update(Request $request, $id)
@@ -57,19 +59,20 @@ class UnidadCurricularPeriodoAcademicoController extends Controller
         $request->validate([
             'unidad_curricular_id' => 'required|exists:unidad_curricular,id',
             'periodo_academico_id' => 'required|exists:periodo_academico,id',
-            'docente_id' => 'required|exists:docentes,id',
             'sede' => 'required|string|max:100',
-            'modalidad' => 'required|string|max:100',
+            'modalidad' => 'required|in:Presencial,Virtual',
+            'docente_id' => 'nullable|exists:docentes,id',
         ]);
 
         $registro->update($request->all());
 
-        return redirect()->route('admin\uc_periodo\index')->with('success', 'Registro actualizado correctamente.');
+        return redirect()->route('admin.unidad-curricular-periodo.index')
+        ->with('success', 'Registro actualizado exitosamente.');
     }
 
     public function show($id)
     {
-        $registro = UnidadCurricularPeriodoAcademico::with(['unidadCurricular', 'periodoAcademico', 'docente'])->findOrFail($id);
+        $registro = UnidadCurricularPeriodoAcademico::with(['unidadCurricular', 'periodoAcademico'])->findOrFail($id);
         return view('admin\uc_periodo\show', compact('registro'));
     }
 
@@ -78,6 +81,7 @@ class UnidadCurricularPeriodoAcademicoController extends Controller
         $registro = UnidadCurricularPeriodoAcademico::findOrFail($id);
         $registro->delete();
 
-        return redirect()->route('admin\uc_periodo\index')->with('success', 'Registro eliminado correctamente.');
+        return redirect()->route('admin.unidad-curricular-periodo.index')
+        ->with('success', 'Registro eliminado exitosamente.');
     }
 }

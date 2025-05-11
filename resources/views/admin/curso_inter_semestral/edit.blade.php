@@ -2,9 +2,9 @@
     @section('title', 'Editar Curso Intersemestral')
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.curso-inter-semestral.edit', $docentes) }}" method="POST">
+            <form action="{{ route('admin.curso-inter-semestral.update', $curso_inter_semestral->id) }}" method="POST">
                 @csrf
-
+                @method('PUT')
                 <div class="form-group">
                     <label>Docente</label>
                     <select name="docente_id" class="form-control" required>

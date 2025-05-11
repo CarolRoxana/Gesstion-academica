@@ -42,7 +42,7 @@ class CursoInterSemestralController extends Controller
     public function edit(CursoInterSemestral $curso_inter_semestral)
     {
         $docentes = Docente::all();
-        return view('admin\curso_inter_semestral\edit', compact( 'docentes'));
+        return view('admin.curso_inter_semestral.edit', compact('curso_inter_semestral', 'docentes'));
     }
 
     public function show(CursoInterSemestral $curso_inter_semestral)

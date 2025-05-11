@@ -7,7 +7,15 @@
             <p><strong>Unidad Curricular:</strong> {{ $unidad_curricular->unidad_curricular }}</p>
             <p><strong>Carrera:</strong> {{ $unidad_curricular->carrera }}</p>
             <p><strong>Semestre:</strong> {{ $unidad_curricular->semestre }}</p>
-            <p><strong>Docente:</strong> {{ $unidad_curricular->docente->nombre }} {{ $unidad_curricular->docente->apellido ?? '' }}</p>
+            
+            <p><strong>Secciones:</strong></p>
+            <ul>
+                @forelse($unidad_curricular->secciones as $seccion)
+                    <li>{{ $seccion->nombre }}</li>
+                @empty
+                    <li>No hay secciones registradas.</li>
+                @endforelse
+            </ul>
         </div>
     </div>
 
