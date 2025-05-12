@@ -30,6 +30,11 @@ Ahora puede niciar el servidor para ejecutar el proyecto.
 ```php artisan serve```
 
 --------
+Manual de usuario
+
+[Manual de usuario - Gestión academica.pdf](https://github.com/user-attachments/files/20178459/Manual.de.usuario.-.Gestion.academica.pdf)
+
+--------
                                        
  Credenciales para acceder al sistema  
     de Gestión académica de la UNEG    
