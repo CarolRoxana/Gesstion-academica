@@ -32,8 +32,9 @@
                             <td>{{ $propuesta->estatus }}</td>
                             <td>{{ $propuesta->fecha_ingreso }}</td>
                             <td>
-                                <a href="{{ route('admin.propuesta_tg.edit', $propuesta->id) }}" class="btn btn-warning">Editar</a>
-                                <form action="{{ route('admin.propuesta_tg.destroy', $propuesta->id) }}" method="POST" class="d-inline-block">
+                                <a href="{{ route('admin.propuesta_tg.show', $propuesta->id) }}" class="btn btn-sm btn-success">Ver </a>
+                                <a href="{{ route('admin.propuesta_tg.edit', $propuesta->id) }}"  class="btn btn-sm btn-primary">Editar</a>
+                                <form action="{{ route('admin.propuesta_tg.destroy', $propuesta->id) }}" method="POST" style="display:inline-block">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">Eliminar</button>

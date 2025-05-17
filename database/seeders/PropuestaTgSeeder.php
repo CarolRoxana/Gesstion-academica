@@ -26,7 +26,7 @@ class PropuestaTgSeeder extends Seeder
                 'titulo_propuesta' => fake()->sentence(6),
                 'propuesta' => fake()->text(200),
                 'docente_id' => $docentes->random()->id,
-                'estatus' => fake()->randomElement(['En Revisión', 'Aprobada', 'Rechazada']),
+                'estatus' => fake()->randomElement(['En proceso', 'Aprobada', 'Rechazada', 'Pendiente']),
                 'fecha_ingreso' => now()->subDays(rand(0, 60)),
             ]);
         }

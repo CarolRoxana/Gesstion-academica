@@ -27,7 +27,7 @@ class PropuestaTpSeeder extends Seeder
                 'titulo_propuesta' => fake()->sentence(5),
                 'plan_trabajo' => fake()->paragraph(3),
                 'docente_id' => $docentes->random()->id,
-                'estatus' => fake()->randomElement(['En Proceso', 'Finalizado', 'Pendiente']),
+                'estatus' => fake()->randomElement(['En Proceso', 'Aprobado', 'Pendiente', 'Rechazado']),
                 'fecha_ingreso' => now()->subDays(rand(0, 90)),
             ]);
         }

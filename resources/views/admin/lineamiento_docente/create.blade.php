@@ -3,7 +3,7 @@
 
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.lineamiento_docente.create') }}" method="POST">
+            <form action="{{ route('admin.lineamiento-docente.create') }}" method="POST">
                 @csrf
 
                 <div class="form-group">

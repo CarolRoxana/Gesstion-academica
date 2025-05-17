@@ -20,7 +20,37 @@ class Docente extends Model
 
     public function unidadCurricular()
     {
-        // return $this->belongsToMany(UnidadCurricular::class, 'docente_unidad_curricular');
         return $this->hasMany(UnidadCurricular::class);
     }
+    
+    public function unidadesAsignadasModalidad()
+    {
+        return $this->hasMany(UnidadCurricularPeriodoAcademico::class);
+    }
+
+    public function propuestasTG()
+    {
+        return $this->hasMany(PropuestaTg::class);
+    }
+
+    public function propuestasTP()
+    {
+        return $this->hasMany(PropuestaTp::class);
+    }
+
+    public function horarios()
+    {
+        return $this->hasMany(Horario::class);
+    }
+
+    public function desempenos()
+    {
+        return $this->hasMany(DesempenoDocente::class);
+    }
+
+    public function unidadesAsignadas()
+    {
+        return $this->hasMany(Horario::class);
+    }
+
 }

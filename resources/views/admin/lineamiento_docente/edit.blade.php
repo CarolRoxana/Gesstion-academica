@@ -3,7 +3,7 @@
 
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.lineamiento_docente.update', $lineamientoDocente->id) }}" method="POST">
+            <form action="{{ route('admin.lineamiento-docente.update', $lineamientoDocente->id) }}" method="POST">
                 @csrf
                 @method('PUT')
 

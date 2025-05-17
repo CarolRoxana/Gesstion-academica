@@ -48,11 +48,11 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
                                 <strong>Fecha de Inicio:</strong> 
-                                {{ \Carbon\Carbon::parse($curso->fecha_inicio)->isoFormat('dddd D [de] MMMM [de] YYYY') }}
+                                {{ \Carbon\Carbon::parse($curso->fecha_inicio)->isoFormat(' D [de] MMMM [de] YYYY') }}
                             </li>
                             <li class="list-group-item">
                                 <strong>Fecha de Fin:</strong> 
-                                {{ \Carbon\Carbon::parse($curso->fecha_fin)->isoFormat('dddd D [de] MMMM [de] YYYY') }}
+                                {{ \Carbon\Carbon::parse($curso->fecha_fin)->isoFormat('D [de] MMMM [de] YYYY') }}
                             </li>
                             <li class="list-group-item">
                                 <strong>Duración:</strong> 

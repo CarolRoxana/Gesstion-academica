@@ -3,7 +3,7 @@
 
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin\periodo-academico\create') }}" method="POST">
+            <form action="{{ route('admin.periodo-academico.create') }}" method="POST">
                 @csrf
                 <div class="form-group">
                     <label for="nombre">Nombre del periodo académico</label>

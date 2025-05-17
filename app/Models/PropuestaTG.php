@@ -17,6 +17,7 @@ class PropuestaTG extends Model
         'cedula',
         'carrera',
         'titulo_propuesta',
+        'propuesta',
         'docente_id',
         'estatus',
         'fecha_ingreso',

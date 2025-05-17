@@ -5,7 +5,7 @@
         <div class="card-body">
             <p><strong>Unidad Curricular:</strong> {{ $registro->unidadCurricular->nombre }}</p>
             <p><strong>Periodo Académico:</strong> {{ $registro->periodoAcademico->periodo }}</p>
-            <p><strong>Docente:</strong> {{ $registro->docente->nombre }} {{ $registro->docente->apellido }}</p>
+            {{-- <p><strong>Docente:</strong> {{ $registro->docente->nombre }} {{ $registro->docente->apellido }}</p> --}}
             <p><strong>Sede:</strong> {{ $registro->sede }}</p>
             <p><strong>Modalidad:</strong> {{ $registro->modalidad }}</p>
 

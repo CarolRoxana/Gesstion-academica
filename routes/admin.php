@@ -24,57 +24,33 @@ use App\Http\Controllers\UnidadCurricularPeriodoAcademicoController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(function () {
-
     Route::get('/dashboard',[ProfileController::class,'dashboard'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    // Acceso total para admin y coordinador
-    Route::middleware(['role:admin|Coordinador'])->group(function () {
-        Route::resource('user', UserController::class);
-        Route::resource('role', RoleController::class);
-        Route::resource('permission', PermissionController::class);
-        Route::resource('docente', DocenteController::class);
-        Route::resource('periodo-academico', PeriodoAcademicoController::class);
-        Route::resource('unidad-curricular', UnidadCurricularController::class);
-        Route::resource('unidad-curricular-periodo', UnidadCurricularPeriodoAcademicoController::class);
-        Route::resource('lineamiento-docente', LineamientoDocenteController::class);
-        Route::resource('desempeno-docente', DesempenoDocenteController::class);
-        Route::resource('curso-inter-semestral', CursoInterSemestralController::class);
-        Route::resource('plan_evaluacion_docente', PlanEvaluacionDocenteController::class);
-        Route::resource('temario_docente', TemarioDocenteController::class);
-        Route::resource('propuesta_tg', PropuestaTgController::class);
-        Route::resource('propuesta_tp', PropuestaTpController::class);
-        Route::resource('talento_humano', TalentoHumanoController::class);
-        Route::resource('incidente-estudiantil', IncidenteEstudiantilController::class);
-        Route::resource('horario', HorarioController::class);
-
+    Route::middleware(['role:admin|Coordinador'])->group(function(){
+        Route::resource('user',UserController::class);
+        Route::resource('role',RoleController::class);
+        Route::resource('permission',PermissionController::class);
         Route::get('/profesores', [ProfesorController::class, 'index'])->name('profesores.index');
-        Route::get('/profesores/export', [ProfesorController::class, 'export'])->name('profesores.export');
-        Route::get('/horarios/pdf', [HorarioPDFController::class, 'exportHorarioPDF'])->name('horarios.pdf');
-        Route::get('/propuestas/grado/pdf', [PropuestaPDFController::class, 'exportGradoPDF'])->name('propuestas.grado.pdf');
-        Route::get('/propuestas/pasantia/pdf', [PropuestaPDFController::class, 'exportPasantiaPDF'])->name('propuestas.pasantia.pdf');
+        Route::get('/profesores/export', [ProfesorController::class, 'export'])->name('admin.profesores.export');
+        Route::resource('/horario', HorarioController::class);
+        Route::resource('/docente', DocenteController::class);
+        Route::resource('/periodo-academico', PeriodoAcademicoController::class);
+        Route::resource('/unidad-curricular', UnidadCurricularController::class);
+        Route::resource('/unidad-curricular-periodo', UnidadCurricularPeriodoAcademicoController::class);
+        Route::resource('/lineamiento-docente', LineamientoDocenteController::class);
+        Route::resource('/desempeno-docente', DesempenoDocenteController::class);
+        Route::resource('/curso-inter-semestral', CursoInterSemestralController::class);
+        Route::resource('/plan_evaluacion_docente', PlanEvaluacionDocenteController::class);
+        Route::resource('/temario_docente', TemarioDocenteController::class);
+        Route::resource('/propuesta_tg', PropuestaTgController::class);
+        Route::resource('/propuesta_tp', PropuestaTpController::class);
+        Route::resource('/talento_humano', TalentoHumanoController::class);
+        Route::resource('/incidente-estudiantil', IncidenteEstudiantilController::class);
+        Route::get('/horarios/pdf', [HorarioPDFController::class, 'exportHorarioPDF'])->name('admin.horarios.pdf');
+        Route::get('/propuestas/grado/pdf', [PropuestaPDFController::class, 'exportGradoPDF'])->name('admin.propuestas.grado.pdf');
+        Route::get('/propuestas/pasantia/pdf', [PropuestaPDFController::class, 'exportPasantiaPDF'])->name('admin.propuestas.pasantia.pdf');
         Route::get('/unidad-curricular/{id}/secciones', [UnidadCurricularController::class, 'getSecciones']);
     });
-
-    // Secretaria: solo horarios y propuestas académicas
-    Route::middleware(['role:Secretaria'])->group(function () {
-        Route::resource('horario', HorarioController::class)->only(['index', 'show']);
-        Route::resource('propuesta_tg', PropuestaTgController::class)->only(['index', 'show']);
-        Route::resource('propuesta_tp', PropuestaTpController::class)->only(['index', 'show']);
-    });
-
-    // Docente: solo puede ver horarios
-    Route::middleware(['role:Docente'])->group(function () {
-        Route::resource('horario', HorarioController::class)->only(['index', 'show']);
-    });
-
-    // Jefe de Área: acceso a estos tres módulos
-    Route::middleware(['role:Jefe de Área'])->group(function () {
-        Route::resource('talento_humano', TalentoHumanoController::class);
-        Route::resource('curso-inter-semestral', CursoInterSemestralController::class);
-        Route::resource('incidente-estudiantil', IncidenteEstudiantilController::class);
-    });
-
 });

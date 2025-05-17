@@ -3,7 +3,7 @@
 
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.periodo_academico.update', $periodo_academico) }}" method="POST">
+            <form action="{{ route('admin.periodo-academico.update', $periodo_academico) }}" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -23,7 +23,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Actualizar</button>
-                <a href="{{ route('admin.periodo_academico.index') }}" class="btn btn-secondary">Cancelar</a>
+                <a href="{{ route('admin.periodo-academico.index') }}" class="btn btn-secondary">Cancelar</a>
             </form>
         </div>
     </div>

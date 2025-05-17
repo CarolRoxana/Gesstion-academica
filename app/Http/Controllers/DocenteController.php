@@ -31,7 +31,7 @@ class DocenteController extends Controller
         ]);
 
         $docente = new Docente($request->all());
-        $docente->rol_id = 3; // ID del rol "user"
+        $docente->rol_id = 3;
         $docente->save();
 
         return redirect()->route('admin.docente.index')->with('success', 'Docente creado correctamente.');
@@ -39,7 +39,21 @@ class DocenteController extends Controller
 
     public function show(Docente $docente)
     {
-        return view('admin.docente.show', compact('docente'));
+        $asignaciones = $docente->unidadesAsignadas()->with(['unidadCurricular', 'periodoAcademico'])->get();
+        $propuestasTG = $docente->propuestasTG;
+        $propuestasTP = $docente->propuestasTP;
+        $horarios = $docente->horarios()->with(['unidadCurricular', 'seccion', 'periodoAcademico'])->get();
+        $desempenos = $docente->desempenos()->with(['unidadCurricularPeriodoAcademico.periodoAcademico', 'unidadCurricularPeriodoAcademico.unidadCurricular'])->get();
+        
+
+        return view('admin.docente.show', compact(
+            'docente',
+            'asignaciones',
+            'propuestasTG',
+            'propuestasTP',
+            'horarios',
+            'desempenos'
+        ));
     }
 
     public function edit(Docente $docente)

@@ -40,7 +40,7 @@ class PeriodoAcademicoController extends Controller
 
     public function edit(PeriodoAcademico $periodo_academico)
     {
-        return view('admin.periodo-academico.edit', compact('periodo-academico'));
+        return view('admin\periodoAcademico\edit', compact('periodo_academico'));
     }
 
     public function update(Request $request, PeriodoAcademico $periodo_academico)

@@ -17,6 +17,7 @@ class PropuestaTP extends Model
         'cedula',
         'carrera',
         'titulo_propuesta',
+        'plan_trabajo',
         'docente_id',
         'estatus',
         'fecha_ingreso',

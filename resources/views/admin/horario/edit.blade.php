@@ -1,8 +1,6 @@
 <x-admin>
     @section('title', 'Editar Horario')
 
-    <h1>Editar Horario</h1>
-
     <form action="{{ route('admin.horario.update', $horario->id) }}" method="POST">
         @csrf
         @method('PUT')
