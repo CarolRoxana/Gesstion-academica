@@ -1,6 +1,6 @@
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        @role('admin')
+       @role('admin|Coordinador')
             <li class="nav-item">
                 <a href="{{ route('admin.user.index') }}"
                     class="nav-link {{ Route::is('admin.user.index') ? 'active' : '' }}">

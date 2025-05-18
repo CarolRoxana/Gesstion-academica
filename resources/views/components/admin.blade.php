@@ -165,6 +165,7 @@
     </script>
     <x-alert />
     @yield('js')
+    @vite('resources/js/app.js')
 </body>
 
 </html>
