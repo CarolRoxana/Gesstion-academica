@@ -23,6 +23,8 @@ return new class extends Migration
             $table->foreignId('seccion_id')->constrained()->onDelete('cascade');
             $table->foreign('unidad_curricular_id')->references('id')->on('unidad_curricular');
             $table->foreign('periodo_academico_id')->references('id')->on('periodo_academico');
+            $table->string('sede')->nullable(false);
+            $table->unsignedTinyInteger('aula_id');
             $table->timestamps();
         });
     }

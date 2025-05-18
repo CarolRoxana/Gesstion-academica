@@ -15,3 +15,5 @@ window.addEventListener('success', e => {
         confirmButtonColor: '#1269db',
     });
 });
+
+

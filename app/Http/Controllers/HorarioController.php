@@ -8,10 +8,11 @@ use App\Models\Docente;
 use App\Models\UnidadCurricular;
 use App\Models\PeriodoAcademico;
 use App\Models\Seccion;
+use App\Helpers\ArrayHelper;
 
 class HorarioController extends Controller
 {
-  
+
     public function index(Request $request)
     {
         $docentes = Docente::orderBy('apellido')->get();
@@ -21,7 +22,7 @@ class HorarioController extends Controller
                 $query->where('docente_id', $request->docente_id);
             })
             ->get();
-    
+
         return view('admin\horario\index', compact('horarios', 'docentes'));
     }
 
@@ -30,11 +31,16 @@ class HorarioController extends Controller
      */
     public function create()
     {
+
+        $sedes = ArrayHelper::sedes();
         return view('admin.horario.create', [
             'docentes' => Docente::all(),
             'unidades' => UnidadCurricular::all(),
             'periodos' => PeriodoAcademico::all(),
             'secciones' => Seccion::all(),
+            'sedes' => $sedes,
+            "bloques" => ArrayHelper::bloques(),
+
         ]);
     }
 
@@ -48,10 +54,13 @@ class HorarioController extends Controller
             'unidad_curricular_id' => 'required|exists:unidad_curricular,id',
             'periodo_academico_id' => 'required|exists:periodo_academico,id',
             'dia' => 'required|in:Lunes,Martes,Miércoles,Jueves,Viernes,Sábado',
-            'hora_inicio' => 'required|date_format:H:i',
-            'hora_finalizacion' => 'required|date_format:H:i|after:hora_inicio',
+            'hora_inicio' => 'required',
+            'hora_finalizacion' => 'required',
             'seccion_id' => 'required|exists:seccions,id',
         ]);
+
+
+        dd($request->all());
 
         $dia = $validated['dia'];
         $inicio = $validated['hora_inicio'];
@@ -67,7 +76,7 @@ class HorarioController extends Controller
                     ->orWhereBetween('hora_finalizacion', [$inicio, $fin])
                     ->orWhere(function ($q) use ($inicio, $fin) {
                         $q->where('hora_inicio', '<=', $inicio)
-                        ->where('hora_finalizacion', '>=', $fin);
+                            ->where('hora_finalizacion', '>=', $fin);
                     });
             })->exists();
 
@@ -83,7 +92,7 @@ class HorarioController extends Controller
                     ->orWhereBetween('hora_finalizacion', [$inicio, $fin])
                     ->orWhere(function ($q) use ($inicio, $fin) {
                         $q->where('hora_inicio', '<=', $inicio)
-                        ->where('hora_finalizacion', '>=', $fin);
+                            ->where('hora_finalizacion', '>=', $fin);
                     });
             })->exists();
 
@@ -111,8 +120,18 @@ class HorarioController extends Controller
         $unidades = UnidadCurricular::all();
         $periodos = PeriodoAcademico::all();
         $secciones = Seccion::all();
+        $bloques = ArrayHelper::bloques();
+        $sedes = ArrayHelper::sedes();
 
-        return view('admin.horario.edit', compact('horario', 'docentes', 'unidades', 'periodos', 'secciones'));
+        return view('admin.horario.edit', compact(
+            "bloques",
+            'horario',
+            'docentes',
+            'unidades',
+            'periodos',
+            'secciones',
+            'sedes'
+        ));
     }
 
     /**
@@ -170,7 +189,7 @@ class HorarioController extends Controller
 
         return redirect()->route('admin.horario.index')->with('message', 'Horario actualizado correctamente');
     }
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -182,6 +201,11 @@ class HorarioController extends Controller
 
         return redirect()->route('admin.horario.index')->with('message', 'Horario eliminado correctamente');
     }
+    public function aulasPorSede($sede)
+    {
 
+        $items = ArrayHelper::aulasPorSede($sede);
 
+        return response()->json($items);
+    }
 }

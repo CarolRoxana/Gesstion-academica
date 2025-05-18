@@ -19,18 +19,21 @@
                     </ul>
                 </div>
             @endif
-
-            @include('admin.horario.form', [
-                'action' => route('admin.horario.store'),
-                'docentes' => $docentes,
-                'unidades' => $unidades,
-                'secciones' => [],
-                'periodos' => $periodos,
-                'btnText' => 'Guardar Horario',
-                'showButton' => false
-            ])
+            <form action="{{ route('admin.horario.store') }}" method="POST">
+                @csrf
+                @include('admin.horario.form', [
+                    'action' => route('admin.horario.store'),
+                    'docentes' => $docentes,
+                    'unidades' => $unidades,
+                    'secciones' => [],
+                    'periodos' => $periodos,
+                    'btnText' => 'Guardar Horario',
+                    'showButton' => false,
+                ])
+                <button type="submit" class="btn btn-primary mt-3">Guardar Horario</button>
+            </form>
         </div>
     </div>
 
-  
+
 </x-admin>

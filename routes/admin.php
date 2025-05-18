@@ -35,6 +35,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
         Route::get('/profesores', [ProfesorController::class, 'index'])->name('profesores.index');
         Route::get('/profesores/export', [ProfesorController::class, 'export'])->name('admin.profesores.export');
         Route::resource('/horario', HorarioController::class);
+        Route::get('/horario/aulas/{sede}', [HorarioController::class, 'aulasPorSede'])->name('horario.aulas');
+
         Route::resource('/docente', DocenteController::class);
         Route::resource('/periodo-academico', PeriodoAcademicoController::class);
         Route::resource('/unidad-curricular', UnidadCurricularController::class);
@@ -52,5 +54,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
         Route::get('/propuestas/grado/pdf', [PropuestaPDFController::class, 'exportGradoPDF'])->name('admin.propuestas.grado.pdf');
         Route::get('/propuestas/pasantia/pdf', [PropuestaPDFController::class, 'exportPasantiaPDF'])->name('admin.propuestas.pasantia.pdf');
         Route::get('/unidad-curricular/{id}/secciones', [UnidadCurricularController::class, 'getSecciones']);
+    
+    
     });
 });
