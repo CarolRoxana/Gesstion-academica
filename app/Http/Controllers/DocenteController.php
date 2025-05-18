@@ -28,6 +28,13 @@ class DocenteController extends Controller
             'titulo' => 'required|string|max:255',
             'correo' => 'required|email|unique:docentes',
             'telefono' => 'nullable|string|max:20',
+            'maestria' => 'nullable|string|max:255',
+            'doctorado'=> 'nullable|string|max:255',
+            'postgrado' => 'nullable|string|max:255',
+            'otro'=> 'nullable|string|max:255',
+            'categoria' => 'nullable|in:Categoría 1,Categoría 2,Categoría 3',
+            'tipo_contratacion' => 'nullable|in:Fijo,Honorario profesionales,Contratación especial',
+
         ]);
 
         $docente = new Docente($request->all());
@@ -70,10 +77,16 @@ class DocenteController extends Controller
             'titulo' => 'required|string|max:255',
             'correo' => 'required|email|unique:docentes,correo,' . $docente->id,
             'telefono' => 'nullable|string|max:20',
+            'maestria' => 'nullable|string|max:255',
+            'doctorado'=> 'nullable|string|max:255',
+            'postgrado' => 'nullable|string|max:255',
+            'otro'=> 'nullable|string|max:255',
+            'categoria' => 'nullable|in:Categoría 1,Categoría 2,Categoría 3',
+            'tipo_contratacion' => 'nullable|in:Fijo,Honorario profesionales,Contratación especial',
         ]);
 
         $docente->fill($request->all());
-        $docente->rol_id = 3; // Mantener rol "user"
+        $docente->rol_id = 3;
         $docente->save();
 
         return redirect()->route('admin.docente.index')->with('success', 'Docente actualizado correctamente.');

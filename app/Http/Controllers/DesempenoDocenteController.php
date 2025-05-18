@@ -26,10 +26,7 @@ class DesempenoDocenteController extends Controller
 
     public function create()
     {
-            // Obtener todos los docentes
         $docentes = Docente::all();
-
-        // Obtener todas las relaciones de unidad curricular y periodo académico
         $unidadCurricularPeriodo = UnidadCurricularPeriodoAcademico::with([
             'unidadCurricular',
             'periodoAcademico'
@@ -52,20 +49,20 @@ class DesempenoDocenteController extends Controller
             'observaciones' => 'nullable|string',
             'participacion_proyectos' => 'required|string',
             'cumplimiento_administrativo' => 'required|string',
-            'evaluado_por' => 'required|string',
+            'evaluado_por' => 'required|exists:docentes,id',
             'fecha_evaluacion' => 'required|date',
         ]);
 
         DesempenoDocente::create($request->all());
 
-        return redirect()->route('admin.desempeno_docente.index')->with('success', 'Desempeño docente creado correctamente.');
+        return redirect()->route('admin.desempeno-docente.index')->with('success', 'Desempeño docente creado correctamente.');
     }
 
     public function edit(DesempenoDocente $desempenoDocente)
     {
         $docentes = Docente::all();
         $unidades = UnidadCurricularPeriodoAcademico::all();
-        return view('admin.desempeno_docente.edit', compact('desempenoDocente', 'docentes', 'unidades'));
+        return view('admin.desempeno-docente.edit', compact('desempenoDocente', 'docentes', 'unidades'));
     }
 
     public function update(Request $request, DesempenoDocente $desempenoDocente)
@@ -78,13 +75,13 @@ class DesempenoDocenteController extends Controller
             'observaciones' => 'nullable|string',
             'participacion_proyectos' => 'required|string',
             'cumplimiento_administrativo' => 'required|string',
-            'evaluado_por' => 'required|string',
+            'evaluado_por' => 'required|exists:docentes,id',
             'fecha_evaluacion' => 'required|date',
         ]);
 
         $desempenoDocente->update($request->all());
 
-        return redirect()->route('admin.desempeno_docente.index')->with('success', 'Desempeño docente actualizado correctamente.');
+        return redirect()->route('admin.desempeno-docente.index')->with('success', 'Desempeño docente actualizado correctamente.');
     }
 
     public function destroy(DesempenoDocente $desempenoDocente)

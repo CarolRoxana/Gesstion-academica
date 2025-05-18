@@ -52,6 +52,73 @@
                                     <p class="mb-0 fw-bold">{{ $docente->titulo }}</p>
                                 </div>
                             </div>
+                            <div class="d-flex mb-3">
+                                 <div class="flex-shrink-0">
+                                    <i class="fas fa-user-graduate text-primary fa-fw me-2"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <span class="text-muted">Maestría</span>
+                                    <p class="mb-0 fw-bold">
+                                        {{ $docente->maestria ?: 'Sin asignar' }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="d-flex mb-3">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-user-graduate text-primary fa-fw me-2"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <span class="text-muted">Doctorado</span>
+                        <p class="mb-0 fw-bold">
+                            {{ $docente->doctorado ?: 'Sin asignar' }}
+                        </p>
+                    </div>
+                </div>
+                <div class="d-flex mb-3">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-user-graduate text-primary fa-fw me-2"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <span class="text-muted">Postgrado</span>
+                        <p class="mb-0 fw-bold">
+                            {{ $docente->postgrado ?: 'Sin asignar' }}
+                        </p>
+                    </div>
+                </div>
+                 <div class="d-flex mb-3">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-file-alt text-primary fa-fw me-2"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <span class="text-muted">Otro</span>
+                        <p class="mb-0 fw-bold">
+                            {{ $docente->otro ?: 'Sin asignar' }}
+                        </p>
+                    </div>
+                </div>
+                 <div class="d-flex mb-3">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-layer-group text-primary fa-fw me-2"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <span class="text-muted">Categoría</span>
+                    <p class="mb-0 fw-bold">
+                        {{ $docente->categoria ?: 'Sin asignar' }}
+                    </p>
+                </div>
+            </div>
+                        <div class="d-flex mb-3">
+            <div class="flex-shrink-0">
+                <i class="fas fa-file-contract text-primary fa-fw me-2"></i>
+            </div>
+            <div class="flex-grow-1">
+                <span class="text-muted">Tipo de Contratación</span>
+                <p class="mb-0 fw-bold">
+                    {{ $docente->tipo_contratacion ?: 'Sin asignar' }}
+                </p>
+            </div>
+            </div>
+
                             
                             <div class="d-flex mb-3">
                                 <div class="flex-shrink-0">
@@ -74,6 +141,7 @@
                             </div>
                         </div>
                     </div>
+                    
                 </div>
                 
                 <!-- Unidades Curriculares y Horarios -->

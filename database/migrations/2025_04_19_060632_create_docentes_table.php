@@ -20,6 +20,12 @@ return new class extends Migration
             $table->string('telefono')->nullable();
             $table->string('correo')->unique();
             $table->string('titulo');
+            $table->string('maestria')->nullable();
+            $table->string('doctorado')->nullable();
+            $table->string('postgrado')->nullable();
+            $table->string('otro')->nullable();
+            $table->string('categoria')->nullable();
+            $table->string('tipo_contratacion')->nullable();
             $table->foreign('rol_id')->references('id')->on('roles');
             $table->timestamps();
         });

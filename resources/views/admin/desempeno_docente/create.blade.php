@@ -55,7 +55,17 @@
                 
                 <div class="mb-3">
                     <label for="evaluado_por" class="form-label">Evaluado por</label>
-                    <input type="text" class="form-control" name="evaluado_por" value="{{ old('evaluado_por', $evaluacion->evaluado_por ?? '') }}">
+                    <select name="evaluado_por" id="evaluado_por"
+                            class="form-control @error('evaluado_por') is-invalid @enderror">
+                        <option value="" disabled selected>— Seleccione —</option>
+                        @foreach($docentes as $doc)
+                            <option value="{{ $doc->id }}"
+                                {{ old('evaluado_por') == $doc->id ? 'selected' : '' }}>
+                                {{ $doc->apellido }}, {{ $doc->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('evaluado_por') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
                 
                 <div class="mb-3">

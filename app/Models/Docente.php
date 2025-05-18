@@ -9,14 +9,20 @@ class Docente extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'nombre',
-        'apellido',
-        'cedula',
-        'correo',
-        'telefono',
-        'titulo',
-    ];
+protected $fillable = [
+    'nombre',
+    'apellido',
+    'cedula',
+    'correo',
+    'telefono',
+    'titulo',
+    'maestria',
+    'doctorado',
+    'postgrado',
+    'otro',
+    'categoria',
+    'tipo_contratacion',
+];
 
     public function unidadCurricular()
     {
