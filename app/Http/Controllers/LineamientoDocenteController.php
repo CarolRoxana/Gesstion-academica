@@ -15,6 +15,16 @@ class LineamientoDocenteController extends Controller
         return view('admin.lineamiento_docente.index', compact('lineamientos'));
     }
 
+    public function show($id)
+    {
+        $lineamiento = LineamientoDocente::with([
+            'docente',
+            'periodoAcademico',
+        ])->findOrFail($id);
+
+        return view('admin.lineamiento_docente.show', compact('lineamiento'));
+    }
+
     public function create()
     {
         $docentes = Docente::all();
@@ -22,7 +32,7 @@ class LineamientoDocenteController extends Controller
         return view('admin.lineamiento_docente.create', compact('docentes', 'periodos'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request) 
     {
         $request->validate([
             'docente_id' => 'required|exists:docentes,id',
@@ -35,10 +45,9 @@ class LineamientoDocenteController extends Controller
 
         LineamientoDocente::create($request->all());
 
-        return redirect()->route('admin.lineamiento_docente.index')->with('success', 'Lineamiento docente creado correctamente.');
+        return redirect()->route('admin.lineamiento-docente.index')->with('success', 'Lineamiento docente creado correctamente.');
     }
 
-    // Método para mostrar el formulario de edición
     public function edit(LineamientoDocente $lineamientoDocente)
     {
         $docentes = Docente::all();
@@ -46,7 +55,6 @@ class LineamientoDocenteController extends Controller
         return view('admin.lineamiento_docente.edit', compact('lineamientoDocente', 'docentes', 'periodos'));
     }
 
-    // Método para actualizar un lineamiento
     public function update(Request $request, LineamientoDocente $lineamientoDocente)
     {
         $request->validate([
@@ -60,13 +68,12 @@ class LineamientoDocenteController extends Controller
 
         $lineamientoDocente->update($request->all());
 
-        return redirect()->route('admin.lineamiento_docente.index')->with('success', 'Lineamiento docente actualizado correctamente.');
+        return redirect()->route('admin.lineamiento-docente.index')->with('success', 'Lineamiento docente actualizado correctamente.');
     }
 
-    // Método para eliminar un lineamiento
     public function destroy(LineamientoDocente $lineamientoDocente)
     {
         $lineamientoDocente->delete();
-        return redirect()->route('admin.lineamiento_docente.index')->with('success', 'Lineamiento docente eliminado correctamente.');
+        return redirect()->route('admin.lineamiento-docente.index')->with('success', 'Lineamiento docente eliminado correctamente.');
     }
 }

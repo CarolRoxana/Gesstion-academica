@@ -5,27 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PropuestaTG extends Model
+class ServicioComunitario extends Model
 {
     use HasFactory;
-
-    protected $table = 'propuesta_tg';
+    
+    protected $table = 'servicio_comunitarios';
 
     protected $fillable = [
-        'nombre_tesista',
-        'apellido_tesista',
+        'nombre_estudiante',
+        'apellido_estudiante',
         'cedula',
         'carrera',
-        'nombre_tesista2',
-        'apellido_tesista2',
-        'cedula2',
-        'carrera2',
-        'nombre_tesista3',
-        'apellido_tesista3',
-        'cedula3',
-        'carrera3',
-        'titulo_propuesta',
-        'propuesta',
+        'titulo_servicio',
+        'trabajo_servicio',
         'docente_id',
         'estatus',
         'fecha_ingreso',

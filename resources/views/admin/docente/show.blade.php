@@ -283,7 +283,6 @@
                 </div>
             </div>
             
-            <!-- Evaluaciones de Desempeño -->
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-header bg-light">
                     <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Evaluaciones de Desempeño</h5>
@@ -297,6 +296,7 @@
                                     <th>Periodo</th>
                                     <th>Puntualidad</th>
                                     <th>Evaluado por</th>
+                                    <th>Ver detalle</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -313,12 +313,74 @@
                                             <span class="badge bg-danger">{{ $d->puntualidad }}%</span>
                                         @endif
                                     </td>
-                                    <td>{{ $d->evaluado_por }}</td>
+                                    <td>{{ $d->evaluador?->apellido }}, {{ $d->evaluador?->nombre }}</td>
+                                      <td class="fw-bold">
+                                        <a  href="{{ route('admin.desempeno-docente.show', $d->id) }}"
+                                            class="btn btn-sm btn-outline-primary"
+                                            title="Ver detalle">
+                                            <i class="fas fa-eye"></i> 
+                                        </a>
+                                    </td>
                                 </tr>
                                 @empty
                                 <tr>
                                     <td colspan="4" class="text-center text-muted">
-                                        <i class="fas fa-info-circle me-2"></i>No tiene evaluaciones registradas.
+                                        <i class="fas fa-info-circle me-2"></i>No 
+                                        tiene evaluaciones registradas.
+                                    </td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <-- Evaluaciones de Desempeño  ACOMODAR-->
+            </div>
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Lineamientos del docente</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Unidad Curricular</th>
+                                    <th>Periodo</th>
+                                    <th>Puntualidad</th>
+                                    <th>Evaluado por</th>
+                                    <th>Ver detalle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($desempenos as $d)
+                                <tr>
+                                    <td>{{ $d->unidadCurricularPeriodoAcademico->unidadCurricular->nombre }}</td>
+                                    <td>{{ $d->unidadCurricularPeriodoAcademico->periodoAcademico->periodo }}</td>
+                                    <td>
+                                        @if($d->puntualidad >= 80)
+                                            <span class="badge bg-success">{{ $d->puntualidad }}%</span>
+                                        @elseif($d->puntualidad >= 60)
+                                            <span class="badge bg-warning">{{ $d->puntualidad }}%</span>
+                                        @else
+                                            <span class="badge bg-danger">{{ $d->puntualidad }}%</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $d->evaluador?->apellido }}, {{ $d->evaluador?->nombre }}</td>
+                                      <td class="fw-bold">
+                                        <a  href="{{ route('admin.desempeno-docente.show', $d->id) }}"
+                                            class="btn btn-sm btn-outline-primary"
+                                            title="Ver detalle">
+                                            <i class="fas fa-eye"></i> 
+                                        </a>
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted">
+                                        <i class="fas fa-info-circle me-2"></i>No 
+                                        tiene evaluaciones registradas.
                                     </td>
                                 </tr>
                                 @endforelse

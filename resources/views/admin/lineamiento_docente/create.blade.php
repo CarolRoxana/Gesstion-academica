@@ -3,14 +3,14 @@
 
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.lineamiento-docente.create') }}" method="POST">
+            <form action="{{ route('admin.lineamiento-docente.store') }}" method="POST">
                 @csrf
 
                 <div class="form-group">
                     <label>Docente</label>
                     <select name="docente_id" class="form-control" required>
                         @foreach ($docentes as $docente)
-                            <option value="{{ $docente->id }}" @if(old('docente_id') == $docente->id) selected @endif>{{ $docente->nombre }}</option>
+                            <option value="{{ $docente->id }}" @if(old('docente_id') == $docente->id) selected @endif>{{ $docente->apellido }},{{ $docente->nombre }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -39,7 +39,7 @@
                     <label>Periodo Académico</label>
                     <select name="periodo_academico_id" class="form-control" required>
                         @foreach ($periodos as $periodo)
-                            <option value="{{ $periodo->id }}" @if(old('periodo_academico_id') == $periodo->id) selected @endif>{{ $periodo->nombre }}</option>
+                            <option value="{{ $periodo->id }}" @if(old('periodo_academico_id') == $periodo->id) selected @endif>{{ $periodo->periodo }}</option>
                         @endforeach
                     </select>
                 </div>
