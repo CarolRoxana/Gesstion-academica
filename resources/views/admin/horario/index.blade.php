@@ -18,6 +18,7 @@
                     <tr>
                         <th>Docente</th>
                         <th>Unidad Curricular</th>
+                        <th>Periodo</th>
                         <th>Sección</th>
                         <th>Día</th>
                         <th>Hora Inicio</th>
@@ -32,6 +33,7 @@
                         <tr>
                             <td>{{ $horario->docente->nombre }} {{ $horario->docente->apellido }}</td>
                             <td>{{ $horario->unidadCurricular->nombre }}</td>
+                            <td>{{ $horario->periodoAcademico->periodo }}</td>
                             <td>{{ $horario->seccion->nombre }}</td>
                             <td>{{ $horario->dia }}</td>
                             <td>{{ \Carbon\Carbon::parse($horario->hora_inicio)->format('H:i') }}</td>

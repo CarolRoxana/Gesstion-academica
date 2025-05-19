@@ -55,11 +55,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
         Route::get('/propuestas/grado/pdf', [PropuestaPDFController::class, 'exportGradoPDF'])->name('admin.propuestas.grado.pdf');
         Route::get('/propuestas/pasantia/pdf', [PropuestaPDFController::class, 'exportPasantiaPDF'])->name('admin.propuestas.pasantia.pdf');
         Route::get('/unidad-curricular/{id}/secciones', [UnidadCurricularController::class, 'getSecciones']);
-<<<<<<< HEAD
         Route::resource('/servicio_comunitario', ServicioComunitarioController::class)->parameters(['servicio_comunitario' => 'servicio']);
-=======
-    
-    
->>>>>>> eb501e2f5b8a1ae1bb68ce76f53f56d160de0e00
     });
 });

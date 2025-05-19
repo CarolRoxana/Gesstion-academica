@@ -27,6 +27,8 @@ class ArrayHelper
         ['start' => '5:55 PM', 'end' => '6:45 PM'],
         ['start' => '6:50 PM', 'end' => '7:40 PM'],
         ['start' => '7:45 PM', 'end' => '8:35 PM'],
+        
+
     ];
 
     public static $dias = [

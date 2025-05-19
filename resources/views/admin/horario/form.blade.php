@@ -1,10 +1,3 @@
-{{-- filepath: resources/views/admin/horario/form.blade.php --}}
-
-{{--  @csrf
-    @if (isset($method) && $method === 'PUT')
-        @method('PUT')
-    @endif --}}
-
 <div class="form-group">
     <label for="docente_id">Docente</label>
     <select name="docente_id" id="docente_id" class="form-control" required>
@@ -34,9 +27,19 @@
     <label for="hora_inicio">Hora de inicio</label>
     <select name="hora_inicio" id="hora_inicio" class="form-control" required>
         <option value="">Seleccione un bloque</option>
+        @php
+            use Carbon\Carbon;
+        @endphp
+
         @foreach ($bloques as $bloque)
+            @php
+                // Convierte el valor del horario a H:i para comparar
+                $horarioHoraInicio = isset($horario) ? Carbon::parse($horario->hora_inicio)->format('H:i') : null;
+                // Convierte el bloque a H:i
+                $bloqueStart = Carbon::parse($bloque['start'])->format('H:i');
+            @endphp
             <option value="{{ $bloque['start'] }}"
-                {{ isset($horario) && $horario->hora_inicio == $bloque['start'] ? 'selected' : (old('hora_inicio') == $bloque['start'] ? 'selected' : '') }}>
+                {{ $horarioHoraInicio === $bloqueStart ? 'selected' : (old('hora_inicio') == $bloque['start'] ? 'selected' : '') }}>
                 {{ $bloque['start'] }} - {{ $bloque['end'] }}
             </option>
         @endforeach
@@ -47,9 +50,17 @@
     <label for="hora_finalizacion">Hora de finalización</label>
     <select name="hora_finalizacion" id="hora_finalizacion" class="form-control" required>
         <option value="">Seleccione un bloque</option>
+        @php
+           
+            $horarioHoraFin = isset($horario) ? Carbon::parse($horario->hora_finalizacion)->format('H:i') : null;
+        @endphp
+
         @foreach ($bloques as $bloque)
+            @php
+                $bloqueEnd = Carbon::parse($bloque['end'])->format('H:i');
+            @endphp
             <option value="{{ $bloque['end'] }}"
-                {{ isset($horario) && $horario->hora_finalizacion == $bloque['end'] ? 'selected' : (old('hora_finalizacion') == $bloque['end'] ? 'selected' : '') }}>
+                {{ $horarioHoraFin === $bloqueEnd ? 'selected' : (old('hora_finalizacion') == $bloque['end'] ? 'selected' : '') }}>
                 {{ $bloque['start'] }} - {{ $bloque['end'] }}
             </option>
         @endforeach
@@ -117,6 +128,16 @@
     <select name="aula_id" id="aula_id" class="form-control" required>
         <option value="">Seleccione una aula</option>
         {{-- Las opciones se llenarán dinámicamente con JS --}}
+
+        @isset($horario)
+            @foreach ($aulas as $aula)
+                <option value="{{ $aula->id }}"
+                    {{ isset($horario) && $horario->aula_id == $aula->id ? 'selected' : '' }}>
+                    {{ $aula->descripcion }}
+                </option>
+            @endforeach
+
+        @endisset
     </select>
 </div>
 
@@ -164,7 +185,7 @@
                     this.value = '';
                     return;
                 }
-                if ((idxFin - idxInicio) > 3) {
+                if ((idxFin - idxInicio) > 2) {
                     alert('No puede asignar más de 3 bloques de hora.');
                     this.value = '';
                     return;
@@ -193,7 +214,7 @@
                     this.value = '';
                     return;
                 }
-                if ((idxFin - idxInicio) > 3) {
+                if ((idxFin - idxInicio) > 2) {
                     alert('No puede asignar más de 3 bloques de hora.');
                     this.value = '';
                     return;
