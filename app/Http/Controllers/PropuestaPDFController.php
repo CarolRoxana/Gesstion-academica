@@ -21,6 +21,10 @@ class PropuestaPDFController extends Controller
 
     private function exportPropuestas($tipo)
     {
+
+        //SEDE
+        //SEMESTRE
+        //SECCION
         Carbon::setLocale('es');
         setlocale(LC_TIME, 'es_ES.utf8');
         

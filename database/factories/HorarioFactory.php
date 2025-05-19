@@ -35,7 +35,7 @@ class HorarioFactory extends Factory
             $docente_id = Docente::inRandomOrder()->first()?->id ?? 1;
             $unidad_curricular_id = UnidadCurricular::inRandomOrder()->first()?->id ?? 1;
             $seccion_id = Seccion::inRandomOrder()->first()?->id ?? 1;
-            $periodo_academico_id = 2;
+            $periodo_academico_id = $this->faker->randomElement([1, 2]);
 
             // Validaciones de conflicto
             $conflictoDocente = \App\Models\Horario::where('docente_id', $docente_id)
