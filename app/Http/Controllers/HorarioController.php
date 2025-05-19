@@ -9,6 +9,7 @@ use App\Models\UnidadCurricular;
 use App\Models\PeriodoAcademico;
 use App\Models\Seccion;
 use App\Helpers\ArrayHelper;
+use Carbon\Carbon;
 
 class HorarioController extends Controller
 {
@@ -57,20 +58,26 @@ class HorarioController extends Controller
             'hora_inicio' => 'required',
             'hora_finalizacion' => 'required',
             'seccion_id' => 'required|exists:seccions,id',
+            "sede" => 'required',
+            "aula_id" => 'required',
         ]);
 
 
-        dd($request->all());
+        //dd($request->all());
 
         $dia = $validated['dia'];
-        $inicio = $validated['hora_inicio'];
-        $fin = $validated['hora_finalizacion'];
+        $inicio = Carbon::parse($validated['hora_inicio'])->format('H:i:s');
+        $fin = Carbon::parse($validated['hora_finalizacion'])->format('H:i:s');
         $docenteId = $validated['docente_id'];
         $seccionId = $validated['seccion_id'];
+        $sede = $validated['sede'];
+        $aulaId = $validated['aula_id'];
 
-        // Validación 1: El docente no debe tener conflictos de horario el mismo día
+        // Validación 1: El docente no debe tener conflictos de horario el mismo día con el periodo académico
+
         $conflictoDocente = Horario::where('docente_id', $docenteId)
-            ->whereDate('dia', $dia)
+            ->where('dia', $dia)
+            ->where('periodo_academico_id', $validated['periodo_academico_id'])
             ->where(function ($query) use ($inicio, $fin) {
                 $query->whereBetween('hora_inicio', [$inicio, $fin])
                     ->orWhereBetween('hora_finalizacion', [$inicio, $fin])
@@ -86,7 +93,8 @@ class HorarioController extends Controller
 
         // Validación 2: En la misma sección, no debe haber otra materia a la misma hora ese día
         $conflictoSeccion = Horario::where('seccion_id', $seccionId)
-            ->whereDate('dia', $dia)
+            ->where('dia', $dia)
+            ->where('periodo_academico_id', $validated['periodo_academico_id'])
             ->where(function ($query) use ($inicio, $fin) {
                 $query->whereBetween('hora_inicio', [$inicio, $fin])
                     ->orWhereBetween('hora_finalizacion', [$inicio, $fin])
@@ -100,8 +108,34 @@ class HorarioController extends Controller
             return back()->withErrors(['conflicto' => 'Ya existe un horario para esa sección que se cruza con este.'])->withInput();
         }
 
-        Horario::create($validated);
+        // Validación 3: En la misma sede, no debe haber otra aula ocupada a la misma hora ese día
+        $conflictoSede = Horario::where('sede', $sede)
+            ->where('aula_id', $aulaId)
+            ->where('dia', $dia)
+            ->where('periodo_academico_id', $validated['periodo_academico_id'])
+            ->where(function ($query) use ($inicio, $fin) {
+                $query->whereBetween('hora_inicio', [$inicio, $fin])
+                    ->orWhereBetween('hora_finalizacion', [$inicio, $fin])
+                    ->orWhere(function ($q) use ($inicio, $fin) {
+                        $q->where('hora_inicio', '<=', $inicio)
+                            ->where('hora_finalizacion', '>=', $fin);
+                    });
+            })->exists();
+        if ($conflictoSede) {
+            return back()->withErrors(['conflicto' => 'Ya existe un horario para esa aula que se cruza con este.'])->withInput();
+        }
 
+        $horario = new Horario();
+        $horario->docente_id = $validated['docente_id'];
+        $horario->unidad_curricular_id = $validated['unidad_curricular_id'];
+        $horario->periodo_academico_id = $validated['periodo_academico_id'];
+        $horario->dia = $validated['dia'];
+        $horario->hora_inicio = $validated['hora_inicio'];
+        $horario->hora_finalizacion = $validated['hora_finalizacion'];
+        $horario->seccion_id = $validated['seccion_id'];
+        $horario->sede = $validated['sede'];
+        $horario->aula_id = $validated['aula_id'];
+        $horario->save();
         return redirect()->route('admin.horario.index')->with('message', 'Horario registrado correctamente');
     }
 
@@ -130,7 +164,8 @@ class HorarioController extends Controller
             'unidades',
             'periodos',
             'secciones',
-            'sedes'
+            'sedes',
+            
         ));
     }
 
@@ -146,46 +181,37 @@ class HorarioController extends Controller
             'unidad_curricular_id' => 'required|exists:unidad_curricular,id',
             'periodo_academico_id' => 'required|exists:periodo_academico,id',
             'dia' => 'required|in:Lunes,Martes,Miércoles,Jueves,Viernes,Sábado',
-            'hora_inicio' => 'required|date_format:H:i',
-            'hora_finalizacion' => 'required|date_format:H:i|after:hora_inicio',
+            'hora_inicio' => 'required',
+            'hora_finalizacion' => 'required',
             'seccion_id' => 'required|exists:seccions,id',
+            "sede" => 'required',
+            "aula_id" => 'required',
         ]);
 
-        // Validar conflictos de horarios para el docente (excluyendo el actual)
-        $conflictoDocente = Horario::where('id', '!=', $horario->id)
-            ->where('docente_id', $validated['docente_id'])
-            ->whereDate('dia', $validated['dia'])
-            ->where(function ($query) use ($validated) {
-                $query->whereBetween('hora_inicio', [$validated['hora_inicio'], $validated['hora_finalizacion']])
-                    ->orWhereBetween('hora_finalizacion', [$validated['hora_inicio'], $validated['hora_finalizacion']])
-                    ->orWhere(function ($q) use ($validated) {
-                        $q->where('hora_inicio', '<', $validated['hora_inicio'])
-                            ->where('hora_finalizacion', '>', $validated['hora_finalizacion']);
-                    });
-            })->exists();
+        $inicio = Carbon::parse($validated['hora_inicio'])->format('H:i:s');
+        $fin = Carbon::parse($validated['hora_finalizacion'])->format('H:i:s');
 
-        if ($conflictoDocente) {
-            return back()->withErrors(['error' => 'Este docente ya tiene un horario en conflicto este día.']);
-        }
+
+        // Validar conflictos de horarios para el docente (excluyendo el actual)
 
         // Validar conflicto en la misma sección
-        $conflictoSeccion = Horario::where('id', '!=', $horario->id)
-            ->where('seccion_id', $validated['seccion_id'])
-            ->whereDate('dia', $validated['dia'])
-            ->where(function ($query) use ($validated) {
-                $query->whereBetween('hora_inicio', [$validated['hora_inicio'], $validated['hora_finalizacion']])
-                    ->orWhereBetween('hora_finalizacion', [$validated['hora_inicio'], $validated['hora_finalizacion']])
-                    ->orWhere(function ($q) use ($validated) {
-                        $q->where('hora_inicio', '<', $validated['hora_inicio'])
-                            ->where('hora_finalizacion', '>', $validated['hora_finalizacion']);
-                    });
-            })->exists();
 
-        if ($conflictoSeccion) {
-            return back()->withErrors(['error' => 'Ya existe un horario para esta sección en el mismo día y horario.']);
-        }
 
-        $horario->update($validated);
+
+        // Validar conflicto en la misma sede
+
+        // Actualizar el horario
+        $horario->docente_id = $validated['docente_id'];
+        $horario->unidad_curricular_id = $validated['unidad_curricular_id'];
+        $horario->periodo_academico_id = $validated['periodo_academico_id'];
+        $horario->dia = $validated['dia'];
+        $horario->hora_inicio = $inicio;
+        $horario->hora_finalizacion = $fin;
+        $horario->seccion_id = $validated['seccion_id'];
+        $horario->sede = $validated['sede'];
+        $horario->aula_id = $validated['aula_id'];
+        $horario->save();
+
 
         return redirect()->route('admin.horario.index')->with('message', 'Horario actualizado correctamente');
     }

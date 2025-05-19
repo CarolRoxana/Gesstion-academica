@@ -26,6 +26,8 @@ class Horario extends Model
         'unidad_curricular_id',
         'seccion_id',
         'periodo_academico_id',
+        'sede',
+        "aula_id",
     ];
 
     public function docente()

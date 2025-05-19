@@ -1,123 +1,124 @@
 {{-- filepath: resources/views/admin/horario/form.blade.php --}}
 
-   {{--  @csrf
+{{--  @csrf
     @if (isset($method) && $method === 'PUT')
         @method('PUT')
     @endif --}}
 
-    <div class="form-group">
-        <label for="docente_id">Docente</label>
-        <select name="docente_id" id="docente_id" class="form-control" required>
-            <option value="">Seleccione un docente</option>
-            @foreach ($docentes as $docente)
-                <option value="{{ $docente->id }}"
-                    {{ isset($horario) && $horario->docente_id == $docente->id ? 'selected' : '' }}>
-                    {{ $docente->nombre }} {{ $docente->apellido }}
-                </option>
+<div class="form-group">
+    <label for="docente_id">Docente</label>
+    <select name="docente_id" id="docente_id" class="form-control" required>
+        <option value="">Seleccione un docente</option>
+        @foreach ($docentes as $docente)
+            <option value="{{ $docente->id }}"
+                {{ isset($horario) && $horario->docente_id == $docente->id ? 'selected' : '' }}>
+                {{ $docente->nombre }} {{ $docente->apellido }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="dia">Día de la semana</label>
+    <select name="dia" id="dia" class="form-control" required>
+        <option value="">Seleccione un día</option>
+        @foreach (['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'] as $dia)
+            <option value="{{ $dia }}" {{ isset($horario) && $horario->dia == $dia ? 'selected' : '' }}>
+                {{ $dia }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="hora_inicio">Hora de inicio</label>
+    <select name="hora_inicio" id="hora_inicio" class="form-control" required>
+        <option value="">Seleccione un bloque</option>
+        @foreach ($bloques as $bloque)
+            <option value="{{ $bloque['start'] }}"
+                {{ isset($horario) && $horario->hora_inicio == $bloque['start'] ? 'selected' : (old('hora_inicio') == $bloque['start'] ? 'selected' : '') }}>
+                {{ $bloque['start'] }} - {{ $bloque['end'] }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="hora_finalizacion">Hora de finalización</label>
+    <select name="hora_finalizacion" id="hora_finalizacion" class="form-control" required>
+        <option value="">Seleccione un bloque</option>
+        @foreach ($bloques as $bloque)
+            <option value="{{ $bloque['end'] }}"
+                {{ isset($horario) && $horario->hora_finalizacion == $bloque['end'] ? 'selected' : (old('hora_finalizacion') == $bloque['end'] ? 'selected' : '') }}>
+                {{ $bloque['start'] }} - {{ $bloque['end'] }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="unidad_curricular_id">Unidad Curricular</label>
+    <select name="unidad_curricular_id" id="unidad_curricular_id" class="form-control" required>
+        <option value="">Seleccione una unidad</option>
+        @foreach ($unidades as $unidad)
+            <option value="{{ $unidad->id }}"
+                {{ isset($horario) && $horario->unidad_curricular_id == $unidad->id ? 'selected' : '' }}>
+                {{ $unidad->nombre }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="seccion_id">Sección</label>
+    <select name="seccion_id" id="seccion_id" class="form-control" required>
+        @if (isset($secciones) && isset($horario))
+            @foreach ($secciones as $seccion)
+                @if ($seccion->unidad_curricular_id == $horario->unidad_curricular_id)
+                    <option value="{{ $seccion->id }}" {{ $horario->seccion_id == $seccion->id ? 'selected' : '' }}>
+                        {{ $seccion->nombre }}
+                    </option>
+                @endif
             @endforeach
-        </select>
-    </div>
+        @else
+            <option value="">Seleccione una unidad curricular primero</option>
+        @endif
+    </select>
+</div>
 
-    <div class="form-group">
-        <label for="dia">Día de la semana</label>
-        <select name="dia" id="dia" class="form-control" required>
-            <option value="">Seleccione un día</option>
-            @foreach (['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'] as $dia)
-                <option value="{{ $dia }}" {{ isset($horario) && $horario->dia == $dia ? 'selected' : '' }}>
-                    {{ $dia }}
-                </option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label for="hora_inicio">Hora de inicio</label>
-        <select name="hora_inicio" id="hora_inicio" class="form-control" required>
-            <option value="">Seleccione un bloque</option>
-            @foreach ($bloques as $bloque)
-                <option value="{{ $bloque['start'] }}"
-                    {{ isset($horario) && $horario->hora_inicio == $bloque['start'] ? 'selected' : (old('hora_inicio') == $bloque['start'] ? 'selected' : '') }}>
-                    {{ $bloque['start'] }} - {{ $bloque['end'] }}
-                </option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label for="hora_finalizacion">Hora de finalización</label>
-        <select name="hora_finalizacion" id="hora_finalizacion" class="form-control" required>
-            <option value="">Seleccione un bloque</option>
-            @foreach ($bloques as $bloque)
-                <option value="{{ $bloque['end'] }}"
-                    {{ isset($horario) && $horario->hora_finalizacion == $bloque['end'] ? 'selected' : (old('hora_finalizacion') == $bloque['end'] ? 'selected' : '') }}>
-                    {{ $bloque['start'] }} - {{ $bloque['end'] }}
-                </option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label for="unidad_curricular_id">Unidad Curricular</label>
-        <select name="unidad_curricular_id" id="unidad_curricular_id" class="form-control" required>
-            <option value="">Seleccione una unidad</option>
-            @foreach ($unidades as $unidad)
-                <option value="{{ $unidad->id }}"
-                    {{ isset($horario) && $horario->unidad_curricular_id == $unidad->id ? 'selected' : '' }}>
-                    {{ $unidad->nombre }}
-                </option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label for="seccion_id">Sección</label>
-        <select name="seccion_id" id="seccion_id" class="form-control" required>
-            @if (isset($secciones) && isset($horario))
-                @foreach ($secciones as $seccion)
-                    @if ($seccion->unidad_curricular_id == $horario->unidad_curricular_id)
-                        <option value="{{ $seccion->id }}"
-                            {{ $horario->seccion_id == $seccion->id ? 'selected' : '' }}>
-                            {{ $seccion->nombre }}
-                        </option>
-                    @endif
-                @endforeach
-            @else
-                <option value="">Seleccione una unidad curricular primero</option>
-            @endif
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label for="periodo_academico_id">Período Académico</label>
-        <select name="periodo_academico_id" id="periodo_academico_id" class="form-control" required>
-            <option value="">Seleccione un período</option>
-            @foreach ($periodos as $periodo)
-                <option value="{{ $periodo->id }}"
-                    {{ isset($horario) && $horario->periodo_academico_id == $periodo->id ? 'selected' : '' }}>
-                    {{ $periodo->periodo }}
-                </option>
-            @endforeach
-        </select>
-    </div>
+<div class="form-group">
+    <label for="periodo_academico_id">Período Académico</label>
+    <select name="periodo_academico_id" id="periodo_academico_id" class="form-control" required>
+        <option value="">Seleccione un período</option>
+        @foreach ($periodos as $periodo)
+            <option value="{{ $periodo->id }}"
+                {{ isset($horario) && $horario->periodo_academico_id == $periodo->id ? 'selected' : '' }}>
+                {{ $periodo->periodo }}
+            </option>
+        @endforeach
+    </select>
+</div>
 
 
+<div class="form-group">
+    <label for="sede">Sede</label>
+    <select name="sede" id="sede" class="form-control" required>
+        <option value="">Seleccione una sede</option>
+        @foreach ($sedes as $sede)
+            <option value="{{ $sede }}" {{ isset($horario) && $horario->sede == $sede ? 'selected' : '' }}>
+                {{ $sede }}
+            </option>
+        @endforeach
+    </select>
+</div>
 
-    <div class="form-group">
-        <label for="sede">Sede</label>
-        <select name="sede" id="sede" class="form-control" required>
-            <option value="">Seleccione una sede</option>
-            @foreach ($sedes as $sede)
-                <option value="{{ $sede }}">{{ $sede }}</option>
-            @endforeach
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="aula_id">Aula</label>
-        <select name="aula_id" id="aula_id" class="form-control" required>
-            <option value="">Seleccione una aula</option>
-            {{-- Las opciones se llenarán dinámicamente con JS --}}
-        </select>
-    </div>
+<div class="form-group">
+    <label for="aula_id">Aula</label>
+    <select name="aula_id" id="aula_id" class="form-control" required>
+        <option value="">Seleccione una aula</option>
+        {{-- Las opciones se llenarán dinámicamente con JS --}}
+    </select>
+</div>
 
 
 {{-- ELEMENTOS PARA MANIPULAR LOS BLOQUES DE HORA --}}
@@ -143,63 +144,63 @@
         return bloques.findIndex(b => b.end === end);
     }
 
-  document.getElementById('hora_inicio').addEventListener('change', function() {
-    const inicio = this.value;
-    const fin = document.getElementById('hora_finalizacion').value;
-    const idxInicio = getBloqueIndexByStart(inicio);
-    const idxFin = getBloqueIndexByEnd(fin);
+    document.getElementById('hora_inicio').addEventListener('change', function() {
+        const inicio = this.value;
+        const fin = document.getElementById('hora_finalizacion').value;
+        const idxInicio = getBloqueIndexByStart(inicio);
+        const idxFin = getBloqueIndexByEnd(fin);
 
-    if (inicio && fin) {
-        // No permitir mismo bloque
-        if (idxInicio !== -1 && idxFin !== -1 && idxInicio === idxFin) {
-            alert('No puede seleccionar el mismo bloque para inicio y fin.');
-            this.value = '';
-            return;
-        }
-        // Validar orden y máximo 3 bloques
-        if (idxInicio !== -1 && idxFin !== -1) {
-            if (idxInicio > idxFin) {
-                alert('La hora de inicio debe ser menor que la hora de finalización.');
+        if (inicio && fin) {
+            // No permitir mismo bloque
+            if (idxInicio !== -1 && idxFin !== -1 && idxInicio === idxFin) {
+                alert('No puede seleccionar el mismo bloque para inicio y fin.');
                 this.value = '';
                 return;
             }
-            if ((idxFin - idxInicio) > 3) {
-                alert('No puede asignar más de 3 bloques de hora.');
-                this.value = '';
-                return;
+            // Validar orden y máximo 3 bloques
+            if (idxInicio !== -1 && idxFin !== -1) {
+                if (idxInicio > idxFin) {
+                    alert('La hora de inicio debe ser menor que la hora de finalización.');
+                    this.value = '';
+                    return;
+                }
+                if ((idxFin - idxInicio) > 3) {
+                    alert('No puede asignar más de 3 bloques de hora.');
+                    this.value = '';
+                    return;
+                }
             }
         }
-    }
-});
+    });
 
-document.getElementById('hora_finalizacion').addEventListener('change', function() {
-    const fin = this.value;
-    const inicio = document.getElementById('hora_inicio').value;
-    const idxInicio = getBloqueIndexByStart(inicio);
-    const idxFin = getBloqueIndexByEnd(fin);
+    document.getElementById('hora_finalizacion').addEventListener('change', function() {
+        const fin = this.value;
+        const inicio = document.getElementById('hora_inicio').value;
+        const idxInicio = getBloqueIndexByStart(inicio);
+        const idxFin = getBloqueIndexByEnd(fin);
 
-    if (inicio && fin) {
-        // No permitir mismo bloque
-        if (idxInicio !== -1 && idxFin !== -1 && idxInicio === idxFin) {
-            alert('No puede seleccionar el mismo bloque para inicio y fin.');
-            this.value = '';
-            return;
-        }
-        // Validar orden y máximo 3 bloques
-        if (idxInicio !== -1 && idxFin !== -1) {
-            if (idxFin < idxInicio) {
-                alert('La hora de finalización debe ser mayor que la hora de inicio.');
+        if (inicio && fin) {
+            // No permitir mismo bloque
+            if (idxInicio !== -1 && idxFin !== -1 && idxInicio === idxFin) {
+                alert('No puede seleccionar el mismo bloque para inicio y fin.');
                 this.value = '';
                 return;
             }
-            if ((idxFin - idxInicio) > 3) {
-                alert('No puede asignar más de 3 bloques de hora.');
-                this.value = '';
-                return;
+            // Validar orden y máximo 3 bloques
+            if (idxInicio !== -1 && idxFin !== -1) {
+                if (idxFin < idxInicio) {
+                    alert('La hora de finalización debe ser mayor que la hora de inicio.');
+                    this.value = '';
+                    return;
+                }
+                if ((idxFin - idxInicio) > 3) {
+                    alert('No puede asignar más de 3 bloques de hora.');
+                    this.value = '';
+                    return;
+                }
             }
         }
-    }
-});
+    });
 </script>
 
 <script>
