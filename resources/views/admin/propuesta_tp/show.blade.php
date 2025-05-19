@@ -145,8 +145,8 @@
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between">
-                    <a href="{{ route('admin.propuesta_tp.index') }}" class="btn btn-secondary">
-                        <i class="fas fa-arrow-left me-1"></i> Volver al listado
+                    <a href="{{ url()->previous() }}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Volver
                     </a>
                     <div>
                         <a href="{{ route('admin.propuesta_tp.edit', $propuesta->id) }}" class="btn btn-primary">

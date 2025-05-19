@@ -51,15 +51,22 @@ class DocenteController extends Controller
         $propuestasTP = $docente->propuestasTP;
         $horarios = $docente->horarios()->with(['unidadCurricular', 'seccion', 'periodoAcademico'])->get();
         $desempenos = $docente->desempenos()->with(['unidadCurricularPeriodoAcademico.periodoAcademico', 'unidadCurricularPeriodoAcademico.unidadCurricular'])->get();
+        $servicios = $docente->serviciosComunitarios()->latest('fecha_ingreso')->get();
+        $lineamientos = $docente->lineamientos()->latest()->get();
+        
         
 
         return view('admin.docente.show', compact(
             'docente',
+            'temarios',
+            'evaluacionesDocente',
             'asignaciones',
             'propuestasTG',
             'propuestasTP',
             'horarios',
-            'desempenos'
+            'desempenos',
+            'servicios',
+            'lineamientos'
         ));
     }
 

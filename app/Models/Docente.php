@@ -59,4 +59,24 @@ protected $fillable = [
         return $this->hasMany(Horario::class);
     }
 
+    public function serviciosComunitarios()
+    {
+        return $this->hasMany(ServicioComunitario::class);
+    }
+
+    public function lineamientos()
+    {
+        return $this->hasMany(LineamientoDocente::class);
+    }
+
+    public function temarios()
+    {
+        return $this->hasMany(TemarioDocente::class);
+    }
+
+    public function evaluacionesDocente()
+    {
+        return $this->hasMany(PlanEvaluacionDocente::class);
+    }
+
 }

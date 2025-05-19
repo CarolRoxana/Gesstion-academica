@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('carrera3')->nullable();
 
             $table->string('titulo_propuesta');
-            $table->string('plan_trabajo');
+            $table->text('plan_trabajo');
             $table->unsignedBigInteger('docente_id');
             $table->foreign('docente_id')->references('id')->on('docentes');
             $table->string('estatus');
