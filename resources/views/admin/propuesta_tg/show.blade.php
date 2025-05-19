@@ -26,22 +26,63 @@
                             <div class="bg-light rounded-circle p-2 me-3">
                                 <i class="fas fa-user-graduate text-primary"></i>
                             </div>
-                            <h5 class="mb-0">Información del Tesista</h5>
+                            <h5 class="mb-0">Información {{ isset($propuesta->nombre_tesista2) || isset($propuesta->nombre_tesista3) ? 'de los Tesistas' : 'del Tesista' }}</h5>
                         </div>
                         <div class="ps-5 border-start border-2 border-light ms-2 mt-3">
+                        @if(isset($propuesta->nombre_tesista2) || isset($propuesta->nombre_tesista3))
+                            <h6 class="fw-bold mb-2">Tesista 1</h6>
+                        @endif
+                        <div class="row mb-2">
+                            <div class="col-md-3 text-muted">Nombre completo:</div>
+                            <div class="col-md-9 fw-bold">{{ $propuesta->nombre_tesista }} {{ $propuesta->apellido_tesista }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-3 text-muted">Cédula:</div>
+                            <div class="col-md-9">{{ $propuesta->cedula }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-3 text-muted">Carrera:</div>
+                            <div class="col-md-9">{{ $propuesta->carrera }}</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tesista 2 (mostrar solo si existe) -->
+                    @if(isset($propuesta->nombre_tesista2) && !empty($propuesta->nombre_tesista2))
+                        <div class="ps-5 border-start border-2 border-light ms-2 mt-4">
+                            <h6 class="fw-bold mb-2">Tesista 2</h6>
                             <div class="row mb-2">
                                 <div class="col-md-3 text-muted">Nombre completo:</div>
-                                <div class="col-md-9 fw-bold">{{ $propuesta->nombre_tesista }} {{ $propuesta->apellido_tesista }}</div>
+                                <div class="col-md-9 fw-bold">{{ $propuesta->nombre_tesista2 }} {{ $propuesta->apellido_tesista2 }}</div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-3 text-muted">Cédula:</div>
-                                <div class="col-md-9">{{ $propuesta->cedula }}</div>
+                                <div class="col-md-9">{{ $propuesta->cedula2 }}</div>
                             </div>
-                            <div class="row">
+                            <div class="row mb-2">
                                 <div class="col-md-3 text-muted">Carrera:</div>
-                                <div class="col-md-9">{{ $propuesta->carrera }}</div>
+                                <div class="col-md-9">{{ $propuesta->carrera2 }}</div>
                             </div>
                         </div>
+                    @endif
+                    
+                    <!-- Tesista 3 (mostrar solo si existe) -->
+                    @if(isset($propuesta->nombre_tesista3) && !empty($propuesta->nombre_tesista3))
+                        <div class="ps-5 border-start border-2 border-light ms-2 mt-4">
+                            <h6 class="fw-bold mb-2">Tesista 3</h6>
+                            <div class="row mb-2">
+                                <div class="col-md-3 text-muted">Nombre completo:</div>
+                                <div class="col-md-9 fw-bold">{{ $propuesta->nombre_tesista3 }} {{ $propuesta->apellido_tesista3 }}</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3 text-muted">Cédula:</div>
+                                <div class="col-md-9">{{ $propuesta->cedula3 }}</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3 text-muted">Carrera:</div>
+                                <div class="col-md-9">{{ $propuesta->carrera3 }}</div>
+                            </div>
+                        </div>
+                    @endif
                     </div>
                     
                     <div class="mb-4">

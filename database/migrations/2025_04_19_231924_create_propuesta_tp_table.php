@@ -13,6 +13,19 @@ return new class extends Migration
             $table->string('apellido_pasante');
             $table->string('cedula');
             $table->string('carrera');
+
+             // Segundo pasante (opcional)
+            $table->string('nombre_pasante2')->nullable();
+            $table->string('apellido_pasante2')->nullable();
+            $table->string('cedula2')->nullable();
+            $table->string('carrera2')->nullable();
+            
+            // Tercer pasante (opcional)
+            $table->string('nombre_pasante3')->nullable();
+            $table->string('apellido_pasante3')->nullable();
+            $table->string('cedula3')->nullable();
+            $table->string('carrera3')->nullable();
+
             $table->string('titulo_propuesta');
             $table->string('plan_trabajo');
             $table->unsignedBigInteger('docente_id');

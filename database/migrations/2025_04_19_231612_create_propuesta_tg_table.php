@@ -13,6 +13,19 @@ return new class extends Migration
             $table->string('apellido_tesista');
             $table->string('cedula');
             $table->string('carrera');
+
+            // Segundo tesista (opcional)
+            $table->string('nombre_tesista2')->nullable();
+            $table->string('apellido_tesista2')->nullable();
+            $table->string('cedula2')->nullable();
+            $table->string('carrera2')->nullable();
+            
+            // Tercer tesista (opcional)
+            $table->string('nombre_tesista3')->nullable();
+            $table->string('apellido_tesista3')->nullable();
+            $table->string('cedula3')->nullable();
+            $table->string('carrera3')->nullable();
+
             $table->string('titulo_propuesta');
             $table->string('propuesta');
             $table->unsignedBigInteger('docente_id');

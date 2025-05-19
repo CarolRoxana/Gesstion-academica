@@ -10,18 +10,22 @@ use Illuminate\Http\Request;
 class DesempenoDocenteController extends Controller
 {
     public function index(Request $request)
-    {
-        $query = DesempenoDocente::with(['docente', 'unidadCurricularPeriodoAcademico']);
+    {    $query = DesempenoDocente::with([
+        'docente',
+        'unidadCurricularPeriodoAcademico.unidadCurricular',
+        'unidadCurricularPeriodoAcademico.periodoAcademico',
+    ]);
 
-    if ($request->has('docente_id') && $request->docente_id != '') {
+    if ($request->filled('docente_id')) {
         $query->where('docente_id', $request->docente_id);
     }
 
+    // 10 registros por página
     $desempenos = $query->paginate(10);
 
-    $docentes = \App\Models\Docente::all();
+    $docentes = Docente::orderBy('apellido')->get();
 
-    return view('admin\desempeno_docente\index', compact('desempenos', 'docentes'));
+    return view('admin.desempeno_docente.index', compact('desempenos', 'docentes'));
     }
 
     public function create()
@@ -39,12 +43,23 @@ class DesempenoDocenteController extends Controller
         ]);
     }
 
+    public function show(DesempenoDocente $desempenoDocente)
+    {
+        $evaluacion = $desempenoDocente->load([
+            'docente',
+            'unidadCurricularPeriodoAcademico.unidadCurricular',
+            'unidadCurricularPeriodoAcademico.periodoAcademico'
+        ]);
+
+        return view('admin.desempeno_docente.show', compact('evaluacion'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
             'docente_id' => 'required|exists:docentes,id',
             'unidad_curricular_periodo_academico_id' => 'required|exists:unidad_curricular_periodo_academico,id',
-            'puntualidad' => 'required|integer',
+             'puntualidad' => 'required|integer|min:1|max:100',
             'calidad_ensenanza' => 'required|string',
             'observaciones' => 'nullable|string',
             'participacion_proyectos' => 'required|string',
@@ -62,7 +77,7 @@ class DesempenoDocenteController extends Controller
     {
         $docentes = Docente::all();
         $unidades = UnidadCurricularPeriodoAcademico::all();
-        return view('admin.desempeno-docente.edit', compact('desempenoDocente', 'docentes', 'unidades'));
+        return view('admin.desempeno_docente.edit', compact('desempenoDocente', 'docentes', 'unidades'));
     }
 
     public function update(Request $request, DesempenoDocente $desempenoDocente)
@@ -70,7 +85,7 @@ class DesempenoDocenteController extends Controller
         $request->validate([
             'docente_id' => 'required|exists:docentes,id',
             'unidad_curricular_periodo_academico_id' => 'required|exists:unidad_curricular_periodo_academico,id',
-            'puntualidad' => 'required|integer',
+            'puntualidad' => 'required|integer|min:1|max:100',
             'calidad_ensenanza' => 'required|string',
             'observaciones' => 'nullable|string',
             'participacion_proyectos' => 'required|string',

@@ -25,11 +25,21 @@
                 <tbody>
                     @foreach ($propuestas as $propuesta)
                         <tr>
-                            <td>{{ $propuesta->nombre_pasante }} {{ $propuesta->apellido_pasante }}</td>
+                            <td>
+                                {{ $propuesta->nombre_pasante }} {{ $propuesta->apellido_pasante }}
+                                
+                                @if(isset($propuesta->nombre_pasante2) && !empty($propuesta->nombre_pasante2))
+                                    <br>{{ $propuesta->nombre_pasante2 }} {{ $propuesta->apellido_pasante2 }}
+                                @endif
+                                
+                                @if(isset($propuesta->nombre_pasante3) && !empty($propuesta->nombre_pasante3))
+                                    <br>{{ $propuesta->nombre_pasante3 }} {{ $propuesta->apellido_pasante3 }}
+                                @endif
+                            </td>
                             <td>{{ $propuesta->titulo_propuesta }}</td>
                             <td>{{ $propuesta->docente->nombre }} {{ $propuesta->docente->apellido }}</td>
                             <td>{{ $propuesta->estatus }}</td>
-                            <td>{{ $propuesta->fecha_ingreso }}</td>
+                            <td>{{ \Carbon\Carbon::parse($propuesta->fecha_ingreso)->format('d/m/Y') }}</td>
                             <td>
                                 <a href="{{ route('admin.propuesta_tp.show', $propuesta->id) }}" class="btn btn-sm btn-success">Ver</a>
                                 <a href="{{ route('admin.propuesta_tp.edit', $propuesta->id) }}" class="btn btn-sm btn-primary">Editar</a>

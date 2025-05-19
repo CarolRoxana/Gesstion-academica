@@ -15,7 +15,7 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Nombre Tesista</th>
+                        <th>Nombre(s) Tesista(s)</th>
                         <th>Título de Propuesta</th>
                         <th>Docente Tutor</th>
                         <th>Estatus</th>
@@ -26,11 +26,21 @@
                 <tbody>
                     @foreach ($propuestas as $propuesta)
                         <tr>
-                            <td>{{ $propuesta->nombre_tesista }} {{ $propuesta->apellido_tesista }}</td>
+                            <td>
+                                {{ $propuesta->nombre_tesista }} {{ $propuesta->apellido_tesista }}
+                                
+                                @if(isset($propuesta->nombre_tesista2) && !empty($propuesta->nombre_tesista2))
+                                    <br>{{ $propuesta->nombre_tesista2 }} {{ $propuesta->apellido_tesista2 }}
+                                @endif
+                                
+                                @if(isset($propuesta->nombre_tesista3) && !empty($propuesta->nombre_tesista3))
+                                    <br>{{ $propuesta->nombre_tesista3 }} {{ $propuesta->apellido_tesista3 }}
+                                @endif
+                            </td>
                             <td>{{ $propuesta->titulo_propuesta }}</td>
                             <td>{{ $propuesta->docente->nombre }} {{ $propuesta->docente->apellido }}</td>
                             <td>{{ $propuesta->estatus }}</td>
-                            <td>{{ $propuesta->fecha_ingreso }}</td>
+                            <td>{{ \Carbon\Carbon::parse($propuesta->fecha_ingreso)->format('d/m/Y') }}</td>
                             <td>
                                 <a href="{{ route('admin.propuesta_tg.show', $propuesta->id) }}" class="btn btn-sm btn-success">Ver </a>
                                 <a href="{{ route('admin.propuesta_tg.edit', $propuesta->id) }}"  class="btn btn-sm btn-primary">Editar</a>

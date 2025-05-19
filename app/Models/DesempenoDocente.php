@@ -32,4 +32,8 @@ class DesempenoDocente extends Model
     {
         return $this->belongsTo(UnidadCurricularPeriodoAcademico::class);
     }
+    public function evaluador() 
+    {
+        return $this->belongsTo(Docente::class, 'evaluado_por');
+    }
 }
