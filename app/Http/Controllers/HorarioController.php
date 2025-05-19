@@ -91,7 +91,7 @@ class HorarioController extends Controller
             return back()->withErrors(['conflicto' => 'El docente ya tiene un horario en ese rango de tiempo.'])->withInput();
         }
 
-        // Validación 2: En la misma sección, no debe haber otra materia a la misma hora ese día
+        // Validación 2: En la misma sección, no debe haber otra materia a la misma hora ese día en el periodo academico
         $conflictoSeccion = Horario::where('seccion_id', $seccionId)
             ->where('dia', $dia)
             ->where('periodo_academico_id', $validated['periodo_academico_id'])
@@ -108,7 +108,7 @@ class HorarioController extends Controller
             return back()->withErrors(['conflicto' => 'Ya existe un horario para esa sección que se cruza con este.'])->withInput();
         }
 
-        // Validación 3: En la misma sede, no debe haber otra aula ocupada a la misma hora ese día
+        // Validación 3: En la misma sede, no debe haber otra aula ocupada a la misma hora ese día en ese periodo academico
         $conflictoSede = Horario::where('sede', $sede)
             ->where('aula_id', $aulaId)
             ->where('dia', $dia)
@@ -130,8 +130,8 @@ class HorarioController extends Controller
         $horario->unidad_curricular_id = $validated['unidad_curricular_id'];
         $horario->periodo_academico_id = $validated['periodo_academico_id'];
         $horario->dia = $validated['dia'];
-        $horario->hora_inicio = $validated['hora_inicio'];
-        $horario->hora_finalizacion = $validated['hora_finalizacion'];
+        $horario->hora_inicio = $inicio;
+        $horario->hora_finalizacion = $fin;
         $horario->seccion_id = $validated['seccion_id'];
         $horario->sede = $validated['sede'];
         $horario->aula_id = $validated['aula_id'];
