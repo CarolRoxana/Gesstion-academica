@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('docente_id');
             $table->foreign('docente_id')->references('id')->on('docentes');
             $table->string('estatus');
-            $table->dateTime('fecha_ingreso');
+            $table->date('fecha_ingreso');
             $table->timestamps();
         });
     }

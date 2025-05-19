@@ -14,7 +14,7 @@
                 <i class="fas fa-edit me-1"></i>Editar
             </a>
 
-            <a href="{{ route('admin.lineamiento-docente.index') }}" 
+            <a href="{{ url()->previous() }}" 
                class="btn btn-light btn-sm">
                 <i class="fas fa-arrow-left me-1"></i>Volver
             </a>

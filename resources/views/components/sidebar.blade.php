@@ -174,6 +174,13 @@
                             <p>Propuesta TP</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.servicio_comunitario.index') }}"
+                           class="nav-link {{ Route::is('admin.propuesta_tp.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-file"></i>
+                            <p>Servicio Comunitario</p>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <!-- Resto de los elementos del menú... -->

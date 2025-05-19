@@ -1,4 +1,3 @@
-{{-- filepath: resources/views/admin/horario/create.blade.php --}}
 <x-admin>
     @section('title', 'Registrar Horario')
 

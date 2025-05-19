@@ -282,6 +282,36 @@
                     </div>
                 </div>
             </div>
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="fas fa-hands-helping me-2"></i>Servicios Comunitarios
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            @forelse ($servicios as $sc)
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">
+                                            <a href="{{ route('admin.servicio_comunitario.show', $sc->id) }}">
+                                                {{ $sc->titulo_servicio }}
+                                            </a>
+                                        </div>
+                                        <span class="text-muted">
+                                            {{ $sc->nombre_estudiante }} {{ $sc->apellido_estudiante }}
+                                        </span>
+                                    </div>
+                                    <span class="badge bg-success rounded-pill">{{ $sc->estatus }}</span>
+                                </li>
+                            @empty
+                                <li class="list-group-item text-center text-muted">
+                                    <i class="fas fa-info-circle me-2"></i>No tiene servicios comunitarios asignados.
+                                </li>
+                            @endforelse
+                        </ul>
+                    </div>
+                </div>
             
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-header bg-light">
@@ -318,7 +348,7 @@
                                         <a  href="{{ route('admin.desempeno-docente.show', $d->id) }}"
                                             class="btn btn-sm btn-outline-primary"
                                             title="Ver detalle">
-                                            <i class="fas fa-eye"></i> 
+                                            Detalle
                                         </a>
                                     </td>
                                 </tr>
@@ -334,61 +364,113 @@
                         </table>
                     </div>
                 </div>
-
-                <-- Evaluaciones de Desempeño  ACOMODAR-->
             </div>
+            
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-light">
-                    <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Lineamientos del docente</h5>
+                <div class="card-header">
+                    <h5 class="mb-0 d-flex align-items-center">
+                        <i class="fas fa-clipboard-list me-2"></i>Lineamientos del Docente
+                    </h5>
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Unidad Curricular</th>
-                                    <th>Periodo</th>
-                                    <th>Puntualidad</th>
-                                    <th>Evaluado por</th>
-                                    <th>Ver detalle</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($desempenos as $d)
-                                <tr>
-                                    <td>{{ $d->unidadCurricularPeriodoAcademico->unidadCurricular->nombre }}</td>
-                                    <td>{{ $d->unidadCurricularPeriodoAcademico->periodoAcademico->periodo }}</td>
-                                    <td>
-                                        @if($d->puntualidad >= 80)
-                                            <span class="badge bg-success">{{ $d->puntualidad }}%</span>
-                                        @elseif($d->puntualidad >= 60)
-                                            <span class="badge bg-warning">{{ $d->puntualidad }}%</span>
-                                        @else
-                                            <span class="badge bg-danger">{{ $d->puntualidad }}%</span>
-                                        @endif
-                                    </td>
-                                    <td>{{ $d->evaluador?->apellido }}, {{ $d->evaluador?->nombre }}</td>
-                                      <td class="fw-bold">
-                                        <a  href="{{ route('admin.desempeno-docente.show', $d->id) }}"
-                                            class="btn btn-sm btn-outline-primary"
-                                            title="Ver detalle">
-                                            <i class="fas fa-eye"></i> 
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        @forelse ($lineamientos as $lin)
+                            <div class="list-group-item border-start-0 border-end-0">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="w-75">
+                                        <h6 class="fw-bold text-primary mb-1">{{ $lin->titulo ?? 'Lineamiento' }}</h6>
+                                        <p class="mb-1 text-muted small">
+                                            {{ Str::limit($lin->resumen, 120) }}
+                                        </p>
+                                        <div class="d-flex align-items-center mt-2">
+                                            <span class="badge bg-light text-dark me-2">
+                                                <i class="far fa-calendar-alt me-1"></i>
+                                                {{ $lin->created_at->format('d/m/Y') }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-column align-items-end">
+                                        <span class="badge bg-primary rounded-pill mb-2">
+                                            {{ $lin->categoria ?? 'General' }}
+                                        </span>
+                                        <a  href="{{ route('admin.lineamiento-docente.show', $lin->id) }}"
+                                            class="btn btn-sm btn-outline-primary">
+                                             Ver detalle
                                         </a>
-                                    </td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="4" class="text-center text-muted">
-                                        <i class="fas fa-info-circle me-2"></i>No 
-                                        tiene evaluaciones registradas.
-                                    </td>
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="list-group-item py-4 text-center">
+                                <div class="text-muted mb-2">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                </div>
+                                <p class="mb-0">No hay lineamientos registrados actualmente.</p>
+                            </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="row">
+                <!-- Temario -->
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>Temario</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                @forelse($temarios as $t)
+                                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                                        <div class="ms-2 me-auto">
+                                            <div class="fw-bold">
+                                                <a href="{{ route('admin.teamrio_docente.show', $t->id) }}">
+                                                    {{ $t->titulo_propuesta }}
+                                                </a>
+                                            </div>
+                                            <span class="text-muted">{{ $tg->nombre_tesista }} {{ $tg->apellido_tesista }}</span>
+                                        </div>
+                                        <span class="badge bg-success rounded-pill">{{ $tg->estatus }}</span>
+                                    </li>
+                                @empty
+                                    <li class="list-group-item text-center text-muted">
+                                        <i class="fas fa-info-circle me-2"></i>No tiene temario agregado.
+                                    </li>
+                                @endforelse
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Plan evaluación-->
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0"><i class="fas fa-briefcase me-2"></i>Plan evaluación</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                @forelse($propuestasTP as $tp)
+                                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                                        <div class="ms-2 me-auto">
+                                            <div class="fw-bold">
+                                                <a href="{{ route('admin.propuesta_tp.show', $tp->id) }}">
+                                                    {{ $tp->titulo_propuesta }}
+                                                </a>
+                                            </div>
+                                            <span class="text-muted">{{ $tp->nombre_pasante }} {{ $tp->apellido_pasante }}</span>
+                                        </div>
+                                        <span class="badge bg-success rounded-pill">{{ $tp->estatus }}</span>
+                                    </li>
+                                @empty
+                                    <li class="list-group-item text-center text-muted">
+                                        <i class="fas fa-info-circle me-2"></i>No tiene plan de evalueción agregado.
+                                    </li>
+                                @endforelse
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
 </x-admin>

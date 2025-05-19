@@ -1,6 +1,6 @@
 
 <x-admin>
-    @section('title', 'Detalle de Evaluación')
+    @section('title', 'Detalle de Evaluación de Desempeño')
 
     <div class="container py-4">
         <div class="card border-0 shadow-sm rounded-3 mb-4 overflow-hidden">
@@ -15,7 +15,7 @@
                         </div>
                     </div>
                     <div>
-                        <a href="{{ route('admin.desempeno-docente.index') }}" class="btn btn-light btn-sm">
+                        <a href="{{ url()->previous() }}" class="btn btn-light btn-sm">
                             <i class="fas fa-arrow-left me-1"></i>  Volver
                         </a>
                         <a href="{{ route('admin.desempeno-docente.edit', $evaluacion->id) }}" class="btn btn-light btn-sm">
