@@ -1,90 +1,178 @@
+@php
+    use Carbon\Carbon;
+@endphp
+
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Reporte de Horarios</title>
     <style>
+        .page-break {
+            page-break-after: always;
+        }
+
         body {
             font-family: Arial, sans-serif;
             font-size: 12px;
         }
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .subtitle {
-            font-size: 12px;
-            color: #555;
-            margin-bottom: 15px;
-        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            margin-bottom: 40px;
         }
-        th {
-            background-color: #343a40;
-            color: white;
-            padding: 6px;
-            text-align: left;
-        }
+
+        th,
         td {
-            padding: 5px;
-            border: 1px solid #ddd;
+            border: 1px solid #222;
+            text-align: center;
+
+            padding: 8px;
+            /* reducido */
+            font-size: 11px;
+            /* más pequeño */
         }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
+
+        th {
+            background: #eaeaea;
         }
+
+        .hora {
+            width: 100px;
+            font-weight: bold;
+        }
+
+        h3 {
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        .header,
         .footer {
-            margin-top: 20px;
-            text-align: right;
-            font-size: 10px;
-            color: #666;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: #555;
         }
     </style>
 </head>
+
 <body>
+
     <div class="header">
         <div class="title">{{ $titulo }}</div>
         <div class="subtitle">Generado: {{ $fecha }}</div>
     </div>
-    
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Docente</th>
-                <th>Cédula</th>
-                <th>Materia</th>
-                <th>Sección</th>
-                <th>Día</th>
-                <th>Hora Inicio</th>
-                <th>Hora Fin</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($horarios as $index => $horario)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $horario->docente->apellido }}, {{ $horario->docente->nombre }}</td>
-                    <td>{{ $horario->docente->cedula }}</td>
-                    <td>{{ $horario->unidadCurricular->nombre }}</td>
-                    <td>{{ $horario->seccion->nombre }}</td>
-                    <td>{{ $horario->dia }}</td>
-                    <td>{{ \Carbon\Carbon::parse($horario->hora_inicio)->format('h:i A') }}</td>
-                    <td>{{ \Carbon\Carbon::parse($horario->hora_finalizacion)->format('h:i A') }}</td>
-                </tr>
+
+    @foreach ($agrupados as $sede => $semestres)
+        @foreach ($semestres as $semestre => $secciones)
+            @foreach ($secciones as $seccion => $horarios)
+                @php
+                    $first = $horarios[0];
+                    $ocupadas = [];
+                @endphp
+
+                @if (!$loop->first)
+                    <div class="page-break"></div>
+                @endif
+
+                <h3 style="text-align: center;">
+                    Sede: {{ $sede }} |
+                    Semestre: {{ $first->unidad_curricular_semestre ?? $semestre }} |
+                    Sección: {{ $seccion }}
+                </h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="hora">Hora</th>
+                            @foreach ($dias as $dia)
+                                <th>{{ $dia }}</th>
+                            @endforeach
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($bloques as $i => $bloque)
+                            <tr>
+                                <td class="hora">
+                                    {{ $bloque['start'] }} - {{ $bloque['end'] }}
+                                </td>
+                                @foreach ($dias as $dia)
+                                    @php
+                                        // Verificar si ya se imprimió por rowspan
+                                        $bloqueKey = $i . '_' . $dia;
+                                        if (isset($ocupadas[$bloqueKey])) {
+                                            continue;
+                                        }
+
+                                        $contenido = '';
+                                        $rowspan = 1;
+
+                                        foreach ($horarios as $h) {
+                                            if ($h->dia !== $dia) {
+                                                continue;
+                                            }
+
+                                            $horaInicio = Carbon::parse($h->hora_inicio)->format('H:i');
+                                            $horaFin = Carbon::parse($h->hora_finalizacion)->format('H:i');
+                                            $bloqueInicio = Carbon::parse($bloque['start'])->format('H:i');
+
+                                            // si este bloque es el inicio de ese horario
+                                            if ($horaInicio === $bloqueInicio) {
+                                                // contar cuántos bloques abarca
+                                                $rowspan = 0;
+                                                foreach (array_slice($bloques, $i) as $j => $b) {
+                                                    $bFin = Carbon::parse($b['end'])->format('H:i');
+                                                    if ($bFin <= $horaFin) {
+                                                        $rowspan++;
+                                                        $ocupadas[$i + $j . '_' . $dia] = true;
+                                                    } else {
+                                                        break;
+                                                    }
+                                                }
+
+                                                $contenido =
+                                                    '<strong>' .
+                                                    $h->unidad_curricular_nombre .
+                                                    '</strong><br>' .
+                                                    $h->docente_nombre .
+                                                    ' ' .
+                                                    $h->docente_apellido .
+                                                    '<br>' .
+                                                    'A - ' .
+                                                    $h->aula_id;
+
+                                                break;
+                                            }
+                                        }
+                                    @endphp
+                                    @if ($contenido)
+                                        <td rowspan="{{ $rowspan }}">{!! $contenido !!}</td>
+                                    @else
+                                        <td></td>
+                                    @endif
+                                @endforeach
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             @endforeach
-        </tbody>
-    </table>
-    
+        @endforeach
+    @endforeach
+
     <div class="footer">
         Sistema Académico - {{ config('app.name') }}
     </div>
 </body>
+
 </html>

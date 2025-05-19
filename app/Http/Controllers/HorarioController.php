@@ -112,6 +112,7 @@ class HorarioController extends Controller
         $conflictoSede = Horario::where('sede', $sede)
             ->where('aula_id', $aulaId)
             ->where('dia', $dia)
+            
             ->where('periodo_academico_id', $validated['periodo_academico_id'])
             ->where(function ($query) use ($inicio, $fin) {
                 $query->whereBetween('hora_inicio', [$inicio, $fin])
@@ -124,6 +125,7 @@ class HorarioController extends Controller
         if ($conflictoSede) {
             return back()->withErrors(['conflicto' => 'Ya existe un horario para esa aula que se cruza con este.'])->withInput();
         }
+
 
         $horario = new Horario();
         $horario->docente_id = $validated['docente_id'];
