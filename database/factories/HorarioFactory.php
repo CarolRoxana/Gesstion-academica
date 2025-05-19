@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use App\Models\Horario;
 use App\Models\Docente;
 use App\Models\UnidadCurricular;
@@ -24,6 +25,12 @@ class HorarioFactory extends Factory
         $horaInicio = $bloques[$idxInicio]['start'];
         $horaFin = $bloques[$idxFin]['end'];
         $sede = $this->faker->randomElement(['Atlantico', 'Villa Asia']);
+
+
+
+
+        $horaInicio = Carbon::parse($bloques[$idxInicio]['start'])->format('H:i:s');
+        $horaFin = Carbon::parse($bloques[$idxFin]['end'])->format('H:i:s');
 
 
         return [
