@@ -52,7 +52,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
         Route::resource('/propuesta_tp', PropuestaTpController::class);
         Route::resource('/talento_humano', TalentoHumanoController::class);
         Route::resource('/incidente-estudiantil', IncidenteEstudiantilController::class);
-        Route::get('/horarios/pdf', [HorarioPDFController::class, 'exportHorarioPDF'])->name('admin.horarios.pdf');
+Route::get('/horarios/pdf/{periodo}', [HorarioPDFController::class, 'exportHorarioPDF'])->name('admin.horarios.pdf');
         Route::get('/propuestas/grado/pdf', [PropuestaPDFController::class, 'exportGradoPDF'])->name('admin.propuestas.grado.pdf');
         Route::get('/propuestas/pasantia/pdf', [PropuestaPDFController::class, 'exportPasantiaPDF'])->name('admin.propuestas.pasantia.pdf');
         Route::get('/unidad-curricular/{id}/secciones', [UnidadCurricularController::class, 'getSecciones']);

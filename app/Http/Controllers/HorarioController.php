@@ -26,7 +26,9 @@ class HorarioController extends Controller
             })
             ->get();
 
-        return view('admin\horario\index', compact('horarios', 'docentes'));
+            $periodos  = PeriodoAcademico::all();
+
+        return view('admin\horario\index', compact('horarios', 'docentes',"periodos"));
     }
 
     /**
@@ -130,19 +132,20 @@ class HorarioController extends Controller
 
         // dd($conflictoSeccion);
 
+
         if ($conflictoSeccion) {
-            $mensaje = "Ya existe un horario para la sección '{$conflictoSeccion->seccion_nombre}' ";
-            $mensaje .= "y unidad curricular '{$conflictoSeccion->unidad_nombre}' ";
-            $mensaje .= "asignado al docente {$conflictoSeccion->nombre} {$conflictoSeccion->apellido} ";
-            $mensaje .= "de {$validated['hora_inicio']} a {$validated['hora_finalizacion']} que se cruza con este.";
+            $mensaje = "<div style='padding: 8px 0; background:#d9534f; color:#fff; border-radius:4px;'>";
+            $mensaje .= "<div style='font-weight:bold; margin-bottom:6px;'>Ya existe un horario para la sección que se cruza con este:</div>";
+            $mensaje .= "<div style='display: flex; flex-direction: column; gap: 4px;'>";
+            $mensaje .= "<span><strong>Sección:</strong> {$conflictoSeccion->seccion_nombre}</span>";
+            $mensaje .= "<span><strong>Unidad Curricular:</strong> {$conflictoSeccion->unidad_nombre}</span>";
+            $mensaje .= "<span><strong>Docente:</strong> {$conflictoSeccion->nombre} {$conflictoSeccion->apellido}</span>";
+            $mensaje .= "<span><strong>Horario:</strong> {$validated['hora_inicio']} - {$validated['hora_finalizacion']}</span>";
+            $mensaje .= "</div></div>";
             return back()->withErrors(['conflicto' => $mensaje])->withInput();
         }
 
         // Validación 3: En la misma sede, no debe haber otra aula ocupada a la misma hora ese día en ese periodo academico
-
-
-        // $unidad_curr
-
 
         $conflictoSede = Horario::where('sede', $sede)
             ->where('aula_id', $aulaId)
@@ -162,15 +165,17 @@ class HorarioController extends Controller
             ->first();
 
         if ($conflictoSede) {
-            $mensaje = "Ya existe un horario para esa aula que se cruza con este.";
-            $mensaje .= " Docente: {$conflictoSede->docente->nombre} {$conflictoSede->docente->apellido}";
-            $mensaje .= " Aula: {$conflictoSede->aula_id}";
-            $mensaje .= " {$conflictoSede->modulo}, Piso: {$conflictoSede->piso}";
-            $mensaje .= " Horario: {$validated["hora_inicio"]} - {$validated['hora_finalizacion']}";
+            $mensaje = "<div style='padding: 8px 0; background:#d9534f; color:#fff; border-radius:4px;'>";
+            $mensaje .= "<div style='font-weight:bold; margin-bottom:6px;'>Ya existe un horario para esa aula que se cruza con este:</div>";
+            $mensaje .= "<div style='display: flex; flex-direction: column; gap: 4px;'>";
+            $mensaje .= "<span><strong>Docente:</strong> {$conflictoSede->docente->nombre} {$conflictoSede->docente->apellido}</span>";
+            $mensaje .= "<span><strong>Aula:</strong> {$conflictoSede->aula_id}</span>";
+            $mensaje .= "<span><strong>Módulo:</strong> {$conflictoSede->modulo}</span>";
+            $mensaje .= "<span><strong>Piso:</strong> {$conflictoSede->piso}</span>";
+            $mensaje .= "<span><strong>Horario:</strong> {$validated['hora_inicio']} - {$validated['hora_finalizacion']}</span>";
+            $mensaje .= "</div></div>";
             return back()->withErrors(['conflicto' => $mensaje])->withInput();
         }
-
-
 
         //dd("hola");
         $horario = new Horario();
@@ -251,6 +256,8 @@ class HorarioController extends Controller
     {
         $horario = Horario::findOrFail($id);
 
+
+
         $validated = $request->validate([
             'docente_id' => 'required|exists:docentes,id',
             'unidad_curricular_id' => 'required|exists:unidad_curricular,id',
@@ -264,8 +271,17 @@ class HorarioController extends Controller
 
         ]);
 
+        $seccion = Seccion::find($validated['seccion_id']);
+        $seccionId = $seccion->nombre;
         $inicio = Carbon::parse($validated['hora_inicio'])->format('H:i:s');
         $fin = Carbon::parse($validated['hora_finalizacion'])->format('H:i:s');
+
+
+        $dia = $validated['dia'];
+        $docenteId = $validated['docente_id'];
+        $sede = $validated['sede'];
+        $aulaId = $validated['aula_id'];
+
 
 
 
@@ -288,30 +304,46 @@ class HorarioController extends Controller
         }
 
         // Validar conflicto en la misma sección
-        $conflictoSeccion = Horario::where('seccion_id', $validated['seccion_id'])
-            ->where('id', '!=', $horario->id)
-            ->where('dia', $validated['dia'])
-            ->where('periodo_academico_id', $validated['periodo_academico_id'])
+        $conflictoSeccion = DB::table('horarios')
+            ->join('unidad_curricular', 'horarios.unidad_curricular_id', '=', 'unidad_curricular.id')
+            ->join('seccions', 'horarios.seccion_id', '=', 'seccions.id')
+            ->join('docentes', 'horarios.docente_id', '=', 'docentes.id')
+            ->where('seccions.nombre', $seccionId)
+            ->where('horarios.dia',  $validated['dia'])
+            ->where('horarios.periodo_academico_id', $validated['periodo_academico_id'])
             ->where(function ($query) use ($inicio, $fin) {
-                $query->whereBetween('hora_inicio', [$inicio, $fin])
-                    ->orWhereBetween('hora_finalizacion', [$inicio, $fin])
+                $query->whereBetween('horarios.hora_inicio', [$inicio, $fin])
+                    ->orWhereBetween('horarios.hora_finalizacion', [$inicio, $fin])
                     ->orWhere(function ($q) use ($inicio, $fin) {
-                        $q->where('hora_inicio', '<=', $inicio)
-                            ->where('hora_finalizacion', '>=', $fin);
+                        $q->where('horarios.hora_inicio', '<=', $inicio)
+                            ->where('horarios.hora_finalizacion', '>=', $fin);
                     });
-            })->exists();
+            })
+            ->select('horarios.*', 'unidad_curricular.nombre as unidad_nombre', 'seccions.nombre as seccion_nombre', "docentes.*",)
+            ->first();
+
+        // dd($conflictoSeccion);
+
+
         if ($conflictoSeccion) {
-            return back()->withErrors(['conflicto' => 'Ya existe un horario para esa sección que se cruza con este.'])->withInput();
+            $mensaje = "<div style='padding: 8px 0; background:#d9534f; color:#fff; border-radius:4px;'>";
+            $mensaje .= "<div style='font-weight:bold; margin-bottom:6px;'>Ya existe un horario para la sección que se cruza con este:</div>";
+            $mensaje .= "<div style='display: flex; flex-direction: column; gap: 4px;'>";
+            $mensaje .= "<span><strong>Sección:</strong> {$conflictoSeccion->seccion_nombre}</span>";
+            $mensaje .= "<span><strong>Unidad Curricular:</strong> {$conflictoSeccion->unidad_nombre}</span>";
+            $mensaje .= "<span><strong>Docente:</strong> {$conflictoSeccion->nombre} {$conflictoSeccion->apellido}</span>";
+            $mensaje .= "<span><strong>Horario:</strong> {$validated['hora_inicio']} - {$validated['hora_finalizacion']}</span>";
+            $mensaje .= "</div></div>";
+            return back()->withErrors(['conflicto' => $mensaje])->withInput();
         }
 
-        // Validar conflicto en la misma sede
-        $conflictoSede = Horario::where('sede', $validated['sede'])
-            ->where('aula_id', $validated['aula_id'])
-            ->where('id', '!=', $horario->id)
-            ->where('dia', $validated['dia'])
-            ->where('periodo_academico_id', $validated['periodo_academico_id'])
+
+        $conflictoSede = Horario::where('sede', $sede)
+            ->where('aula_id', $aulaId)
+            ->where('dia', $dia)
             ->where('modulo', $request['modulo'])
             ->where('piso', $request['piso'])
+            ->where('periodo_academico_id', $validated['periodo_academico_id'])
             ->where(function ($query) use ($inicio, $fin) {
                 $query->whereBetween('hora_inicio', [$inicio, $fin])
                     ->orWhereBetween('hora_finalizacion', [$inicio, $fin])
@@ -319,11 +351,22 @@ class HorarioController extends Controller
                         $q->where('hora_inicio', '<=', $inicio)
                             ->where('hora_finalizacion', '>=', $fin);
                     });
-            })->exists();
-        if ($conflictoSede) {
-            return back()->withErrors(['conflicto' => 'Ya existe un horario para esa aula que se cruza con este.'])->withInput();
-        }
+            })
+            ->with(['docente',])
+            ->first();
 
+        if ($conflictoSede) {
+            $mensaje = "<div style='padding: 8px 0; background:#d9534f; color:#fff; border-radius:4px;'>";
+            $mensaje .= "<div style='font-weight:bold; margin-bottom:6px;'>Ya existe un horario para esa aula que se cruza con este:</div>";
+            $mensaje .= "<div style='display: flex; flex-direction: column; gap: 4px;'>";
+            $mensaje .= "<span><strong>Docente:</strong> {$conflictoSede->docente->nombre} {$conflictoSede->docente->apellido}</span>";
+            $mensaje .= "<span><strong>Aula:</strong> {$conflictoSede->aula_id}</span>";
+            $mensaje .= "<span><strong>Módulo:</strong> {$conflictoSede->modulo}</span>";
+            $mensaje .= "<span><strong>Piso:</strong> {$conflictoSede->piso}</span>";
+            $mensaje .= "<span><strong>Horario:</strong> {$validated['hora_inicio']} - {$validated['hora_finalizacion']}</span>";
+            $mensaje .= "</div></div>";
+            return back()->withErrors(['conflicto' => $mensaje])->withInput();
+        }
 
         // Actualizar el horario
         $horario->docente_id = $validated['docente_id'];

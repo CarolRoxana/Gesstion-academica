@@ -5,14 +5,31 @@ namespace App\Http\Controllers;
 use App\Helpers\ArrayHelper;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Horario;
+use App\Models\PeriodoAcademico;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class HorarioPDFController extends Controller
 {
-    public function exportHorarioPDF()
+    public function exportHorarioPDF($periodo)
     {
 
+        if (!$periodo) {
+            $mensaje = "<div style='padding: 8px 0; background:#d9534f; color:#fff; border-radius:4px; text-align:center;'>";
+            $mensaje .= "<span style='font-weight:bold;'>El período académico seleccionado no existe o no es válido.</span>";
+            $mensaje .= "</div>";
+            return back()->withErrors(['conflicto' => $mensaje])->withInput();
+        }
+        $data_periodo = PeriodoAcademico::find($periodo);
+
+        if (!$data_periodo) {
+            $mensaje = "<div style='padding: 8px 0; background:#d9534f; color:#fff; border-radius:4px; text-align:center;'>";
+            $mensaje .= "<span style='font-weight:bold;'>El período académico seleccionado no existe o no es válido.</span>";
+            $mensaje .= "</div>";
+            return back()->withErrors(['conflicto' => $mensaje])->withInput();
+        }
+
+        // dd("hola",$periodo,$data_periodo);
 
         // Establecer el locale en español
         Carbon::setLocale('es');
@@ -61,7 +78,7 @@ class HorarioPDFController extends Controller
                 'unidad_curricular_periodo_academico.modalidad as modalidad'
             )
             ->distinct()
-            ->where('horarios.periodo_academico_id', 1)
+            ->where('horarios.periodo_academico_id', $data_periodo->id)
             ->orderBy('horarios.sede')
             ->orderBy('unidad_curricular.semestre')
             ->orderBy('dia_orden')
