@@ -9,6 +9,7 @@ use App\Models\UnidadCurricular;
 use App\Models\PeriodoAcademico;
 use App\Models\Seccion;
 use App\Helpers\ArrayHelper;
+use App\Models\UnidadCurricularPeriodoAcademico;
 use Carbon\Carbon;
 
 class HorarioController extends Controller
@@ -34,13 +35,19 @@ class HorarioController extends Controller
     {
 
         $sedes = ArrayHelper::sedes();
+        $modulos  = ArrayHelper::$modulos;
+        $pisos = ArrayHelper::$pisos;
+
         return view('admin.horario.create', [
             'docentes' => Docente::all(),
-            'unidades' => UnidadCurricular::all(),
+
             'periodos' => PeriodoAcademico::all(),
             'secciones' => Seccion::all(),
             'sedes' => $sedes,
             "bloques" => ArrayHelper::bloques(),
+            'modulos' => $modulos,
+            'pisos' => $pisos,
+
 
         ]);
     }
@@ -60,10 +67,11 @@ class HorarioController extends Controller
             'seccion_id' => 'required|exists:seccions,id',
             "sede" => 'required',
             "aula_id" => 'required',
+
         ]);
 
 
-        //dd($request->all());
+        //dd($request["piso"], $request["modulo"]);
 
         $dia = $validated['dia'];
         $inicio = Carbon::parse($validated['hora_inicio'])->format('H:i:s');
@@ -109,10 +117,16 @@ class HorarioController extends Controller
         }
 
         // Validación 3: En la misma sede, no debe haber otra aula ocupada a la misma hora ese día en ese periodo academico
+
+
+        // $unidad_curr
+
+
         $conflictoSede = Horario::where('sede', $sede)
             ->where('aula_id', $aulaId)
             ->where('dia', $dia)
-            
+            ->where('modulo', $request['modulo'])
+            ->where('piso', $request['piso'])
             ->where('periodo_academico_id', $validated['periodo_academico_id'])
             ->where(function ($query) use ($inicio, $fin) {
                 $query->whereBetween('hora_inicio', [$inicio, $fin])
@@ -137,6 +151,11 @@ class HorarioController extends Controller
         $horario->seccion_id = $validated['seccion_id'];
         $horario->sede = $validated['sede'];
         $horario->aula_id = $validated['aula_id'];
+        $horario->modulo = $request['modulo'];
+        $horario->piso = $request['piso'];
+
+
+
         $horario->save();
         return redirect()->route('admin.horario.index')->with('message', 'Horario registrado correctamente');
     }
@@ -153,23 +172,43 @@ class HorarioController extends Controller
     public function edit(Horario $horario)
     {
         $docentes = Docente::all();
-        $unidades = UnidadCurricular::all();
+
         $periodos = PeriodoAcademico::all();
         $secciones = Seccion::all();
         $bloques = ArrayHelper::bloques();
         $sedes = ArrayHelper::sedes();
         $aulas = ArrayHelper::aulasPorSede($horario->sede);
+        $modulos  = ArrayHelper::$modulos;
+        $pisos = ArrayHelper::$pisos;
+
+        $unidades = UnidadCurricularPeriodoAcademico::where(
+            'periodo_academico_id',
+            $horario->periodo_academico_id
+        )
+            ->with('unidadCurricular')
+            ->get()
+            ->map(
+                function ($item) {
+                    return [
+                        'id' => $item->unidadCurricular->id,
+                        'nombre' => $item->unidadCurricular->nombre,
+                    ];
+                }
+            );
+
 
         return view('admin.horario.edit', compact(
             "bloques",
             'horario',
             'docentes',
-            'unidades',
+            "unidades",
             'periodos',
             'secciones',
             'sedes',
-            'aulas'
-            
+            'aulas',
+            'modulos',
+            'pisos'
+
         ));
     }
 
@@ -190,12 +229,13 @@ class HorarioController extends Controller
             'seccion_id' => 'required|exists:seccions,id',
             "sede" => 'required',
             "aula_id" => 'required',
+
         ]);
 
         $inicio = Carbon::parse($validated['hora_inicio'])->format('H:i:s');
         $fin = Carbon::parse($validated['hora_finalizacion'])->format('H:i:s');
 
-        
+
 
 
         // Validar conflictos de horarios para el docente (excluyendo el actual)
@@ -238,6 +278,8 @@ class HorarioController extends Controller
             ->where('id', '!=', $horario->id)
             ->where('dia', $validated['dia'])
             ->where('periodo_academico_id', $validated['periodo_academico_id'])
+            ->where('modulo', $request['modulo'])
+            ->where('piso', $request['piso'])
             ->where(function ($query) use ($inicio, $fin) {
                 $query->whereBetween('hora_inicio', [$inicio, $fin])
                     ->orWhereBetween('hora_finalizacion', [$inicio, $fin])
@@ -249,7 +291,7 @@ class HorarioController extends Controller
         if ($conflictoSede) {
             return back()->withErrors(['conflicto' => 'Ya existe un horario para esa aula que se cruza con este.'])->withInput();
         }
-        
+
 
         // Actualizar el horario
         $horario->docente_id = $validated['docente_id'];
@@ -261,6 +303,8 @@ class HorarioController extends Controller
         $horario->seccion_id = $validated['seccion_id'];
         $horario->sede = $validated['sede'];
         $horario->aula_id = $validated['aula_id'];
+        $horario->modulo = $request['modulo'];
+        $horario->piso = $request['piso'];
         $horario->save();
 
 
@@ -282,6 +326,28 @@ class HorarioController extends Controller
     {
 
         $items = ArrayHelper::aulasPorSede($sede);
+
+        return response()->json($items);
+    }
+
+
+    public function unidadesCurriculares($periodo)
+    {
+
+        $items = UnidadCurricularPeriodoAcademico::where(
+            'periodo_academico_id',
+            $periodo
+        )
+            ->with('unidadCurricular')
+            ->get()
+            ->map(
+                function ($item) {
+                    return [
+                        'id' => $item->unidadCurricular->id,
+                        'nombre' => $item->unidadCurricular->nombre,
+                    ];
+                }
+            );
 
         return response()->json($items);
     }

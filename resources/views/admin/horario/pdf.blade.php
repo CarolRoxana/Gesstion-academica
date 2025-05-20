@@ -141,16 +141,36 @@
                                                     }
                                                 }
 
-                                                $contenido =
-                                                    '<strong>' .
-                                                    $h->unidad_curricular_nombre .
-                                                    '</strong><br>' .
-                                                    $h->docente_nombre .
-                                                    ' ' .
-                                                    $h->docente_apellido .
-                                                    '<br>' .
-                                                    'A - ' .
-                                                    $h->aula_id;
+                                                if (isset($h->modalidad) && $h->modalidad !== 'Virtual') {
+                                                    $contenido =
+                                                        '<strong>' .
+                                                        $h->unidad_curricular_nombre .
+                                                        '</strong><br>' .
+                                                        $h->docente_nombre .
+                                                        ' ' .
+                                                        $h->docente_apellido .
+                                                        '<br>' .
+                                                        'Módulo: ' .
+                                                        ($h->modulo ?? '-') .
+                                                        '<br>' .
+                                                        'Piso: ' .
+                                                        ($h->piso ?? '-') .
+                                                        '<br>' .
+                                                        $h->modalidad .
+                                                        '<br>' .
+                                                        'A - ' .
+                                                        $h->aula_id;
+                                                } else {
+                                                    $contenido =
+                                                        '<strong>' .
+                                                        $h->unidad_curricular_nombre .
+                                                        '</strong><br>' .
+                                                        $h->docente_nombre .
+                                                        ' ' .
+                                                        $h->docente_apellido .
+                                                        '<br>' .
+                                                        ($h->modalidad ?? 'Virtual');
+                                                }
 
                                                 break;
                                             }

@@ -51,7 +51,7 @@
     <select name="hora_finalizacion" id="hora_finalizacion" class="form-control" required>
         <option value="">Seleccione un bloque</option>
         @php
-           
+
             $horarioHoraFin = isset($horario) ? Carbon::parse($horario->hora_finalizacion)->format('H:i') : null;
         @endphp
 
@@ -67,16 +67,33 @@
     </select>
 </div>
 
+
+<div class="form-group">
+    <label for="periodo_academico_id">Período Académico</label>
+    <select name="periodo_academico_id" id="periodo_academico_id" class="form-control" required>
+        <option value="">Seleccione un período</option>
+        @foreach ($periodos as $periodo)
+            <option value="{{ $periodo->id }}"
+                {{ isset($horario) && $horario->periodo_academico_id == $periodo->id ? 'selected' : '' }}>
+                {{ $periodo->periodo }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
 <div class="form-group">
     <label for="unidad_curricular_id">Unidad Curricular</label>
     <select name="unidad_curricular_id" id="unidad_curricular_id" class="form-control" required>
         <option value="">Seleccione una unidad</option>
-        @foreach ($unidades as $unidad)
-            <option value="{{ $unidad->id }}"
-                {{ isset($horario) && $horario->unidad_curricular_id == $unidad->id ? 'selected' : '' }}>
-                {{ $unidad->nombre }}
-            </option>
-        @endforeach
+        @isset($horario)
+            @foreach ($unidades as $unidad)
+                <option value="{{ $unidad['id'] }}"
+                    {{ isset($horario) && $horario->unidad_curricular_id == $unidad['id'] ? 'selected' : '' }}>
+                    {{ $unidad['nombre'] }}
+                </option>
+            @endforeach
+        @endisset
+
     </select>
 </div>
 
@@ -97,18 +114,6 @@
     </select>
 </div>
 
-<div class="form-group">
-    <label for="periodo_academico_id">Período Académico</label>
-    <select name="periodo_academico_id" id="periodo_academico_id" class="form-control" required>
-        <option value="">Seleccione un período</option>
-        @foreach ($periodos as $periodo)
-            <option value="{{ $periodo->id }}"
-                {{ isset($horario) && $horario->periodo_academico_id == $periodo->id ? 'selected' : '' }}>
-                {{ $periodo->periodo }}
-            </option>
-        @endforeach
-    </select>
-</div>
 
 
 <div class="form-group">
@@ -136,8 +141,34 @@
                     {{ $aula->descripcion }}
                 </option>
             @endforeach
-
         @endisset
+
+    </select>
+</div>
+
+
+<div class="form-group">
+    <label>Módulos</label>
+    <select name="modulo" class="form-control">
+        <option value="">Seleccione un módulo</option>
+        @foreach ($modulos as $modulo)
+            <option value="{{ $modulo }}"
+                {{ isset($horario) && $horario->modulo == $modulo ? 'selected' : '' }}>
+                {{ $modulo }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
+<div class="form-group">
+    <label>Pisos</label>
+    <select name="piso" class="form-control">
+        <option value="">Seleccione un piso</option>
+        @foreach ($pisos as $piso)
+            <option value="{{ $piso }}" {{ isset($horario) && $horario->piso == $piso ? 'selected' : '' }}>
+                {{ $piso }}
+            </option>
+        @endforeach
     </select>
 </div>
 
@@ -174,19 +205,19 @@
         if (inicio && fin) {
             // No permitir mismo bloque
             if (idxInicio !== -1 && idxFin !== -1 && idxInicio === idxFin) {
-                alert('No puede seleccionar el mismo bloque para inicio y fin.');
+                callSwalAlert('No puede seleccionar el mismo bloque para inicio y fin.');
                 this.value = '';
                 return;
             }
             // Validar orden y máximo 3 bloques
             if (idxInicio !== -1 && idxFin !== -1) {
                 if (idxInicio > idxFin) {
-                    alert('La hora de inicio debe ser menor que la hora de finalización.');
+                    callSwalAlert('La hora de inicio debe ser menor que la hora de finalización.');
                     this.value = '';
                     return;
                 }
                 if ((idxFin - idxInicio) > 2) {
-                    alert('No puede asignar más de 3 bloques de hora.');
+                    callSwalAlert('No puede asignar más de 3 bloques de hora.');
                     this.value = '';
                     return;
                 }
@@ -203,19 +234,19 @@
         if (inicio && fin) {
             // No permitir mismo bloque
             if (idxInicio !== -1 && idxFin !== -1 && idxInicio === idxFin) {
-                alert('No puede seleccionar el mismo bloque para inicio y fin.');
+                callSwalAlert('No puede seleccionar el mismo bloque para inicio y fin.');
                 this.value = '';
                 return;
             }
             // Validar orden y máximo 3 bloques
             if (idxInicio !== -1 && idxFin !== -1) {
                 if (idxFin < idxInicio) {
-                    alert('La hora de finalización debe ser mayor que la hora de inicio.');
+                    callSwalAlert('La hora de finalización debe ser mayor que la hora de inicio.');
                     this.value = '';
                     return;
                 }
                 if ((idxFin - idxInicio) > 2) {
-                    alert('No puede asignar más de 3 bloques de hora.');
+                    callSwalAlert('No puede asignar más de 3 bloques de hora.');
                     this.value = '';
                     return;
                 }
@@ -225,6 +256,32 @@
 </script>
 
 <script>
+    document.getElementById('periodo_academico_id').addEventListener('change', function() {
+        const periodo = this.value;
+        const select = document.getElementById('unidad_curricular_id');
+        select.innerHTML = '<option value="">Cargando unidades curriculares...</option>';
+
+        if (!periodo) {
+            periodo.innerHTML = '<option value="">Seleccione un período primero</option>';
+            return;
+        }
+        fetch(`/admin/horario/unidadesCurriculares/${encodeURIComponent(periodo)}`)
+            .then(response => response.json())
+            .then(data => {
+                select.innerHTML = '<option value="">Seleccione una unidad curricular</option>';
+                data.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.id;
+                    option.text = item.nombre;
+                    select.appendChild(option);
+                });
+            })
+            .catch(() => {
+                select.innerHTML = '<option value="">Error al cargar unidades curriculares</option>';
+            });
+    });
+
+
     document.getElementById('sede').addEventListener('change', function() {
         const sede = this.value;
         const aulaSelect = document.getElementById('aula_id');
@@ -250,11 +307,11 @@
             });
     });
 
-    function handle() {
+    function callSwalAlert(body) {
         window.dispatchEvent(new CustomEvent('success', {
             detail: [{
-                title: 'Hola',
-                message: 'Mensaje de prueba'
+                title: "Mensaje de error",
+                message: body,
             }]
         }));
     }

@@ -54,28 +54,7 @@
                     </select>
                 </div>
 
-                <div class="form-group">
 
-                    <label>Módulos</label>
-                    <select name="modulo" class="form-control">
-                        @foreach ($modulos as $modulo)
-                            <option value="{{ $modulo }}" {{ $registro->modulo == $modulo ? 'selected' : '' }}>
-                                {{ $modulo }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                 <div class="form-group">
-                    <label>Pisos</label>
-                    <select name="piso" class="form-control">
-                        @foreach ($pisos as $piso)
-                            <option value="{{ $piso }}" {{ $registro->piso == $piso ? 'selected' : '' }}>
-                                {{ $piso }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
 
                 <button type="submit" class="btn btn-primary">Actualizar</button>
             </form>

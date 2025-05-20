@@ -46,8 +46,8 @@ class UnidadCurricularPeriodoAcademicoController extends Controller
             'docente_id',
             'sede',
             'modalidad',
-            "piso",
-            "modulo",
+            // "piso",
+            // "modulo",
         ]));
 
         return redirect()->route('admin.unidad-curricular-periodo.index')

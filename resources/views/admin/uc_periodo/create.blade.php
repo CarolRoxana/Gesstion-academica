@@ -46,25 +46,7 @@
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label>Módulos</label>
-                    <select name="modulo" class="form-control">
-                        <option value="">Seleccione</option>
-                        @foreach ($modulos as $modulo)
-                            <option value="{{ $modulo }}">{{ $modulo }}</option>
-                        @endforeach
-                    </select>
-                </div>
 
-                <div class="form-group">
-                    <label>Pisos</label>
-                    <select name="piso" class="form-control">
-                        <option value="">Seleccione</option>
-                        @foreach ($pisos as $piso)
-                            <option value="{{ $piso }}">{{ $piso }}</option>
-                        @endforeach
-                    </select>
-                </div>
 
                 <button type="submit" class="btn btn-primary">Guardar</button>
             </form>

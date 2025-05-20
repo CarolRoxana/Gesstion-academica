@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('dia');
             $table->time('hora_inicio');
             $table->time('hora_finalizacion');
+            $table->string('piso')->nullable();
+            $table->string('modulo')->nullable();
+
             $table->unsignedBigInteger('unidad_curricular_id');
             $table->unsignedBigInteger('periodo_academico_id');
             $table->foreign('docente_id')->references('id')->on('docentes');
@@ -26,7 +29,7 @@ return new class extends Migration
             $table->string('sede')->nullable(false);
             $table->unsignedTinyInteger('aula_id');
             //agregar piso y modulo
-       
+
             $table->timestamps();
         });
     }

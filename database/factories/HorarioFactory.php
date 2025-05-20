@@ -17,7 +17,11 @@ class HorarioFactory extends Factory
         $bloques = ArrayHelper::bloques();
         $maxIntentos = 10; // Evita bucles infinitos
         $intentos = 0;
+        
+        $pisos = ArrayHelper::$pisos;
+        $modulos = ArrayHelper::$modulos;
 
+        
         do {
             $maxInicio = count($bloques) - 2;
             $idxInicio = $this->faker->numberBetween(0, $maxInicio);
@@ -28,6 +32,10 @@ class HorarioFactory extends Factory
             $horaFin = Carbon::parse($bloques[$idxFin]['end'])->format('H:i:s');
             $dia = $this->faker->randomElement(['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']);
             $sede = $this->faker->randomElement(['Atlantico', 'Villa Asia']);
+            //faker para pisos y modulos
+            $piso = $this->faker->randomElement($pisos);
+            $modulo = $this->faker->randomElement($modulos);
+            
             $aula_id = $sede === 'Villa Asia'
                 ? $this->faker->numberBetween(1, 4)
                 : $this->faker->numberBetween(1, 15);
@@ -66,6 +74,8 @@ class HorarioFactory extends Factory
                 ->where('aula_id', $aula_id)
                 ->where('dia', $dia)
                 ->where('periodo_academico_id', $periodo_academico_id)
+                ->where('piso', $piso)
+                ->where('modulo', $modulo)
                 ->where(function ($query) use ($horaInicio, $horaFin) {
                     $query->whereBetween('hora_inicio', [$horaInicio, $horaFin])
                         ->orWhereBetween('hora_finalizacion', [$horaInicio, $horaFin])
@@ -88,6 +98,8 @@ class HorarioFactory extends Factory
             'periodo_academico_id' => $periodo_academico_id,
             'sede' => $sede,
             'aula_id' => $aula_id,
+            'piso' => $piso,
+            'modulo' => $modulo,
         ];
     }
 }

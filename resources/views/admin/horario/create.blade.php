@@ -23,7 +23,7 @@
                 @include('admin.horario.form', [
                     'action' => route('admin.horario.store'),
                     'docentes' => $docentes,
-                    'unidades' => $unidades,
+                
                     'secciones' => [],
                     'periodos' => $periodos,
                     'btnText' => 'Guardar Horario',

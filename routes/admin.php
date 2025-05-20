@@ -37,6 +37,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
         Route::get('/profesores/export', [ProfesorController::class, 'export'])->name('admin.profesores.export');
         Route::resource('/horario', HorarioController::class);
         Route::get('/horario/aulas/{sede}', [HorarioController::class, 'aulasPorSede'])->name('horario.aulas');
+            Route::get('/horario/unidadesCurriculares/{periodo}', [HorarioController::class, 'unidadesCurriculares'])->name('horario.unidadesCurriculares');
 
         Route::resource('/docente', DocenteController::class);
         Route::resource('/periodo-academico', PeriodoAcademicoController::class);

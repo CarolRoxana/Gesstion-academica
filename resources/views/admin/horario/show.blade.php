@@ -20,6 +20,11 @@
                 <li class="list-group-item"><strong>Período Académico:</strong>
                     {{ $horario->periodoAcademico->periodo }}</li>
                 <li class="list-group-item"><strong>Sede:</strong> {{ $horario->sede }}</li>
+
+                {{-- COLOCAR MODULO Y PISO --}}
+                <li class="list-group-item"><strong>Módulo:</strong> {{ $horario->modulo }}</li>
+                <li class="list-group-item"><strong>Piso:</strong> {{ $horario->piso }}</li>
+
                 <li class="list-group-item"><strong>Aula:</strong>
                     @if ($horario->sede === 'Atlantico')
                         {{ \App\Helpers\ArrayHelper::descripcionAulaAtlanticoPorId($horario->aula_id) }}
@@ -27,7 +32,6 @@
                         {{ \App\Helpers\ArrayHelper::descripcionAulaVillasiaPorId($horario->aula_id) }}
                     @endif
                 </li>
-
             </ul>
         </div>
     </div>

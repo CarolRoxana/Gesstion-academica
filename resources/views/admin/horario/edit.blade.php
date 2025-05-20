@@ -27,7 +27,7 @@
                     'action' => route('admin.horario.update', $horario->id),
                     'method' => 'PUT',
                     'docentes' => $docentes,
-                    'unidades' => $unidades,
+                    "unidades" => $unidades,
                     'secciones' => $secciones,
                     'periodos' => $periodos,
                     'horario' => $horario,
