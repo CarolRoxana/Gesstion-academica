@@ -134,7 +134,7 @@ class HorarioController extends Controller
             $mensaje = "Ya existe un horario para la sección '{$conflictoSeccion->seccion_nombre}' ";
             $mensaje .= "y unidad curricular '{$conflictoSeccion->unidad_nombre}' ";
             $mensaje .= "asignado al docente {$conflictoSeccion->nombre} {$conflictoSeccion->apellido} ";
-          $mensaje .= "de {$validated['hora_inicio']} a {$validated['hora_finalizacion']} que se cruza con este.";
+            $mensaje .= "de {$validated['hora_inicio']} a {$validated['hora_finalizacion']} que se cruza con este.";
             return back()->withErrors(['conflicto' => $mensaje])->withInput();
         }
 
@@ -157,13 +157,19 @@ class HorarioController extends Controller
                         $q->where('hora_inicio', '<=', $inicio)
                             ->where('hora_finalizacion', '>=', $fin);
                     });
-            })->exists();
+            })
+            ->with(['docente',])
+            ->first();
+
         if ($conflictoSede) {
-            return back()->withErrors(['conflicto' => 'Ya existe un horario para esa aula que se cruza con este.'])->withInput();
+            $mensaje = "Ya existe un horario para esa aula que se cruza con este.";
+            $mensaje .= " Docente: {$conflictoSede->docente->nombre} {$conflictoSede->docente->apellido}";
+            $mensaje .= " Aula: {$conflictoSede->aula_id}";
+            $mensaje .= " {$conflictoSede->modulo}, Piso: {$conflictoSede->piso}";
+            $mensaje .= " Horario: {$validated["hora_inicio"]} - {$validated['hora_finalizacion']}";
+            return back()->withErrors(['conflicto' => $mensaje])->withInput();
         }
 
-        //VALIDA QUE 1 DOCENTE NO USE EL AULA EL MISMO DIA Y HORA EN EL MISMO MODULO Y PISO EN UN MISMO PERIODO ACADEMICO
-        // Y ESTEN DENTRO DE LA MISMA SEDE 
 
 
         //dd("hola");
