@@ -10,10 +10,7 @@ return new class extends Migration
     {
         Schema::create('servicio_comunitarios', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre_estudiante');
-            $table->string('apellido_estudiante');
-            $table->string('cedula');
-            $table->string('carrera');
+            $table->json('estudiantes');
             $table->string('titulo_servicio');
             $table->string('trabajo_servicio');
             $table->unsignedBigInteger('docente_id');

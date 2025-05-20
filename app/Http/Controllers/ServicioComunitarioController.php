@@ -30,24 +30,29 @@ class ServicioComunitarioController extends Controller
 
     public function store(Request $request)
     {
-        $rules = [
-            'nombre_estudiante'   => 'required|string|max:255',
-            'apellido_estudiante' => 'required|string|max:255',
-            'cedula'              => 'required|string|max:20',
-            'carrera'             => 'required|string|max:100',
-            'titulo_servicio'     => 'required|string|max:255',
-            'trabajo_servicio'    => 'required|file|mimes:pdf|max:10240',
-            'docente_id'          => 'required|exists:docentes,id',
-            'estatus'             => 'required|in:proceso,pendiente,aprobado,rechazado',
-            'fecha_ingreso'       => 'required|date',
-        ];
-        $data = $request->validate($rules);
+        $request->validate([
+        'estudiantes' => 'required|array|min:1',
+        'estudiantes.*.nombre' => 'required|string|max:255',
+        'estudiantes.*.apellido' => 'required|string|max:255',
+        'estudiantes.*.cedula' => 'required|string|max:255',
+        'estudiantes.*.carrera' => 'required|string|max:255',
+        'titulo_servicio' => 'required|string|max:255',
+        'trabajo_servicio' => 'required|string|max:255',
+        'docente_id' => 'required|exists:docentes,id',
+        'estatus' => 'required|string|max:255',
+        'fecha_ingreso' => 'required|date',
+    ]);
 
-        $data['trabajo_servicio'] = $request->file('trabajo_servicio')->store('servicios', 'public');
+    ServicioComunitario::create([
+        'estudiantes' => $request->estudiantes,
+        'titulo_servicio' => $request->titulo_servicio,
+        'trabajo_servicio' => $request->trabajo_servicio,
+        'docente_id' => $request->docente_id,
+        'estatus' => $request->estatus,
+        'fecha_ingreso' => $request->fecha_ingreso,
+    ]);
 
-        ServicioComunitario::create($data);
-
-        return redirect()->route('admin.servicio_comunitario.index')->with('success', 'Servicio comunitario registrado.');
+    return redirect()->route('servicio-comunitario.index')->with('success', 'Servicio comunitario registrado con éxito.');
     }
 
     public function edit(ServicioComunitario $servicio)

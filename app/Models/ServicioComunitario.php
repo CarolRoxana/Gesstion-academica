@@ -10,17 +10,18 @@ class ServicioComunitario extends Model
     use HasFactory;
     
     protected $table = 'servicio_comunitarios';
-
+    
     protected $fillable = [
-        'nombre_estudiante',
-        'apellido_estudiante',
-        'cedula',
-        'carrera',
+        'estudiantes',
         'titulo_servicio',
         'trabajo_servicio',
         'docente_id',
         'estatus',
         'fecha_ingreso',
+    ];
+
+    protected $casts = [
+        'estudiantes' => 'array',
     ];
 
     public function docente()

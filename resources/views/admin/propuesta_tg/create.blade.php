@@ -1,7 +1,9 @@
 <x-admin>
     @section('title', 'Crear Propuesta TG')
+
     <div class="card">
         <div class="card-body">
+
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -11,32 +13,44 @@
                     </ul>
                 </div>
             @endif
+
             <form action="{{ route('admin.propuesta_tg.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="form-group">
-                    <label>Nombre del Tesista</label>
-                    <input type="text" name="nombre_tesista" class="form-control" value="{{ old('nombre_tesista') }}" required>
+
+                <h5 class="fw-bold mb-3">Estudiantes que realizarán el trabajo</h5>
+
+                <div id="estudiantes-container">
+                    <div class="estudiante border p-3 rounded mb-3">
+                        <div class="form-group mb-2">
+                            <label>Nombre</label>
+                            <input type="text" name="estudiantes[0][nombre]" class="form-control" required>
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label>Apellido</label>
+                            <input type="text" name="estudiantes[0][apellido]" class="form-control" required>
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label>Cédula</label>
+                            <input type="text" name="estudiantes[0][cedula]" class="form-control" required>
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label>Carrera</label>
+                            <select name="estudiantes[0][carrera]" class="form-control" required>
+                                <option value="">Seleccione una carrera</option>
+                                @foreach ($carreras as $carrera)
+                                    <option value="{{ $carrera }}">{{ $carrera }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Apellido del Tesista</label>
-                    <input type="text" name="apellido_tesista" class="form-control" value="{{ old('apellido_tesista') }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Cédula</label>
-                    <input type="text" name="cedula" class="form-control" value="{{ old('cedula') }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Carrera</label>
-                    <select name="carrera" class="form-control" required>
-                        <option value="">Seleccione una carrera</option>
-                        @foreach ($carreras as $carrera)
-                            <option value="{{ $carrera }}">{{ $carrera }}</option>
-                        @endforeach
-                    </select>
-                </div>
+                <button type="button" class="btn btn-outline-primary btn-sm mb-3" id="agregar-estudiante">
+                    + Agregar otro estudiante
+                </button>
 
                 <div class="form-group">
                     <label>Título de la Propuesta</label>
@@ -72,9 +86,51 @@
                     <input type="file" name="propuesta" class="form-control" accept="application/pdf" required>
                 </div>
 
-                <button type="submit" class="btn btn-success">Guardar</button>
+                <button type="submit" class="btn btn-success mt-3">Guardar</button>
             </form>
 
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        let estudianteIndex = 1;
+
+        document.getElementById('agregar-estudiante').addEventListener('click', () => {
+            const container = document.getElementById('estudiantes-container');
+
+            const html = `
+            <div class="estudiante border p-3 rounded mb-3">
+                <div class="form-group mb-2">
+                    <label>Nombre</label>
+                    <input type="text" name="estudiantes[${estudianteIndex}][nombre]" class="form-control" required>
+                </div>
+
+                <div class="form-group mb-2">
+                    <label>Apellido</label>
+                    <input type="text" name="estudiantes[${estudianteIndex}][apellido]" class="form-control" required>
+                </div>
+
+                <div class="form-group mb-2">
+                    <label>Cédula</label>
+                    <input type="text" name="estudiantes[${estudianteIndex}][cedula]" class="form-control" required>
+                </div>
+
+                <div class="form-group mb-2">
+                    <label>Carrera</label>
+                    <select name="estudiantes[${estudianteIndex}][carrera]" class="form-control" required>
+                        <option value="">Seleccione una carrera</option>
+                        @foreach ($carreras as $carrera)
+                            <option value="{{ $carrera }}">{{ $carrera }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            `;
+
+            container.insertAdjacentHTML('beforeend', html);
+            estudianteIndex++;
+        });
+    </script>
+    @endpush
 </x-admin>

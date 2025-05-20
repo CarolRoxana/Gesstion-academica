@@ -3,7 +3,6 @@
 
     @section('content_header')
         <div class="d-flex justify-content-between align-items-center">
-
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item">
@@ -19,7 +18,6 @@
         </div>
     @endsection
 
-
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
@@ -27,10 +25,9 @@
         </div>
     @endif
 
-
     <div class="card shadow-sm border-0">
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <a href="{{ route('admin.servicio_comunitario.create') }}"  class="btn btn-sm btn-success">
+            <a href="{{ route('admin.servicio_comunitario.create') }}" class="btn btn-sm btn-success">
                 Nuevo servicio
             </a>
         </div>
@@ -59,7 +56,6 @@
                                 };
                             @endphp
                             <tr>
-
                                 <td>
                                     {{ $servicio->nombre_estudiante }} {{ $servicio->apellido_estudiante }}<br>
                                 </td>
@@ -83,23 +79,27 @@
                                 <td>{{ \Carbon\Carbon::parse($servicio->fecha_ingreso)->format('d/m/Y') }}</td>
 
                                 <td class="text-end">
-                                    <a  href="{{ route('admin.servicio_comunitario.show',  $servicio->id) }}"
-                                        class="btn btn-sm btn-success" title="Ver detalle">
+                                    <a href="{{ route('admin.servicio_comunitario.show',  $servicio->id) }}"
+                                       class="btn btn-sm btn-success" title="Ver detalle">
                                         Ver
                                     </a>
 
-                                    <a  href="{{ route('admin.servicio_comunitario.edit',  $servicio->id) }}"
-                                        class="btn btn-sm btn-primary" title="Editar">
+                                    <a href="{{ route('admin.servicio_comunitario.edit',  $servicio->id) }}"
+                                       class="btn btn-sm btn-primary" title="Editar">
                                         Editar
                                     </a>
 
-                                    <form action="{{ route('admin.servicio_comunitario.destroy', $servicio) }}" method="POST"
-                                        onsubmit="return confirm('¿Estás seguro de eliminar este registro?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
-                                    </form>
+                                    <!-- Botón que abre el modal -->
+                                    <button
+                                        type="button"
+                                        class="btn btn-sm btn-danger"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal{{ $servicio->id }}"
+                                    >
+                                        Eliminar
+                                    </button>
 
+                                    <!-- Modal con formulario de eliminación -->
                                     <div class="modal fade" id="deleteModal{{ $servicio->id }}" tabindex="-1">
                                         <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content">
@@ -117,7 +117,11 @@
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                                         Cancelar
                                                     </button>
-                                                     
+                                                    <form action="{{ route('admin.servicio_comunitario.destroy', $servicio) }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>

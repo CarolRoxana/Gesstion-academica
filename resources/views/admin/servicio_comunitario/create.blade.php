@@ -29,44 +29,39 @@
 
                 <h5 class="fw-bold mb-3">Datos del estudiante</h5>
 
-                    <div class="form-group mb-3">
-                        <label class="form-label">Nombre </label>
-                        <input  type="text" name="nombre_estudiante"
-                                value="{{ old('nombre_estudiante') }}"
-                                class="form-control @error('nombre_estudiante') is-invalid @enderror"
-                                required>
-                    </div>
+                <div id="estudiantes-container">
+                    <div class="estudiante-item border p-3 rounded mb-3">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" name="estudiantes[0][nombre_estudiante]" class="form-control" required>
+                        </div>
 
-                    <div class="form-group mb-3">
-                        <label class="form-label">Apellido </label>
-                        <input  type="text" name="apellido_estudiante"
-                                value="{{ old('apellido_estudiante') }}"
-                                class="form-control @error('apellido_estudiante') is-invalid @enderror"
-                                required>
-                    </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label">Apellido</label>
+                            <input type="text" name="estudiantes[0][apellido_estudiante]" class="form-control" required>
+                        </div>
 
-                    <div class="form-group mb-3">
-                        <label class="form-label">Cédula </label>
-                        <input  type="text" name="cedula"
-                                value="{{ old('cedula') }}"
-                                class="form-control @error('cedula') is-invalid @enderror"
-                                required>
-                    </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label">Cédula</label>
+                            <input type="text" name="estudiantes[0][cedula]" class="form-control" required>
+                        </div>
 
-                    <div class="form-group mb-3">
-                        <label>Carrera </label>
-                        <select name="carrera"
-                                class="form-control @error('carrera') is-invalid @enderror"
-                                required>
-                            <option value="">Seleccione una carrera</option>
-                            @foreach ($carreras as $c)
-                                <option value="{{ $c }}"
-                                        {{ old('carrera') == $c ? 'selected' : '' }}>
-                                    {{ $c }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <div class="form-group mb-3">
+                            <label>Carrera</label>
+                            <select name="estudiantes[0][carrera]" class="form-control" required>
+                                <option value="">Seleccione una carrera</option>
+                                @foreach ($carreras as $c)
+                                    <option value="{{ $c }}">{{ $c }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
+                </div>
+
+                <button type="button" class="btn btn-sm btn-outline-primary mb-4" id="add-estudiante">
+                    + Agregar otro estudiante
+                </button>
+ 
                 <h5 class="fw-bold mt-4 mb-3">Información del servicio</h5>
 
                 <div class="mb-3">
@@ -106,7 +101,7 @@
                                 class="form-control @error('estatus') is-invalid @enderror"
                                 required>
                             @php
-                                $estatuses = ['pendiente','proceso', 'aprobado', 'rechazado'];
+                                $estatuses = ['proceso','proceso', 'aprobado', 'rechazado'];
                             @endphp
                             @foreach ($estatuses as $st)
                                 <option value="{{ $st }}"
@@ -132,3 +127,24 @@
         </div>
     </div>
 </x-admin>
+@push('scripts')
+<script>
+    let index = 1;
+    const addBtn = document.getElementById('add-estudiante');
+    const container = document.getElementById('estudiantes-container');
+
+    addBtn.addEventListener('click', () => {
+        const clone = container.firstElementChild.cloneNode(true);
+
+        clone.querySelectorAll('input, select').forEach(el => {
+            const name = el.getAttribute('name');
+            const newName = name.replace(/\[\d+\]/, `[${index}]`);
+            el.setAttribute('name', newName);
+            el.value = '';
+        });
+
+        container.appendChild(clone);
+        index++;
+    });
+</script>
+@endpush
