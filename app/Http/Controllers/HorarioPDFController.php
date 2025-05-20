@@ -21,12 +21,11 @@ class HorarioPDFController extends Controller
         //SEMESTRE
         //SECCION
 
-
-
         $horarios = DB::table('horarios')
             ->join('docentes', 'horarios.docente_id', '=', 'docentes.id')
             ->join('unidad_curricular', 'horarios.unidad_curricular_id', '=', 'unidad_curricular.id')
             ->join('seccions', 'horarios.seccion_id', '=', 'seccions.id')
+
             ->join('unidad_curricular_periodo_academico', function ($join) {
                 $join->on('unidad_curricular_periodo_academico.unidad_curricular_id', '=', 'horarios.unidad_curricular_id')
                     ->on('unidad_curricular_periodo_academico.periodo_academico_id', '=', 'horarios.periodo_academico_id');
@@ -62,10 +61,10 @@ class HorarioPDFController extends Controller
                 'unidad_curricular_periodo_academico.modalidad as modalidad'
             )
             ->distinct()
-            ->where('horarios.periodo_academico_id', 2)
+            ->where('horarios.periodo_academico_id', 1)
             ->orderBy('horarios.sede')
             ->orderBy('unidad_curricular.semestre')
-            ->orderBy('dia_orden') // Orden por día usando el alias creado
+            ->orderBy('dia_orden')
             ->orderBy('seccion_nombre')
             ->orderBy('horarios.hora_inicio')
             ->orderBy('horarios.periodo_academico_id')
@@ -74,7 +73,7 @@ class HorarioPDFController extends Controller
 
 
 
-      
+
         $agrupados = [];
 
         foreach ($horarios as $horario) {

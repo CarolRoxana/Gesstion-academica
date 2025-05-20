@@ -10,20 +10,20 @@
         </div>
 
         <div class="form-group">
-            <label>Unidad Curricular (número)</label>
+            <label>Unidad de crédito</label>
             <input type="number" name="unidad_curricular" class="form-control" required>
         </div>
 
         <div class="form-group">
             <label for="carrera">Carrera</label>
             <select name="carrera" class="form-control" required>
-                <option value="">Seleccione</option>
-                @foreach($carreras as $carrera)
-                    <option value="{{ $carrera }}">{{ $carrera }}</option>
+                <option value="">Seleccione una carrera</option>
+                @foreach ($carreras as $carrera)
+                    <option value="{{ $carrera->id }}">{{ $carrera->nombre }}</option>
                 @endforeach
             </select>
         </div>
-        
+
         <div class="form-group">
             <label>Semestre</label>
             <select name="semestre" class="form-control" required>
@@ -50,24 +50,26 @@
         <button class="btn btn-primary mt-3">Guardar</button>
     </form>
 
-    @push('scripts')
-    <script>
-        document.getElementById('add-seccion').addEventListener('click', function () {
-            const container = document.getElementById('secciones-container');
-            const div = document.createElement('div');
-            div.className = 'd-flex mb-2';
-            div.innerHTML = `
-                <input type="text" name="secciones[]" class="form-control" placeholder="Ej: 2" required>
-                <button type="button" class="btn btn-danger ml-2 remove-seccion">&times;</button>
-            `;
-            container.appendChild(div);
-        });
+  
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('add-seccion').addEventListener('click', function() {
+                    const container = document.getElementById('secciones-container');
+                    const div = document.createElement('div');
+                    div.className = 'd-flex mb-2';
+                    div.innerHTML = `
+            <input type="text" name="secciones[]" class="form-control" placeholder="Ej: 2" required>
+            <button type="button" class="btn btn-danger ml-2 remove-seccion">&times;</button>
+        `;
+                    container.appendChild(div);
+                });
 
-        document.addEventListener('click', function (e) {
-            if (e.target && e.target.classList.contains('remove-seccion')) {
-                e.target.parentElement.remove();
-            }
-        });
-    </script>
-    @endpush
+                document.addEventListener('click', function(e) {
+                    if (e.target && e.target.classList.contains('remove-seccion')) {
+                        e.target.parentElement.remove();
+                    }
+                });
+            });
+        </script>
+    
 </x-admin>

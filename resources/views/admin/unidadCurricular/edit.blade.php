@@ -11,7 +11,7 @@
         </div>
 
         <div class="form-group">
-            <label>Unidad Curricular (número)</label>
+        <label>Unidad de crédito</label>
             <input type="number" name="unidad_curricular" class="form-control" value="{{ $unidad_curricular->unidad_curricular }}" required>
         </div>
 
@@ -19,8 +19,8 @@
             <label for="carrera">Carrera</label>
             <select name="carrera" class="form-control" required>
                 @foreach($carreras as $carrera)
-                    <option value="{{ $carrera }}" {{ $unidad_curricular->carrera === $carrera ? 'selected' : '' }}>
-                        {{ $carrera }}
+                    <option value="{{ $carrera->id }}" {{ $unidad_curricular->carrera === $carrera->id ? 'selected' : '' }}>
+                        {{ $carrera->nombre }}
                     </option>
                 @endforeach
             </select>

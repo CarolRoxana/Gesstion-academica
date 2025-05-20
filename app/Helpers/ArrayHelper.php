@@ -5,6 +5,27 @@ namespace App\Helpers;
 class ArrayHelper
 {
 
+
+    public static function carreras()
+    {
+        return [
+            (object) ['id' => '1', 'nombre' => 'Ingeniería en Informática'],
+            (object) ['id' => '2', 'nombre' => 'Ingeniería Industrial'],
+
+        ];
+    }
+
+    public static function carrerasPorId($id)
+    {
+        foreach (self::carreras() as $carrera) {
+            if ((string)$carrera->id === (string)$id) {
+                return $carrera->nombre;
+            }
+        }
+        return null;
+    }
+
+
     public static $pisos = [
 
         "Planta Baja",

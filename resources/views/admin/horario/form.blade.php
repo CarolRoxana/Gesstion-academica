@@ -4,7 +4,7 @@
         <option value="">Seleccione un docente</option>
         @foreach ($docentes as $docente)
             <option value="{{ $docente->id }}"
-                {{ isset($horario) && $horario->docente_id == $docente->id ? 'selected' : '' }}>
+                {{ old('docente_id', isset($horario) ? $horario->docente_id : '') == $docente->id ? 'selected' : '' }}>
                 {{ $docente->nombre }} {{ $docente->apellido }}
             </option>
         @endforeach
@@ -16,7 +16,8 @@
     <select name="dia" id="dia" class="form-control" required>
         <option value="">Seleccione un día</option>
         @foreach (['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'] as $dia)
-            <option value="{{ $dia }}" {{ isset($horario) && $horario->dia == $dia ? 'selected' : '' }}>
+            <option value="{{ $dia }}"
+                {{ old('dia', isset($horario) ? $horario->dia : '') == $dia ? 'selected' : '' }}>
                 {{ $dia }}
             </option>
         @endforeach
@@ -29,29 +30,27 @@
         <option value="">Seleccione un bloque</option>
         @php
             use Carbon\Carbon;
+            $horarioHoraInicio = isset($horario) ? Carbon::parse($horario->hora_inicio)->format('H:i') : null;
         @endphp
 
         @foreach ($bloques as $bloque)
             @php
-                // Convierte el valor del horario a H:i para comparar
-                $horarioHoraInicio = isset($horario) ? Carbon::parse($horario->hora_inicio)->format('H:i') : null;
-                // Convierte el bloque a H:i
                 $bloqueStart = Carbon::parse($bloque['start'])->format('H:i');
             @endphp
             <option value="{{ $bloque['start'] }}"
-                {{ $horarioHoraInicio === $bloqueStart ? 'selected' : (old('hora_inicio') == $bloque['start'] ? 'selected' : '') }}>
+                {{ old('hora_inicio', $horarioHoraInicio) == $bloqueStart ? 'selected' : '' }}>
                 {{ $bloque['start'] }} - {{ $bloque['end'] }}
             </option>
         @endforeach
     </select>
 </div>
 
+
 <div class="form-group">
     <label for="hora_finalizacion">Hora de finalización</label>
     <select name="hora_finalizacion" id="hora_finalizacion" class="form-control" required>
         <option value="">Seleccione un bloque</option>
         @php
-
             $horarioHoraFin = isset($horario) ? Carbon::parse($horario->hora_finalizacion)->format('H:i') : null;
         @endphp
 
@@ -60,7 +59,7 @@
                 $bloqueEnd = Carbon::parse($bloque['end'])->format('H:i');
             @endphp
             <option value="{{ $bloque['end'] }}"
-                {{ $horarioHoraFin === $bloqueEnd ? 'selected' : (old('hora_finalizacion') == $bloque['end'] ? 'selected' : '') }}>
+                {{ old('hora_finalizacion', $horarioHoraFin) == $bloqueEnd ? 'selected' : '' }}>
                 {{ $bloque['start'] }} - {{ $bloque['end'] }}
             </option>
         @endforeach
@@ -74,7 +73,7 @@
         <option value="">Seleccione un período</option>
         @foreach ($periodos as $periodo)
             <option value="{{ $periodo->id }}"
-                {{ isset($horario) && $horario->periodo_academico_id == $periodo->id ? 'selected' : '' }}>
+                {{ old('periodo_academico_id', isset($horario) ? $horario->periodo_academico_id : '') == $periodo->id ? 'selected' : '' }}>
                 {{ $periodo->periodo }}
             </option>
         @endforeach
@@ -88,7 +87,7 @@
         @isset($horario)
             @foreach ($unidades as $unidad)
                 <option value="{{ $unidad['id'] }}"
-                    {{ isset($horario) && $horario->unidad_curricular_id == $unidad['id'] ? 'selected' : '' }}>
+                    {{ old('unidad_curricular_id', isset($horario) ? $horario->unidad_curricular_id : '') == $unidad['id'] ? 'selected' : '' }}>
                     {{ $unidad['nombre'] }}
                 </option>
             @endforeach
@@ -100,13 +99,12 @@
 <div class="form-group">
     <label for="seccion_id">Sección</label>
     <select name="seccion_id" id="seccion_id" class="form-control" required>
-        @if (isset($secciones) && isset($horario))
+        @if (isset($secciones))
             @foreach ($secciones as $seccion)
-                @if ($seccion->unidad_curricular_id == $horario->unidad_curricular_id)
-                    <option value="{{ $seccion->id }}" {{ $horario->seccion_id == $seccion->id ? 'selected' : '' }}>
-                        {{ $seccion->nombre }}
-                    </option>
-                @endif
+                <option value="{{ $seccion->id }}"
+                    {{ old('seccion_id', isset($horario) ? $horario->seccion_id : '') == $seccion->id ? 'selected' : '' }}>
+                    {{ $seccion->nombre }}
+                </option>
             @endforeach
         @else
             <option value="">Seleccione una unidad curricular primero</option>
@@ -115,13 +113,13 @@
 </div>
 
 
-
 <div class="form-group">
     <label for="sede">Sede</label>
     <select name="sede" id="sede" class="form-control" required>
         <option value="">Seleccione una sede</option>
         @foreach ($sedes as $sede)
-            <option value="{{ $sede }}" {{ isset($horario) && $horario->sede == $sede ? 'selected' : '' }}>
+            <option value="{{ $sede }}"
+                {{ old('sede', isset($horario) ? $horario->sede : '') == $sede ? 'selected' : '' }}>
                 {{ $sede }}
             </option>
         @endforeach
@@ -137,7 +135,7 @@
         @isset($horario)
             @foreach ($aulas as $aula)
                 <option value="{{ $aula->id }}"
-                    {{ isset($horario) && $horario->aula_id == $aula->id ? 'selected' : '' }}>
+                    {{ old('aula_id', isset($horario) ? $horario->aula_id : '') == $aula->id ? 'selected' : '' }}>
                     {{ $aula->descripcion }}
                 </option>
             @endforeach
@@ -153,7 +151,7 @@
         <option value="">Seleccione un módulo</option>
         @foreach ($modulos as $modulo)
             <option value="{{ $modulo }}"
-                {{ isset($horario) && $horario->modulo == $modulo ? 'selected' : '' }}>
+                {{ old('modulo', isset($horario) ? $horario->modulo : '') == $modulo ? 'selected' : '' }}>
                 {{ $modulo }}
             </option>
         @endforeach
@@ -165,12 +163,66 @@
     <select name="piso" class="form-control">
         <option value="">Seleccione un piso</option>
         @foreach ($pisos as $piso)
-            <option value="{{ $piso }}" {{ isset($horario) && $horario->piso == $piso ? 'selected' : '' }}>
+            <option value="{{ $piso }}"
+                {{ old('piso', isset($horario) ? $horario->piso : '') == $piso ? 'selected' : '' }}>
                 {{ $piso }}
             </option>
         @endforeach
     </select>
 </div>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Recupera los valores antiguos de Laravel (old)
+        const oldUnidad =
+            "{{ old('unidad_curricular_id', isset($horario) ? $horario->unidad_curricular_id : '') }}";
+        const oldSeccion = "{{ old('seccion_id', isset($horario) ? $horario->seccion_id : '') }}";
+        const oldAula = "{{ old('aula_id', isset($horario) ? $horario->aula_id : '') }}";
+        const oldPeriodo =
+            "{{ old('periodo_academico_id', isset($horario) ? $horario->periodo_academico_id : '') }}";
+        const oldSede = "{{ old('sede', isset($horario) ? $horario->sede : '') }}";
+
+        // Si hay old para periodo, dispara el change para cargar unidades curriculares y selecciona la opción correcta
+        if (oldPeriodo) {
+            const periodoSelect = document.getElementById('periodo_academico_id');
+            periodoSelect.value = oldPeriodo;
+            periodoSelect.dispatchEvent(new Event('change'));
+
+            // Espera a que se carguen las unidades curriculares por AJAX
+            setTimeout(function() {
+                if (oldUnidad) {
+                    const unidadSelect = document.getElementById('unidad_curricular_id');
+                    unidadSelect.value = oldUnidad;
+                    unidadSelect.dispatchEvent(new Event('change'));
+                }
+            }, 500);
+        }
+
+        // Espera a que se carguen las secciones por AJAX
+        setTimeout(function() {
+            if (oldSeccion) {
+                const seccionSelect = document.getElementById('seccion_id');
+                seccionSelect.value = oldSeccion;
+            }
+        }, 1000);
+
+        // Si hay old para sede, dispara el change para cargar aulas y selecciona la opción correcta
+        if (oldSede) {
+            const sedeSelect = document.getElementById('sede');
+            sedeSelect.value = oldSede;
+            sedeSelect.dispatchEvent(new Event('change'));
+
+            setTimeout(function() {
+                if (oldAula) {
+                    const aulaSelect = document.getElementById('aula_id');
+                    aulaSelect.value = oldAula;
+                }
+            }, 500);
+        }
+    });
+</script>
 
 
 {{-- ELEMENTOS PARA MANIPULAR LOS BLOQUES DE HORA --}}
