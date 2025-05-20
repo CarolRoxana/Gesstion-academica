@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(CursoInterSemestralSeeder::class);
         // $this->call(LicenciaDocenteSeeder::class);
         // $this->call(IncidenteEstudiantilSeeder::class);
-        $this->call(PeriodoAcademicoSeeder::class);
+        // $this->call(PeriodoAcademicoSeeder::class);
         // $this->call(UnidadCurricularSeeder::class);
         // $this->call(UnidadCurricularPeriodoAcademicoSeeder::class);
         // $this->call(DesempenoDocenteSeeder::class);
