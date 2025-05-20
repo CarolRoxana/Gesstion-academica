@@ -17,22 +17,22 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(DocenteSeeder::class);
-        $this->call(CursoInterSemestralSeeder::class);
-        $this->call(LicenciaDocenteSeeder::class);
-        $this->call(IncidenteEstudiantilSeeder::class);
+        // $this->call(CursoInterSemestralSeeder::class);
+        // $this->call(LicenciaDocenteSeeder::class);
+        // $this->call(IncidenteEstudiantilSeeder::class);
         $this->call(PeriodoAcademicoSeeder::class);
-        $this->call(UnidadCurricularSeeder::class);
-        $this->call(UnidadCurricularPeriodoAcademicoSeeder::class);
-        $this->call(DesempenoDocenteSeeder::class);
-        $this->call(PlanEvaluacionDocenteSeeder::class);
-        $this->call(TemarioDocenteSeeder::class);
-        $this->call(TalentoHumanoSeeder::class);
-        $this->call(IncidenteEstudiantilSeeder::class);
-        $this->call(HorarioSeeder::class);
-        $this->call(PropuestaTgSeeder::class);
-        $this->call(PropuestaTpSeeder::class);
-        $this->call(LineamientoDocenteSeeder::class);
-        $this->call(DocenteRoleSeeder::class);
+        // $this->call(UnidadCurricularSeeder::class);
+        // $this->call(UnidadCurricularPeriodoAcademicoSeeder::class);
+        // $this->call(DesempenoDocenteSeeder::class);
+        // $this->call(PlanEvaluacionDocenteSeeder::class);
+        // $this->call(TemarioDocenteSeeder::class);
+        // $this->call(TalentoHumanoSeeder::class);
+        // $this->call(IncidenteEstudiantilSeeder::class);
+        // $this->call(HorarioSeeder::class);
+        // $this->call(PropuestaTgSeeder::class);
+        // $this->call(PropuestaTpSeeder::class);
+        // $this->call(LineamientoDocenteSeeder::class);
+        // $this->call(DocenteRoleSeeder::class);
 
 
     }
