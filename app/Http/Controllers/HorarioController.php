@@ -102,7 +102,9 @@ class HorarioController extends Controller
             })->exists();
 
         if ($conflictoDocente) {
-            return back()->withErrors(['conflicto' => 'El docente ya tiene un horario en ese rango de tiempo.'])->withInput();
+            return back()->withErrors([
+                'conflicto' => "El docente ya tiene un horario en ese rango de tiempo ({$validated['hora_inicio']} - {$validated['hora_finalizacion']})."
+            ])->withInput();
         }
 
         // Validación 2: En la misma sección, no debe haber otra materia a la misma hora ese día en el periodo academico y debes tener en cuenta el semestre
@@ -111,6 +113,7 @@ class HorarioController extends Controller
         $conflictoSeccion = DB::table('horarios')
             ->join('unidad_curricular', 'horarios.unidad_curricular_id', '=', 'unidad_curricular.id')
             ->join('seccions', 'horarios.seccion_id', '=', 'seccions.id')
+            ->join('docentes', 'horarios.docente_id', '=', 'docentes.id')
             ->where('seccions.nombre', $seccionId)
             ->where('horarios.dia', $dia)
             ->where('horarios.periodo_academico_id', $validated['periodo_academico_id'])
@@ -122,11 +125,17 @@ class HorarioController extends Controller
                             ->where('horarios.hora_finalizacion', '>=', $fin);
                     });
             })
-            ->select('horarios.*', 'unidad_curricular.nombre as unidad_nombre', 'seccions.nombre as seccion_nombre')
+            ->select('horarios.*', 'unidad_curricular.nombre as unidad_nombre', 'seccions.nombre as seccion_nombre', "docentes.*",)
             ->first();
 
+        // dd($conflictoSeccion);
+
         if ($conflictoSeccion) {
-            return back()->withErrors(['conflicto' => 'Ya existe un horario para esa sección que se cruza con este.'])->withInput();
+            $mensaje = "Ya existe un horario para la sección '{$conflictoSeccion->seccion_nombre}' ";
+            $mensaje .= "y unidad curricular '{$conflictoSeccion->unidad_nombre}' ";
+            $mensaje .= "asignado al docente {$conflictoSeccion->nombre} {$conflictoSeccion->apellido} ";
+          $mensaje .= "de {$validated['hora_inicio']} a {$validated['hora_finalizacion']} que se cruza con este.";
+            return back()->withErrors(['conflicto' => $mensaje])->withInput();
         }
 
         // Validación 3: En la misma sede, no debe haber otra aula ocupada a la misma hora ese día en ese periodo academico
