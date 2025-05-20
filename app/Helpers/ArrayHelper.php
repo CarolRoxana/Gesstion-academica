@@ -4,6 +4,20 @@ namespace App\Helpers;
 
 class ArrayHelper
 {
+
+    public static $pisos = [
+
+        "Planta Baja",
+        "Piso 1",
+        "Piso 2",
+        "Piso 3",
+    ];
+
+    public static $modulos = [
+        'Módulo I',
+        'Módulo II',
+    ];
+
     public static $laboratorios = [
         'Laboratorio Informática Básica Módulo II Piso 2',
         'Laboratorio de Base de Datos-Redes-SO Módulo II Piso 2',
@@ -27,7 +41,7 @@ class ArrayHelper
         ['start' => '5:55 PM', 'end' => '6:45 PM'],
         ['start' => '6:50 PM', 'end' => '7:40 PM'],
         ['start' => '7:45 PM', 'end' => '8:35 PM'],
-        
+
 
     ];
 

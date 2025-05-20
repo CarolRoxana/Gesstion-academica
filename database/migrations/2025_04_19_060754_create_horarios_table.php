@@ -25,6 +25,8 @@ return new class extends Migration
             $table->foreign('periodo_academico_id')->references('id')->on('periodo_academico');
             $table->string('sede')->nullable(false);
             $table->unsignedTinyInteger('aula_id');
+            //agregar piso y modulo
+       
             $table->timestamps();
         });
     }

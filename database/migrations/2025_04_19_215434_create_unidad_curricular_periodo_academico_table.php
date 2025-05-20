@@ -18,6 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('docente_id')->nullable();
             $table->string('sede');
             $table->string('modalidad');
+            $table->string('piso')->nullable();
+            $table->string('modulo')->nullable();
             $table->foreign('unidad_curricular_id')->references('id')->on('unidad_curricular');
             $table->foreign('periodo_academico_id')->references('id')->on('periodo_academico');
             $table->foreign('docente_id')->references('id')->on('docentes');

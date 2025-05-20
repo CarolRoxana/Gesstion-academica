@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ArrayHelper;
 use App\Models\UnidadCurricularPeriodoAcademico;
 use App\Models\UnidadCurricular;
 use App\Models\PeriodoAcademico;
@@ -21,8 +22,12 @@ class UnidadCurricularPeriodoAcademicoController extends Controller
         $unidad_curricular = UnidadCurricular::all();
         $periodos = PeriodoAcademico::all();
         $docentes = Docente::all();
+        $sedes = ArrayHelper::sedes();
 
-        return view('admin\uc_periodo\create', compact('unidad_curricular', 'periodos', 'docentes'));
+        $modulos = ArrayHelper::$modulos;
+        $pisos = ArrayHelper::$pisos;
+
+        return view('admin\uc_periodo\create', compact('unidad_curricular', 'periodos', 'docentes', 'modulos', 'pisos', 'sedes'));
     }
 
     public function store(Request $request)
@@ -30,17 +35,23 @@ class UnidadCurricularPeriodoAcademicoController extends Controller
         $request->validate([
             'unidad_curricular_id' => 'required|exists:unidad_curricular,id',
             'periodo_academico_id' => 'required|exists:periodo_academico,id',
-           'docente_id' => 'nullable|exists:docentes,id',
+            'docente_id' => 'nullable|exists:docentes,id',
             'sede' => 'required|string|max:100',
             'modalidad' => 'required|in:Presencial,Virtual',
         ]);
-    
+
         UnidadCurricularPeriodoAcademico::create($request->only([
-            'unidad_curricular_id', 'periodo_academico_id', 'docente_id', 'sede', 'modalidad'
+            'unidad_curricular_id',
+            'periodo_academico_id',
+            'docente_id',
+            'sede',
+            'modalidad',
+            "piso",
+            "modulo",
         ]));
-    
+
         return redirect()->route('admin.unidad-curricular-periodo.index')
-        ->with('success', 'Registro creado exitosamente.');
+            ->with('success', 'Registro creado exitosamente.');
     }
 
     public function edit($id)
@@ -48,8 +59,11 @@ class UnidadCurricularPeriodoAcademicoController extends Controller
         $registro = UnidadCurricularPeriodoAcademico::findOrFail($id);
         $unidad_curricular = UnidadCurricular::all();
         $periodos = PeriodoAcademico::all();
+        $sedes = ArrayHelper::sedes();
+        $modulos = ArrayHelper::$modulos;
+        $pisos = ArrayHelper::$pisos;
 
-        return view('admin\uc_periodo\edit', compact('registro', 'unidad_curricular', 'periodos'));
+        return view('admin\uc_periodo\edit', compact('registro', 'unidad_curricular', 'periodos', 'modulos', 'pisos', "sedes"));
     }
 
     public function update(Request $request, $id)
@@ -67,7 +81,7 @@ class UnidadCurricularPeriodoAcademicoController extends Controller
         $registro->update($request->all());
 
         return redirect()->route('admin.unidad-curricular-periodo.index')
-        ->with('success', 'Registro actualizado exitosamente.');
+            ->with('success', 'Registro actualizado exitosamente.');
     }
 
     public function show($id)
@@ -82,6 +96,6 @@ class UnidadCurricularPeriodoAcademicoController extends Controller
         $registro->delete();
 
         return redirect()->route('admin.unidad-curricular-periodo.index')
-        ->with('success', 'Registro eliminado exitosamente.');
+            ->with('success', 'Registro eliminado exitosamente.');
     }
 }

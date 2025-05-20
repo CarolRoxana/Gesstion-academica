@@ -17,6 +17,8 @@ class UnidadCurricularPeriodoAcademico extends Model
         'docente_id',
         'sede',
         'modalidad',
+        'piso',
+        'modulo',
     ];
 
         public function unidadCurricular()

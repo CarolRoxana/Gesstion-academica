@@ -10,7 +10,7 @@
                     <label>Unidad Curricular</label>
                     <select name="unidad_curricular_id" class="form-control" required>
                         <option value="">Seleccione</option>
-                        @foreach($unidad_curricular as $uc)
+                        @foreach ($unidad_curricular as $uc)
                             <option value="{{ $uc->id }}">{{ $uc->nombre }}</option>
                         @endforeach
                     </select>
@@ -20,7 +20,7 @@
                     <label>Periodo Académico</label>
                     <select name="periodo_academico_id" class="form-control" required>
                         <option value="">Seleccione</option>
-                        @foreach($periodos as $periodo)
+                        @foreach ($periodos as $periodo)
                             <option value="{{ $periodo->id }}">{{ $periodo->periodo }}</option>
                         @endforeach
                     </select>
@@ -28,7 +28,13 @@
 
                 <div class="form-group">
                     <label>Sede</label>
-                    <input type="text" name="sede" class="form-control" required>
+                    <select name="sede" class="form-control" required>
+                        <option value="">Seleccione</option>
+                        @foreach ($sedes as $sede)
+                            <option value="{{ $sede }}">{{ $sede }}</option>
+                        @endforeach
+                    </select>
+
                 </div>
 
                 <div class="form-group">
@@ -37,6 +43,26 @@
                         <option value="">Seleccione</option>
                         <option value="Presencial">Presencial</option>
                         <option value="Virtual">Virtual</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Módulos</label>
+                    <select name="modulo" class="form-control">
+                        <option value="">Seleccione</option>
+                        @foreach ($modulos as $modulo)
+                            <option value="{{ $modulo }}">{{ $modulo }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Pisos</label>
+                    <select name="piso" class="form-control">
+                        <option value="">Seleccione</option>
+                        @foreach ($pisos as $piso)
+                            <option value="{{ $piso }}">{{ $piso }}</option>
+                        @endforeach
                     </select>
                 </div>
 

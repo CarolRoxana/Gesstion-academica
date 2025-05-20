@@ -28,6 +28,8 @@ class Horario extends Model
         'periodo_academico_id',
         'sede',
         "aula_id",
+        'piso',
+        'modulo',
     ];
 
     public function docente()
