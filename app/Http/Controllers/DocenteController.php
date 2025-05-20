@@ -53,6 +53,8 @@ class DocenteController extends Controller
         $desempenos = $docente->desempenos()->with(['unidadCurricularPeriodoAcademico.periodoAcademico', 'unidadCurricularPeriodoAcademico.unidadCurricular'])->get();
         $servicios = $docente->serviciosComunitarios()->latest('fecha_ingreso')->get();
         $lineamientos = $docente->lineamientos()->latest()->get();
+        $temarios = $docente->temarios()->latest('fecha_agregado')->get();
+        $evaluacionesDocente = $docente->evaluacionesDocente()->latest('fecha_evaluacion')->get();
         
         
 
