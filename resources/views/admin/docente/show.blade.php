@@ -411,66 +411,90 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
-                <!-- Temario -->
+
+                {{-- Temario del docente --}}
                 <div class="col-md-6 mb-4">
                     <div class="card h-100 border-0 shadow-sm">
                         <div class="card-header bg-light">
-                            <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>Temario</h5>
+                            <h5 class="mb-0">
+                                <i class="fas fa-file-alt me-2"></i>Temario del docente
+                            </h5>
                         </div>
+
                         <div class="card-body">
                             <ul class="list-group list-group-flush">
-                                @forelse($temarios as $t)
+                                @forelse ($temarios as $t)
                                     <li class="list-group-item d-flex justify-content-between align-items-start">
                                         <div class="ms-2 me-auto">
                                             <div class="fw-bold">
-                                                <a href="{{ route('admin.teamrio_docente.show', $t->id) }}">
-                                                    {{ $t->titulo_propuesta }}
+                                                {{-- ruta a la vista show del temario --}}
+                                                <a href="{{ route('admin.temario_docente.show', $t->id) }}">
+                                                    {{ $t->ucpa->unidadCurricular->nombre }}
+                                                    ({{ $t->ucpa->periodoAcademico->periodo }})
                                                 </a>
                                             </div>
-                                            <span class="text-muted">{{ $tg->nombre_tesista }} {{ $tg->apellido_tesista }}</span>
+                                            <small class="text-muted">
+                                                {{ \Illuminate\Support\Str::limit($t->contenido, 60) }}
+                                            </small>
                                         </div>
-                                        <span class="badge bg-success rounded-pill">{{ $tg->estatus }}</span>
+
+                                        <span class="badge bg-primary rounded-pill">
+                                            {{ \Carbon\Carbon::parse($t->fecha_agregado)->format('d/m/Y') }}
+                                        </span>
                                     </li>
                                 @empty
                                     <li class="list-group-item text-center text-muted">
-                                        <i class="fas fa-info-circle me-2"></i>No tiene temario agregado.
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        No tiene temarios registrados.
                                     </li>
                                 @endforelse
                             </ul>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Plan evaluación-->
+
+                {{-- Plan de evaluación --}}
                 <div class="col-md-6 mb-4">
                     <div class="card h-100 border-0 shadow-sm">
                         <div class="card-header bg-light">
-                            <h5 class="mb-0"><i class="fas fa-briefcase me-2"></i>Plan evaluación</h5>
+                            <h5 class="mb-0">
+                                <i class="fas fa-clipboard-check me-2"></i>Plan de evaluación
+                            </h5>
                         </div>
+
                         <div class="card-body">
                             <ul class="list-group list-group-flush">
-                                @forelse($propuestasTP as $tp)
+                                @forelse ($evaluacionesDocente as $ev)
                                     <li class="list-group-item d-flex justify-content-between align-items-start">
                                         <div class="ms-2 me-auto">
                                             <div class="fw-bold">
-                                                <a href="{{ route('admin.propuesta_tp.show', $tp->id) }}">
-                                                    {{ $tp->titulo_propuesta }}
+                                                {{-- ruta a la vista show del plan de evaluación --}}
+                                                <a href="{{ route('admin.plan_evaluacion_docente.show', $ev->id) }}">
+                                                    {{ $ev->ucpa->unidadCurricular->nombre }}
+                                                    ({{ $ev->ucpa->periodoAcademico->periodo }})
                                                 </a>
                                             </div>
-                                            <span class="text-muted">{{ $tp->nombre_pasante }} {{ $tp->apellido_pasante }}</span>
+                                            <small class="text-muted">
+                                                {{ $ev->tipo_evaluacion }} —
+                                                {{ $ev->porcentaje_evaluacion }} %
+                                            </small>
                                         </div>
-                                        <span class="badge bg-success rounded-pill">{{ $tp->estatus }}</span>
+
+                                        <span class="badge bg-primary rounded-pill">
+                                            {{ \Carbon\Carbon::parse($ev->fecha_evaluacion)->format('d/m/Y') }}
+                                        </span>
                                     </li>
                                 @empty
                                     <li class="list-group-item text-center text-muted">
-                                        <i class="fas fa-info-circle me-2"></i>No tiene plan de evalueción agregado.
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        No tiene planes de evaluación registrados.
                                     </li>
                                 @endforelse
                             </ul>
                         </div>
                     </div>
-                </div>
             </div>
     </div>
 </x-admin>

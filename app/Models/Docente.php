@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Docente extends Model
 {
@@ -69,14 +70,28 @@ protected $fillable = [
         return $this->hasMany(LineamientoDocente::class);
     }
 
-    public function temarios()
+     public function temarios(): HasManyThrough
     {
-        return $this->hasMany(TemarioDocente::class);
+        return $this->hasManyThrough(
+            TemarioDocente::class,                 
+            UnidadCurricularPeriodoAcademico::class, 
+            'docente_id',     
+            'unidad_curricular_periodo_academico_id',
+            'id',              // clave primaria en Docente
+            'id'               // clave primaria en UCPA
+        )->orderByDesc('fecha_agregado');
     }
 
-    public function evaluacionesDocente()
+    public function evaluacionesDocente(): HasManyThrough
     {
-        return $this->hasMany(PlanEvaluacionDocente::class);
+        return $this->hasManyThrough(
+            PlanEvaluacionDocente::class,
+            UnidadCurricularPeriodoAcademico::class,
+            'docente_id',
+            'unidad_curricular_periodo_academico_id',
+            'id',
+            'id'
+        )->orderByDesc('fecha_evaluacion');
     }
 
 }
