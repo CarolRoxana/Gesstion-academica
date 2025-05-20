@@ -1,11 +1,28 @@
 <x-admin>
     @section('title', 'Horarios')
+    @include('admin.horario.modal_periodos', ['periodos' => $periodos])
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{!! $error !!}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
 
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Listado de Horarios</h3>
             <div class="card-tools">
-                <a href="{{ route('admin.admin.horarios.pdf') }}" class="btn btn-sm btn-danger">Generar PDF</a>
+                {{--      <a href="{{ route('admin.admin.horarios.pdf') }}" class="btn btn-sm btn-danger">Generar PDF</a> --}}
+                <a href="#" id="btnGenerarPDF" class="btn btn-sm btn-danger" data-toggle="modal"
+                    data-target="#modalFiltros">
+                    Generar PDF
+                </a>
+
                 <a href="{{ route('admin.horario.create') }}" class="btn btn-sm btn-info">Nuevo</a>
             </div>
         </div>
@@ -68,6 +85,17 @@
     </div>
 
     @section('js')
+
+        <script>
+            function callSwalAlert(body) {
+                window.dispatchEvent(new CustomEvent('success', {
+                    detail: [{
+                        title: "Mensaje de error",
+                        message: body,
+                    }]
+                }));
+            }
+        </script>
         <script>
             $(function() {
                 $('#horarioTable').DataTable({
@@ -78,5 +106,31 @@
                 });
             });
         </script>
+        // Modal para filtros
+        <script>
+            document.getElementById('btnResetFiltros').addEventListener('click', function() {
+                // Lógica para reiniciar filtros
+                $('#modalFiltros').modal('hide');
+            });
+
+            document.getElementById('btnAplicarFiltros').addEventListener('click', function() {
+                // Lógica para aplicar filtros
+                //evalua que el select de periodo no este vacio y tenga un valor seleccionado
+
+                const periodoSelect = document.getElementById('filtroPeriodo');
+                $('#modalFiltros').modal('hide');
+                if (periodoSelect.value === '') {
+                    callSwalAlert('Por favor selecciona un período.');
+                    return;
+                }
+                // navega a la ruta con el periodo seleccionado 'admin.admin.horarios.pdf'
+                window.location.href = `/admin/horarios/pdf/${periodoSelect.value}`;
+
+
+
+
+            });
+        </script>
+
     @endsection
 </x-admin>
