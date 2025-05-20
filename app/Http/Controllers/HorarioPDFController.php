@@ -65,7 +65,7 @@ class HorarioPDFController extends Controller
             ->where('horarios.periodo_academico_id', 2)
             ->orderBy('horarios.sede')
             ->orderBy('unidad_curricular.semestre')
-            ->orderBy('dia_orden') // Orden por día usando el alias creado
+            ->orderBy('dia_orden')
             ->orderBy('seccion_nombre')
             ->orderBy('horarios.hora_inicio')
             ->orderBy('horarios.periodo_academico_id')

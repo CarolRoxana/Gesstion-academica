@@ -15,20 +15,26 @@ class PeriodoAcademicoController extends Controller
 
     public function create()
     {
-        return view('admin\periodoAcademico\create');
+        return view('admin.periodoAcademico.create');
     }
 
     public function store(Request $request)
     {
+
+        //dd($request->all());
         $request->validate([
-            'periodo' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255',
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
         ]);
-    
+
         // Crear el nuevo periodo académico con los campos validados
-        PeriodoAcademico::create($request->only(['periodo', 'fecha_inicio', 'fecha_fin']));
-    
+        $periodo = new PeriodoAcademico();
+        $periodo->periodo = $request->nombre;
+        $periodo->fecha_inicio = $request->fecha_inicio;
+        $periodo->fecha_finalizacion = $request->fecha_fin;
+        $periodo->save();
+
         // Redirigir con mensaje de éxito
         return redirect()->route('admin.periodo-academico.index')->with('success', 'Periodo académico creado con éxito.');
     }
@@ -38,20 +44,28 @@ class PeriodoAcademicoController extends Controller
         return view('admin\periodoAcademico\show', compact('periodo_academico'));
     }
 
-    public function edit(PeriodoAcademico $periodo_academico)
+    public function edit($periodo_academico)
     {
-        return view('admin\periodoAcademico\edit', compact('periodo_academico'));
+
+        $periodo_academico = PeriodoAcademico::find($periodo_academico);
+        return view('admin.periodoAcademico.edit', compact('periodo_academico'));
     }
 
-    public function update(Request $request, PeriodoAcademico $periodo_academico)
+    public function update(Request $request,  $periodo_academico)
     {
-        $request->validate([
-            'periodo' => 'required|string|max:255',
-            'fecha_inicio' => 'required|date',
-            'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
-        ]);
 
-        $periodo_academico->update($request->all());
+        //dd($request->all(), $periodo_academico);
+    
+
+        // Actualizar el periodo académico con los campos validados
+        $data = PeriodoAcademico::find($periodo_academico);
+        $data->periodo = $request->periodo;
+        $data->fecha_inicio = $request->fecha_inicio;
+        $data->fecha_finalizacion = $request->fecha_finalizacion;
+
+     
+        $data->save();
+
 
         return redirect()->route('admin.periodo-academico.index')->with('success', 'Periodo académico actualizado.');
     }

@@ -26,9 +26,9 @@
                     <td>{{ \Carbon\Carbon::parse($periodo->fecha_inicio)->format('d-m-Y') }}</td>
                     <td>{{ \Carbon\Carbon::parse($periodo->fecha_finalizacion)->format('d-m-Y') }}</td>
                     <td>
-                        <a href="{{ route('admin.periodo-academico.show', $periodo) }}" class="btn btn-info btn-sm">Ver</a>
-                        <a href="{{ route('admin.periodo-academico.edit', $periodo) }}" class="btn btn-primary btn-sm">Editar</a>
-                        <form action="{{ route('admin.periodo-academico.destroy', $periodo) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Seguro que deseas eliminar este periodo?')">
+                        <a href="{{ route('admin.periodo-academico.show', $periodo->id) }}" class="btn btn-info btn-sm">Ver</a>
+                        <a href="{{ route('admin.periodo-academico.edit', $periodo->id) }}" class="btn btn-primary btn-sm">Editar</a>
+                        <form action="{{ route('admin.periodo-academico.destroy', $periodo->id) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Seguro que deseas eliminar este periodo?')">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger btn-sm">Eliminar</button>

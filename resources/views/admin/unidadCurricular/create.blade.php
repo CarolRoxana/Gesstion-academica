@@ -10,16 +10,16 @@
         </div>
 
         <div class="form-group">
-            <label>Unidad Curricular (número)</label>
+            <label>Unidad de crédito</label>
             <input type="number" name="unidad_curricular" class="form-control" required>
         </div>
 
         <div class="form-group">
             <label for="carrera">Carrera</label>
             <select name="carrera" class="form-control" required>
-                <option value="">Seleccione</option>
+                <option value="">Seleccione una carrera</option>
                 @foreach($carreras as $carrera)
-                    <option value="{{ $carrera }}">{{ $carrera }}</option>
+                    <option value="{{ $carrera->id }}">{{ $carrera->nombre }}</option>
                 @endforeach
             </select>
         </div>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 // use App\Http\Controllers\Controller;
+
+use App\Helpers\ArrayHelper;
 use App\Models\UnidadCurricular;
 use App\Models\Docente;
 use App\Models\PeriodoAcademico;
@@ -19,7 +21,8 @@ class UnidadCurricularController extends Controller
 
     public function create()
     {
-        $carreras = UnidadCurricular::select('carrera')->distinct()->pluck('carrera');
+
+      $carreras = ArrayHelper::carreras();
         $periodos = PeriodoAcademico::all();
     
         return view('admin.unidadCurricular.create', compact('carreras', 'periodos'));
@@ -59,14 +62,15 @@ class UnidadCurricularController extends Controller
 
     public function show(UnidadCurricular $unidad_curricular)
     {
-        $unidad_curricular->load('secciones');
+       
+        $secciones = Seccion::where('unidad_curricular_id', $unidad_curricular->id)->get();
 
-        return view('admin\unidadCurricular\show', compact('unidad_curricular'));
+        return view('admin\unidadCurricular\show', compact('unidad_curricular', 'secciones'));
     }
 
     public function edit(UnidadCurricular $unidad_curricular)
     {
-        $carreras = UnidadCurricular::select('carrera')->distinct()->pluck('carrera');
+         $carreras = ArrayHelper::carreras();
         $periodos = PeriodoAcademico::all();
 
         return view('admin\unidadCurricular\edit', compact('unidad_curricular', 'carreras', 'periodos'));
@@ -74,6 +78,8 @@ class UnidadCurricularController extends Controller
 
     public function update(Request $request, UnidadCurricular $unidad_curricular)
     {
+
+        //dd($request->all());
         $request->validate([
             'nombre' => 'required|string|max:255',
             'unidad_curricular' => 'required|integer',
@@ -84,6 +90,16 @@ class UnidadCurricularController extends Controller
         $unidad_curricular->update($request->only([
             'nombre', 'unidad_curricular', 'carrera', 'semestre'
         ]));
+
+        // Actualizar secciones
+        $secciones = $request->input('secciones', []);
+        $unidad_curricular->secciones()->delete(); // Eliminar secciones existentes
+        foreach ($secciones as $seccionNombre) {
+            Seccion::create([
+                'nombre' => $seccionNombre,
+                'unidad_curricular_id' => $unidad_curricular->id,
+            ]);
+        }
 
         return redirect()->route('admin.unidad-curricular.index')
                          ->with('success', 'Unidad Curricular actualizada correctamente.');
