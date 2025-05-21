@@ -174,52 +174,65 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', async function() {
         // Recupera los valores antiguos de Laravel (old)
-        const oldUnidad =
-            "{{ old('unidad_curricular_id', isset($horario) ? $horario->unidad_curricular_id : '') }}";
+        const oldUnidad = "{{ old('unidad_curricular_id', isset($horario) ? $horario->unidad_curricular_id : '') }}";
         const oldSeccion = "{{ old('seccion_id', isset($horario) ? $horario->seccion_id : '') }}";
         const oldAula = "{{ old('aula_id', isset($horario) ? $horario->aula_id : '') }}";
-        const oldPeriodo =
-            "{{ old('periodo_academico_id', isset($horario) ? $horario->periodo_academico_id : '') }}";
+        const oldPeriodo = "{{ old('periodo_academico_id', isset($horario) ? $horario->periodo_academico_id : '') }}";
         const oldSede = "{{ old('sede', isset($horario) ? $horario->sede : '') }}";
 
-        // Si hay old para periodo, dispara el change para cargar unidades curriculares y selecciona la opción correcta
+        // Función para esperar a que un select tenga opciones (útil tras AJAX)
+        function waitForOptions(selectId, minOptions = 2, timeout = 4000) {
+            return new Promise((resolve) => {
+                const start = Date.now();
+                const interval = setInterval(() => {
+                    const select = document.getElementById(selectId);
+                    if (select && select.options.length >= minOptions) {
+                        clearInterval(interval);
+                        resolve();
+                    }
+                    if (Date.now() - start > timeout) {
+                        clearInterval(interval);
+                        resolve();
+                    }
+                }, 100);
+            });
+        }
+
+        // Cargar y seleccionar periodo, unidad, sección, sede y aula en orden
         if (oldPeriodo) {
             const periodoSelect = document.getElementById('periodo_academico_id');
             periodoSelect.value = oldPeriodo;
             periodoSelect.dispatchEvent(new Event('change'));
 
-            // Espera a que se carguen las unidades curriculares por AJAX
-            setTimeout(function() {
-                if (oldUnidad) {
-                    const unidadSelect = document.getElementById('unidad_curricular_id');
-                    unidadSelect.value = oldUnidad;
-                    unidadSelect.dispatchEvent(new Event('change'));
+            // Espera a que se carguen las unidades curriculares
+            await waitForOptions('unidad_curricular_id');
+            if (oldUnidad) {
+                const unidadSelect = document.getElementById('unidad_curricular_id');
+                unidadSelect.value = oldUnidad;
+                unidadSelect.dispatchEvent(new Event('change'));
+
+                // Espera a que se carguen las secciones
+                await waitForOptions('seccion_id');
+                if (oldSeccion) {
+                    const seccionSelect = document.getElementById('seccion_id');
+                    seccionSelect.value = oldSeccion;
                 }
-            }, 500);
+            }
         }
 
-        // Espera a que se carguen las secciones por AJAX
-        setTimeout(function() {
-            if (oldSeccion) {
-                const seccionSelect = document.getElementById('seccion_id');
-                seccionSelect.value = oldSeccion;
-            }
-        }, 1000);
-
-        // Si hay old para sede, dispara el change para cargar aulas y selecciona la opción correcta
         if (oldSede) {
             const sedeSelect = document.getElementById('sede');
             sedeSelect.value = oldSede;
             sedeSelect.dispatchEvent(new Event('change'));
 
-            setTimeout(function() {
-                if (oldAula) {
-                    const aulaSelect = document.getElementById('aula_id');
-                    aulaSelect.value = oldAula;
-                }
-            }, 500);
+            // Espera a que se carguen las aulas
+            await waitForOptions('aula_id');
+            if (oldAula) {
+                const aulaSelect = document.getElementById('aula_id');
+                aulaSelect.value = oldAula;
+            }
         }
     });
 </script>
