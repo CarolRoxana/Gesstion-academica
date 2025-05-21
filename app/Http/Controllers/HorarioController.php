@@ -26,9 +26,9 @@ class HorarioController extends Controller
             })
             ->get();
 
-            $periodos  = PeriodoAcademico::all();
+        $periodos  = PeriodoAcademico::all();
 
-        return view('admin\horario\index', compact('horarios', 'docentes',"periodos"));
+        return view('admin\horario\index', compact('horarios', 'docentes', "periodos"));
     }
 
     /**
@@ -309,6 +309,7 @@ class HorarioController extends Controller
             ->join('seccions', 'horarios.seccion_id', '=', 'seccions.id')
             ->join('docentes', 'horarios.docente_id', '=', 'docentes.id')
             ->where('seccions.nombre', $seccionId)
+            ->where('horarios.id', '!=', $horario->id)
             ->where('horarios.dia',  $validated['dia'])
             ->where('horarios.periodo_academico_id', $validated['periodo_academico_id'])
             ->where(function ($query) use ($inicio, $fin) {
@@ -339,6 +340,7 @@ class HorarioController extends Controller
 
 
         $conflictoSede = Horario::where('sede', $sede)
+            ->where('id', '!=', $horario->id)
             ->where('aula_id', $aulaId)
             ->where('dia', $dia)
             ->where('modulo', $request['modulo'])
