@@ -127,16 +127,23 @@ class HorarioController extends Controller
                             ->where('horarios.hora_finalizacion', '>=', $fin);
                     });
             })
-            ->select('horarios.*', 'unidad_curricular.nombre as unidad_nombre', 'seccions.nombre as seccion_nombre', "docentes.*",)
+            ->select(
+                'horarios.*',
+                "unidad_curricular.semestre as semestre",
+                'unidad_curricular.nombre as unidad_nombre',
+                'seccions.nombre as seccion_nombre',
+                "docentes.*",
+            )
             ->first();
 
-        // dd($conflictoSeccion);
+        //dd($conflictoSeccion);
 
 
         if ($conflictoSeccion) {
             $mensaje = "<div style='padding: 8px 0; background:#d9534f; color:#fff; border-radius:4px;'>";
             $mensaje .= "<div style='font-weight:bold; margin-bottom:6px;'>Ya existe un horario para la sección que se cruza con este:</div>";
             $mensaje .= "<div style='display: flex; flex-direction: column; gap: 4px;'>";
+            $mensaje .= "<span><strong>Semestre:</strong> {$conflictoSeccion->semestre}</span>";
             $mensaje .= "<span><strong>Sección:</strong> {$conflictoSeccion->seccion_nombre}</span>";
             $mensaje .= "<span><strong>Unidad Curricular:</strong> {$conflictoSeccion->unidad_nombre}</span>";
             $mensaje .= "<span><strong>Docente:</strong> {$conflictoSeccion->nombre} {$conflictoSeccion->apellido}</span>";
@@ -192,8 +199,8 @@ class HorarioController extends Controller
         $horario->piso = $request['piso'];
 
 
-
-        $horario->save();
+        dd($horario);
+        // $horario->save();
         return redirect()->route('admin.horario.index')->with('message', 'Horario registrado correctamente');
     }
 
@@ -320,7 +327,9 @@ class HorarioController extends Controller
                             ->where('horarios.hora_finalizacion', '>=', $fin);
                     });
             })
-            ->select('horarios.*', 'unidad_curricular.nombre as unidad_nombre', 'seccions.nombre as seccion_nombre', "docentes.*",)
+            ->select('horarios.*', 
+            "unidad_curricular.semestre as semestre",
+            'unidad_curricular.nombre as unidad_nombre', 'seccions.nombre as seccion_nombre', "docentes.*",)
             ->first();
 
         // dd($conflictoSeccion);
@@ -330,6 +339,7 @@ class HorarioController extends Controller
             $mensaje = "<div style='padding: 8px 0; background:#d9534f; color:#fff; border-radius:4px;'>";
             $mensaje .= "<div style='font-weight:bold; margin-bottom:6px;'>Ya existe un horario para la sección que se cruza con este:</div>";
             $mensaje .= "<div style='display: flex; flex-direction: column; gap: 4px;'>";
+            $mensaje .= "<span><strong>Semestre:</strong> {$conflictoSeccion->semestre}</span>";
             $mensaje .= "<span><strong>Sección:</strong> {$conflictoSeccion->seccion_nombre}</span>";
             $mensaje .= "<span><strong>Unidad Curricular:</strong> {$conflictoSeccion->unidad_nombre}</span>";
             $mensaje .= "<span><strong>Docente:</strong> {$conflictoSeccion->nombre} {$conflictoSeccion->apellido}</span>";
@@ -422,6 +432,7 @@ class HorarioController extends Controller
                     return [
                         'id' => $item->unidadCurricular->id,
                         'nombre' => $item->unidadCurricular->nombre,
+                        "modalidad" => $item->modalidad,
                     ];
                 }
             );

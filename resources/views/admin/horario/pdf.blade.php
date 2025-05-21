@@ -1,5 +1,6 @@
 @php
     use Carbon\Carbon;
+     use App\Helpers\ArrayHelper;
 @endphp
 
 <!DOCTYPE html>
@@ -109,6 +110,9 @@
                                 </td>
                                 @foreach ($dias as $dia)
                                     @php
+
+                                    
+
                                         // Verificar si ya se imprimió por rowspan
                                         $bloqueKey = $i . '_' . $dia;
                                         if (isset($ocupadas[$bloqueKey])) {
@@ -140,8 +144,20 @@
                                                         break;
                                                     }
                                                 }
+                                              
+                                                if ($sede == 'Villa Asia') {
+                                                    $resultado = ArrayHelper::descripcionAulaVillasiaPorId($h->aula_id);
 
-                                                if (isset($h->modalidad) && $h->modalidad !== 'Virtual') {
+                                                    $contenido =
+                                                        '<strong>' .
+                                                        $h->unidad_curricular_nombre .
+                                                        '</strong><br>' .
+                                                        $h->docente_nombre .
+                                                        ' ' .
+                                                        $h->docente_apellido . 
+                                                        '<br>' .
+                                                        $resultado;
+                                                } elseif (isset($h->modalidad) && $h->modalidad !== 'Virtual') {
                                                     $contenido =
                                                         '<strong>' .
                                                         $h->unidad_curricular_nombre .
