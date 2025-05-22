@@ -3,11 +3,11 @@
 
 
 
-    {{--    @hasanyrole(['Admin', 'Coordinador'])
+    @hasanyrole(['Admin', 'Coordinador'])
         @include('components.sidebar-admin-coordinador')
-    @endhasanyrole --}}
+    @endhasanyrole
 
-    {{--  @hasanyrole(['Jefe departamento'])
+    @hasanyrole(['Jefe departamento'])
         @include('components.sidebar-jefe-apartamento')
     @endhasanyrole
 
@@ -18,7 +18,7 @@
     @hasanyrole(['Secretaria'])
         @include('components.sidebar-secretaria')
     @endhasanyrole
- --}}
+
 
     @hasanyrole(['Docente'])
         @include('components.sidebar-docente')

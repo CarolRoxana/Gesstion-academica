@@ -5,7 +5,7 @@
         <div class="card-header">
             <h3 class="card-title">Listado de Profesores</h3>
             <div class="card-tools">
-                <a href="{{ route('admin.admin.profesores.export') }}" class="btn btn-sm btn-success">Exportar Excel</a>
+                <a href="{{ route('admin.profesores.export') }}" class="btn btn-sm btn-success">Exportar Excel</a>
             </div>
         </div>
         <div class="card-body">
