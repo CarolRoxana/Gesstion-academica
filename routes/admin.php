@@ -34,6 +34,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::middleware(['role:Admin|Coordinador'])->group(function () {
 
         Route::resource('user', UserController::class);
+        Route::put('user/{user}/role', [UserController::class, 'updateRole'])->name('user.updateRole');
         Route::resource('role', RoleController::class);
         Route::resource('permission', PermissionController::class);
         //Route::get('/profesores', [ProfesorController::class, 'index'])->name('profesores.index');
