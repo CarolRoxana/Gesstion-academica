@@ -3,19 +3,17 @@
 
     <div class="card">
         <div class="card-body">
-            <a href="{{ route('admin.propuesta_tp.create') }}" class="btn btn-primary mb-3">Crear Propuesta</a>
-            <a href="{{ route('admin.admin.propuestas.pasantia.pdf') }}" class="btn btn-success mb-3">
+            <a href="{{ route('admin.propuesta_tp.create') }}" class="btn btn-sm btn-primary mb-3">
+                <i class="fas fa-plus-circle me-1"></i> Crear Propuesta</a>
+            <a href="{{ route('admin.propuestas.pasantia.pdf') }}" class="btn btn-sm btn-success mb-3">
                 <i class="fas fa-file-pdf"></i> Exportar Pasantías
             </a>
             
             @if (session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
-            <a href="{{ route('admin.propuestas.pasantia.pdf') }}" class="btn btn-success mb-3">
-                <i class="fas fa-file-pdf"></i> Exportar Pasantías
-            </a>
             <table class="table table-bordered">
-                <thead class="table-light text-uppercase small">
+                <thead class=" text-uppercase small">
                     <tr>
                         <th scope="col" style="width:18%;">Nombre(s) Pasante(s)</th>
                         <th scope="col" style="width:22%;">Título de Propuesta</th>

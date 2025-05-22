@@ -10,7 +10,36 @@ return new class extends Migration
     {
         Schema::create('servicio_comunitarios', function (Blueprint $table) {
             $table->id();
-            $table->json('estudiantes');
+            // Primer estudiante (requerido)
+            $table->string('nombre_estudiante');
+            $table->string('apellido_estudiante');
+            $table->string('cedula');
+            $table->string('carrera');
+
+            // Segundo estudiante (opcional)
+            $table->string('nombre_estudiante2')->nullable();
+            $table->string('apellido_estudiante2')->nullable();
+            $table->string('cedula2')->nullable();
+            $table->string('carrera2')->nullable();
+
+            // Tercer estudiante (opcional)
+            $table->string('nombre_estudiante3')->nullable();
+            $table->string('apellido_estudiante3')->nullable();
+            $table->string('cedula3')->nullable();
+            $table->string('carrera3')->nullable();
+
+            // Cuarto estudiante (opcional)
+            $table->string('nombre_estudiante4')->nullable();
+            $table->string('apellido_estudiante4')->nullable();
+            $table->string('cedula4')->nullable();
+            $table->string('carrera4')->nullable();
+
+            // Quinto estudiante (opcional)
+            $table->string('nombre_estudiante5')->nullable();
+            $table->string('apellido_estudiante5')->nullable();
+            $table->string('cedula5')->nullable();
+            $table->string('carrera5')->nullable();
+            
             $table->string('titulo_servicio');
             $table->string('trabajo_servicio');
             $table->unsignedBigInteger('docente_id');

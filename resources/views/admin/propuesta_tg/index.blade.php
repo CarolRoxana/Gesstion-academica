@@ -2,9 +2,10 @@
     @section('title', 'Propuestas de Trabajo de grado')
 
     <div class="card">
-        <div class="card-body">
-            <a href="{{ route('admin.propuesta_tg.create') }}" class="btn btn-primary mb-3">Crear Propuesta</a>
-            <a href="{{ route('admin.propuestas.grado.pdf') }}" class="btn btn-danger mb-3">
+        <div class="card-header">
+            <a href="{{ route('admin.propuesta_tg.create') }}" class="btn btn-sm btn-primary mb-3">
+                <i class="fas fa-plus-circle me-1"></i> Crear Propuesta</a>
+            <a href="{{ route('admin.propuestas.grado.pdf') }}" class="btn btn-sm btn-danger mb-3">
                 <i class="fas fa-file-pdf"></i> Exportar Trabajos de Grado
             </a>
             
@@ -13,7 +14,7 @@
             @endif
 
             <table class="table table-bordered">
-                <thead class="table-light text-uppercase small">
+                <thead class=" text-uppercase small">
                     <tr>
                         <th scope="col" style="width:18%;">Nombre(s) Tesista(s)</th>
                         <th scope="col" style="width:22%;">Título de Propuesta</th>

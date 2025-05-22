@@ -5,10 +5,10 @@
             <form action="{{ route('admin.plan_evaluacion_docente.store') }}" method="POST">
                 @csrf
                 <div class="form-group">
-                    <label>Unidad Curricular y Período Académico</label>
+                    <label>Unidad Curricular </label>
                     <select name="unidad_curricular_periodo_academico_id" class="form-control" required>
                         @foreach($unidadCurricularPeriodoAcademico as $uc)
-                            <option value="{{ $uc->id }}">{{ $uc->nombre }}</option>
+                            <option value="{{ $uc->id }}">{{ $uc->nombre}}</option>
                         @endforeach
                     </select>
                 </div>

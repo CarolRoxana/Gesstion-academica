@@ -19,7 +19,7 @@
                 <!-- Información personal -->
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-header bg-light">
+                        <div class="card-header ">
                             <h5 class="mb-0"><i class="fas fa-id-card me-2"></i>Información Personal</h5>
                         </div>
                         <div class="card-body">
@@ -144,19 +144,20 @@
 
     <!-- Unidades Curriculares y Horarios -->
     <div class="col-md-8 mb-4">
-        <div class="card h-100 border-0 shadow-sm">
-            <div class="card-header bg-light">
-                <h5 class="mb-0"><i class="fas fa-book me-2"></i>Unidades Curriculares</h5>
+        <div class="card h-100 border-0">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-book me-2"></i> Unidades Curriculares</h5>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead class="table-light">
+                    <table class="table">
+                        <thead>
                             <tr>
                                 <th>Unidad Curricular</th>
                                 <th>Semestre</th>
                                 <th>Periodo</th>
                                 <th>Sección</th>
+                                <th>Sede</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -166,6 +167,7 @@
                                 <td>{{ $asignacion->unidadCurricular->semestre }}</td>
                                 <td>{{ $asignacion->periodoAcademico->periodo }}</td>
                                 <td>{{ $asignacion->seccion->nombre }}</td>
+                                <td>{{ $asignacion->sede }}</td>
                             </tr>
                             @empty
                             <tr>
@@ -184,18 +186,20 @@
 
     <!-- Horarios -->
     <div class="card border-0 shadow-sm mb-4">
-    <div class="card-header bg-light">
+    <div class="card-header">
         <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Horarios Asignados</h5>
     </div>
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-hover">
-                <thead class="table-light">
+                <thead>
                     <tr>
                         <th>Unidad Curricular</th>
                         <th>Día</th>
                         <th>Hora Inicio</th>
                         <th>Hora Fin</th>
+                        <th>Aula</th>
+                        <th>Piso</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -205,6 +209,13 @@
                         <td><span class="badge bg-primary">{{ $h->dia }}</span></td>
                         <td>{{ \Carbon\Carbon::parse($h->hora_inicio)->format('H:i') }}</td>
                         <td>{{ \Carbon\Carbon::parse($h->hora_finalizacion)->format('H:i') }}</td>
+                        <td> @if ($h->sede === 'Atlantico')
+                                    {{ \App\Helpers\ArrayHelper::descripcionAulaAtlanticoPorId($h->aula_id) }}
+                            @elseif($h->sede === 'Villa Asia')
+                                {{ \App\Helpers\ArrayHelper::descripcionAulaVillasiaPorId($h->aula_id) }}
+                            @endif
+                        </td>
+                        <td>{{ $h->piso }}</td>
                     </tr>
                     @empty
                     <tr>
@@ -235,6 +246,7 @@
                                     <a href="{{ route('admin.propuesta_tg.show', $tg->id) }}">
                                        Título: {{ $tg->titulo_propuesta }}
                                     </a>
+                                    <span class="badge bg-success rounded-pill">{{ $tg->estatus }}</span>
                                 </div>
                                 <span class="text-muted"> Tesista(s): </span>
                                     <br>{{ $tg->nombre_tesista }} {{ $tg->apellido_tesista }}
@@ -246,7 +258,6 @@
                                     <br>{{ $tg->nombre_tesista3 }} {{ $tg->apellido_tesista3 }}
                                 @endif
                             </div>
-                            <span class="badge bg-success rounded-pill">{{ $tg->estatus }}</span>
                         </li>
                     @empty
                         <li class="list-group-item text-center text-muted">
@@ -309,14 +320,25 @@
                         <div class="ms-2 me-auto">
                             <div class="fw-bold">
                                 <a href="{{ route('admin.servicio_comunitario.show', $sc->id) }}">
-                                    {{ $sc->titulo_servicio }}
+                                    Título: {{ $sc->titulo_servicio }}
                                 </a>
+                                <span class="badge bg-success rounded-pill">{{ $sc->estatus }}</span>
                             </div>
+                            <span class="text-muted"> Estudiantes: </span>
                             <span class="text-muted">
+                                <br>
                                 {{ $sc->nombre_estudiante }} {{ $sc->apellido_estudiante }}
+                                @for ($i = 2; $i <= 5; $i++)
+                                    @php
+                                        $nombre = 'nombre_estudiante' . $i;
+                                        $apellido = 'apellido_estudiante' . $i;
+                                    @endphp
+                                    @if(!empty($sc->$nombre))
+                                        <br>{{ $sc->$nombre }} {{ $sc->$apellido }}
+                                    @endif
+                                @endfor
                             </span>
                         </div>
-                        <span class="badge bg-success rounded-pill">{{ $sc->estatus }}</span>
                     </li>
                 @empty
                     <li class="list-group-item text-center text-muted">
@@ -334,7 +356,7 @@
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-hover">
-                <thead class="table-light">
+                <thead >
                     <tr>
                         <th>Unidad Curricular</th>
                         <th>Periodo</th>
@@ -419,7 +441,7 @@
                     <div class="text-muted mb-2">
                         <i class="fas fa-info-circle me-2"></i>
                     </div>
-                    <p class="mb-0">No hay lineamientos registrados actualmente.</p>
+                    <p class="mb-0">No hay lineamientos registrados actualmente.</p>    
                 </div>
             @endforelse
         </div>

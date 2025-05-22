@@ -29,7 +29,7 @@
                 </div>
                 
                 <div class="mb-3">
-                    <label for="puntualidad" class="form-label">Puntualidad</label>
+                    <label for="puntualidad" class="form-label">Puntualidad (100%)</label>
                     <input type="number" class="form-control" name="puntualidad" value="{{ old('puntualidad', $evaluacion->puntualidad ?? '') }}">
                 </div>
                 

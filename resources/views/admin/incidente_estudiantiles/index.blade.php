@@ -3,7 +3,9 @@
 
     <div class="card">
         <div class="card-body">
-            <a href="{{ route('admin.incidente-estudiantil.create') }}" class="btn btn-primary mb-3">Registrar Incidente</a>
+            <a href="{{ route('admin.incidente-estudiantil.create') }}" class="btn btn-sm btn-primary mb-3">
+                <i class="fas fa-plus-circle me-1"></i> Registrar Incidente
+            </a>
 
             @if (session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>

@@ -2,8 +2,10 @@
 @section('title', 'Desempeño Docentes')
 
 <div class="card shadow-sm">
-    <div class="card-header bg-light d-flex justify-content-between align-items-center py-3">
-        <a href="{{ route('admin.desempeno-docente.create') }}" class="btn btn-sm btn-primary ">Nuevo Desempeño</a>
+    <div class="card-header ">
+        <a href="{{ route('admin.desempeno-docente.create') }}" class="btn btn-sm btn-primary ">
+        <i class="fas fa-plus-circle me-1"></i> Nuevo Desempeño
+        </a>
     </div>
     
     <div class="card-body">
@@ -33,8 +35,8 @@
         </form>
         
         <div class="table-responsive">
-            <table class="table table-bordered table-hover" id="desempenosTable" style="width:100%">
-                <thead class="table-light">
+            <table class="table table-bordered " id="desempenosTable" style="width:100%">
+                <thead>
                     <tr>
                         <th>Docente</th>
                         <th>Unidad Curricular</th>

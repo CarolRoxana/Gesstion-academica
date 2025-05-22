@@ -3,8 +3,8 @@
 
     <div class="card">
         <div class="card-body">
-            <a href="{{ route('admin.servicio_comunitario.create') }}"class="btn btn-primary mb-3">
-                Nuevo servicio
+            <a href="{{ route('admin.servicio_comunitario.create') }}"class="btn btn-sm btn-primary mb-3">
+                <i class="fas fa-plus-circle me-1"></i> Nuevo servicio
             </a>
         </div>
             @if (session('success'))
@@ -13,7 +13,7 @@
 
         <div class="card-body p-0">
                 <table class="table table-bordered">
-                    <thead class="table-light text-uppercase small">
+                    <thead class=" text-uppercase small">
                         <tr>
                             <th scope="col" style="width:18%;">Nombre Estudiante(s)</th>
                             <th scope="col" style="width:22%;">Título del servicio comunitario</th>
@@ -35,7 +35,16 @@
                             @endphp
                             <tr>
                                 <td>
-                                    {{ $servicio->nombre_estudiante }} {{ $servicio->apellido_estudiante }}<br>
+                                   {{ $servicio->nombre_estudiante }} {{ $servicio->apellido_estudiante }}
+                                    @for ($i = 2; $i <= 5; $i++)
+                                        @php
+                                            $nombre = 'nombre_estudiante' . $i;
+                                            $apellido = 'apellido_estudiante' . $i;
+                                        @endphp
+                                        @if(!empty($servicio->$nombre))
+                                            <br>{{ $servicio->$nombre }} {{ $servicio->$apellido }}
+                                        @endif
+                                    @endfor
                                 </td>
 
                                 <td>{{ Str::limit($servicio->titulo_servicio, 45) }}</td>
@@ -68,42 +77,13 @@
                                     </a>
 
                                     <!-- Botón que abre el modal -->
-                                    <button
-                                        type="button"
-                                        class="btn btn-sm btn-danger"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal{{ $servicio->id }}"
-                                    >
-                                        Eliminar
-                                    </button>
-
-                                    <!-- Modal con formulario de eliminación -->
-                                    <div class="modal fade" id="deleteModal{{ $servicio->id }}" tabindex="-1">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <div class="modal-header bg-danger text-white">
-                                                    <h5 class="modal-title">
-                                                        <i class="fas fa-triangle-exclamation me-2"></i>Confirmar eliminación
-                                                    </h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    ¿Seguro que deseas eliminar el servicio comunitario
-                                                    <strong>“{{ $servicio->titulo_servicio }}”</strong>?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                        Cancelar
-                                                    </button>
-                                                    <form action="{{ route('admin.servicio_comunitario.destroy', $servicio) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Eliminar</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <form action="{{ route('admin.servicio_comunitario.destroy', $servicio->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar este servicio comunitario?')">
+                                            Eliminar
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @empty
