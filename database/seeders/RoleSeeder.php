@@ -17,11 +17,12 @@ class RoleSeeder extends Seeder
         $admin = Role::create(['name' => 'Admin']);
       
 
-        Role::create(['name' => 'Coordinador']);
-
-
+        $coordinador = Role::create(['name' => 'Coordinador']);
 
         $admin->syncPermissions(Permission::all());
+        $coordinador->syncPermissions(Permission::all());
+
+        
         //CREANDO ROL DE JEFE DEPARTAMENTO Y ASIGNADO ROLES
         $jefeDepartamento = Role::create(['name' => 'Jefe departamento']);
         $permisosJefeDepartamento = [
