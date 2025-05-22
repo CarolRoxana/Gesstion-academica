@@ -4,7 +4,7 @@
     <div class="card">
         <div class="card-body">
             <a href="{{ route('admin.propuesta_tg.create') }}" class="btn btn-primary mb-3">Crear Propuesta</a>
-            <a href="{{ route('admin.admin.propuestas.grado.pdf') }}" class="btn btn-danger mb-3">
+            <a href="{{ route('admin.propuestas.grado.pdf') }}" class="btn btn-danger mb-3">
                 <i class="fas fa-file-pdf"></i> Exportar Trabajos de Grado
             </a>
             

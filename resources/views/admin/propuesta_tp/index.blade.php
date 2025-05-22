@@ -8,7 +8,7 @@
             @if (session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
-            <a href="{{ route('admin.admin.propuestas.pasantia.pdf') }}" class="btn btn-success mb-3">
+            <a href="{{ route('admin.propuestas.pasantia.pdf') }}" class="btn btn-success mb-3">
                 <i class="fas fa-file-pdf"></i> Exportar Pasantías
             </a>
             <table class="table table-bordered">

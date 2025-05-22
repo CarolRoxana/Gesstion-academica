@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('docentes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('rol_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('nombre');
             $table->string('apellido');
             $table->string('cedula')->unique();
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('otro')->nullable();
             $table->string('categoria')->nullable();
             $table->string('tipo_contratacion')->nullable();
-            $table->foreign('rol_id')->references('id')->on('roles');
+           $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

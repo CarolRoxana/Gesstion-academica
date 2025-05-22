@@ -23,6 +23,7 @@ protected $fillable = [
     'otro',
     'categoria',
     'tipo_contratacion',
+    'user_id',
 ];
 
     public function unidadCurricular()

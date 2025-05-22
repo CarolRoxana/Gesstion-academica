@@ -199,8 +199,8 @@ class HorarioController extends Controller
         $horario->piso = $request['piso'];
 
 
-        dd($horario);
-        // $horario->save();
+        //dd($horario);
+         $horario->save();
         return redirect()->route('admin.horario.index')->with('message', 'Horario registrado correctamente');
     }
 

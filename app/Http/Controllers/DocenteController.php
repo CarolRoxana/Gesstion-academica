@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Docente;
 use App\Models\UnidadCurricular;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DocenteController extends Controller
@@ -29,16 +30,42 @@ class DocenteController extends Controller
             'correo' => 'required|email|unique:docentes',
             'telefono' => 'nullable|string|max:20',
             'maestria' => 'nullable|string|max:255',
-            'doctorado'=> 'nullable|string|max:255',
+            'doctorado' => 'nullable|string|max:255',
             'postgrado' => 'nullable|string|max:255',
-            'otro'=> 'nullable|string|max:255',
+            'otro' => 'nullable|string|max:255',
             'categoria' => 'nullable|in:Categoría 1,Categoría 2,Categoría 3',
             'tipo_contratacion' => 'nullable|in:Fijo,Honorario profesionales,Contratación especial',
-
         ]);
 
-        $docente = new Docente($request->all());
-        $docente->rol_id = 3;
+        //Verifica que existe el rol de tipo Docente
+        $rolDocente = \Spatie\Permission\Models\Role::where('name', 'Docente')->first();
+        if (!$rolDocente) {
+            return redirect()->route('admin.docente.index')->with('error', 'El rol de Docente no existe.');
+        }
+
+        //crea un usuario 
+        $user = new User();
+        $user->name = $request->nombre . ' ' . $request->apellido;
+        $user->email = $request->correo;
+        $user->password = bcrypt($request->cedula); // Asigna la cédula como contraseña
+        $user->save();
+        // Asigna el rol de Docente al usuario
+        $user->assignRole($rolDocente);
+        // Asigna el ID del usuario al docente
+        $docente = new Docente();
+        $docente->nombre = $request->nombre;
+        $docente->apellido = $request->apellido;
+        $docente->cedula = $request->cedula;
+        $docente->correo = $request->correo;
+        $docente->telefono = $request->telefono;
+        $docente->titulo = $request->titulo;
+        $docente->maestria = $request->maestria;
+        $docente->doctorado = $request->doctorado;
+        $docente->postgrado = $request->postgrado;
+        $docente->otro = $request->otro;
+        $docente->categoria = $request->categoria;
+        $docente->tipo_contratacion = $request->tipo_contratacion;
+        $docente->user_id = $user->id; // Asigna el ID del usuario al docente
         $docente->save();
 
         return redirect()->route('admin.docente.index')->with('success', 'Docente creado correctamente.');
@@ -55,8 +82,8 @@ class DocenteController extends Controller
         $lineamientos = $docente->lineamientos()->latest()->get();
         $temarios = $docente->temarios()->latest('fecha_agregado')->get();
         $evaluacionesDocente = $docente->evaluacionesDocente()->latest('fecha_evaluacion')->get();
-        
-        
+
+
 
         return view('admin.docente.show', compact(
             'docente',
@@ -87,15 +114,15 @@ class DocenteController extends Controller
             'correo' => 'required|email|unique:docentes,correo,' . $docente->id,
             'telefono' => 'nullable|string|max:20',
             'maestria' => 'nullable|string|max:255',
-            'doctorado'=> 'nullable|string|max:255',
+            'doctorado' => 'nullable|string|max:255',
             'postgrado' => 'nullable|string|max:255',
-            'otro'=> 'nullable|string|max:255',
+            'otro' => 'nullable|string|max:255',
             'categoria' => 'nullable|in:Categoría 1,Categoría 2,Categoría 3',
             'tipo_contratacion' => 'nullable|in:Fijo,Honorario profesionales,Contratación especial',
         ]);
 
         $docente->fill($request->all());
-        $docente->rol_id = 3;
+        //$docente->rol_id = 3;
         $docente->save();
 
         return redirect()->route('admin.docente.index')->with('success', 'Docente actualizado correctamente.');

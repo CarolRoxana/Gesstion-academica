@@ -17,13 +17,15 @@
         <div class="card-header">
             <h3 class="card-title">Listado de Horarios</h3>
             <div class="card-tools">
-                {{--      <a href="{{ route('admin.admin.horarios.pdf') }}" class="btn btn-sm btn-danger">Generar PDF</a> --}}
+              
                 <a href="#" id="btnGenerarPDF" class="btn btn-sm btn-danger" data-toggle="modal"
                     data-target="#modalFiltros">
                     Generar PDF
                 </a>
 
-                <a href="{{ route('admin.horario.create') }}" class="btn btn-sm btn-info">Nuevo</a>
+                @can('crear_horarios')
+                    <a href="{{ route('admin.horario.create') }}" class="btn btn-sm btn-info">Nuevo</a>
+                @endcan
             </div>
         </div>
         <div class="card-body">
@@ -66,16 +68,22 @@
                                 @endif
                             </td>
                             <td class="d-flex gap-1">
-                                <a href="{{ route('admin.horario.show', $horario->id) }}"
-                                    class="btn btn-sm btn-secondary">Ver</a>
-                                <a href="{{ route('admin.horario.edit', $horario->id) }}"
-                                    class="btn btn-sm btn-primary">Editar</a>
-                                <form action="{{ route('admin.horario.destroy', $horario->id) }}" method="POST"
-                                    onsubmit="return confirm('¿Estás seguro de eliminar este horario?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
-                                </form>
+                                @can('ver_horarios')
+                                    <a href="{{ route('admin.horario.show', $horario->id) }}"
+                                        class="btn btn-sm btn-secondary">Ver</a>
+                                @endcan
+                                @can('editar_horarios')
+                                    <a href="{{ route('admin.horario.edit', $horario->id) }}"
+                                        class="btn btn-sm btn-primary">Editar</a>
+                                @endcan
+                                @can('eliminar_horarios')
+                                    <form action="{{ route('admin.horario.destroy', $horario->id) }}" method="POST"
+                                        onsubmit="return confirm('¿Estás seguro de eliminar este horario?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                                    </form>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach
@@ -123,7 +131,7 @@
                     callSwalAlert('Por favor selecciona un período.');
                     return;
                 }
-                // navega a la ruta con el periodo seleccionado 'admin.admin.horarios.pdf'
+             
                 window.location.href = `/admin/horarios/pdf/${periodoSelect.value}`;
 
 
