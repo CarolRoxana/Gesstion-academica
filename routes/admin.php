@@ -59,7 +59,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
         Route::get('/propuestas/grado/pdf', [PropuestaPDFController::class, 'exportGradoPDF'])->name('admin.propuestas.grado.pdf');
         //Route::get('/propuestas/pasantia/pdf', [PropuestaPDFController::class, 'exportPasantiaPDF'])->name('propuestas.pasantia.pdf');
         Route::get('/unidad-curricular/{id}/secciones', [UnidadCurricularController::class, 'getSecciones']);
-        Route::resource('/servicio_comunitario', ServicioComunitarioController::class)->parameters(['servicio_comunitario' => 'servicio']);
+        //Route::resource('/servicio_comunitario', ServicioComunitarioController::class)->parameters(['servicio_comunitario' => 'servicio']);
     });
 
 
@@ -120,7 +120,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::middleware(['role:Docente|Admin|Coordinador'])->group(function () {
         Route::resource('/plan_evaluacion_docente', PlanEvaluacionDocenteController::class);
         Route::resource('/temario_docente', TemarioDocenteController::class);
-        Route::resource('/servicio_comunitario', ServicioComunitarioController::class)->parameters(['servicio_comunitario' => 'servicio']);
+       
     });
 
     Route::middleware(['role:Jefe area|Admin|Coordinador|Secretaria'])->group(function () {
@@ -133,5 +133,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
         Route::resource('/propuesta_tg', PropuestaTgController::class)->names('propuesta_tg');
         Route::get('/propuestas/grado/pdf', [PropuestaPDFController::class, 'exportGradoPDF'])->name('propuestas.grado.pdf');
         Route::get('/propuestas/pasantia/pdf', [PropuestaPDFController::class, 'exportPasantiaPDF'])->name('propuestas.pasantia.pdf');
+         Route::resource('/servicio_comunitario', ServicioComunitarioController::class)->parameters(['servicio_comunitario' => 'servicio']);
     });
 });
