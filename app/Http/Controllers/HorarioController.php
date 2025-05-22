@@ -404,11 +404,15 @@ class HorarioController extends Controller
      */
     public function destroy($id)
     {
-        $horario = Horario::findOrFail($id);
-        $horario->delete();
 
-        return redirect()->route('admin.horario.index')->with('message', 'Horario eliminado correctamente');
-    }
+        try {
+            $horario = Horario::findOrFail($id);
+            $horario->delete();
+            return redirect()->route('admin.horario.index')->with('message', 'Horario eliminado correctamente');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.horario.index')->with('error', 'Error al eliminar el horario. Asegúrese de que no esté relacionado con otros registros.');
+        }
+     }
     public function aulasPorSede($sede)
     {
 

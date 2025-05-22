@@ -202,10 +202,13 @@ class PropuestaTpController extends Controller
 
     public function destroy($id)
     {
-        $propuesta = PropuestaTp::findOrFail($id);
-        
-        $propuesta->delete();
-
-        return redirect()->route('admin.propuesta_tp.index')->with('success', 'Propuesta TP eliminada con éxito.');
+        try {
+            $propuesta = PropuestaTp::findOrFail($id);
+            $propuesta->delete();
+            return redirect()->route('admin.propuesta_tp.index')->with('success', 'Propuesta TP eliminada con éxito.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.propuesta_tp.index')->with('error', 'Error al eliminar la propuesta TP.');
+        }
+    
     }
 }

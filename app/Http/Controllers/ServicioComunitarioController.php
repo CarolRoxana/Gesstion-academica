@@ -86,11 +86,16 @@ class ServicioComunitarioController extends Controller
 
     public function destroy(ServicioComunitario $servicio)
     {
-        if ($servicio->trabajo_servicio && Storage::disk('public')->exists($servicio->trabajo_servicio)) {
-            Storage::disk('public')->delete($servicio->trabajo_servicio);
-        }
-        $servicio->delete();
 
-        return back()->with('success', 'Servicio comunitario eliminado.');
+        
+        try {
+            if ($servicio->trabajo_servicio && Storage::disk('public')->exists($servicio->trabajo_servicio)) {
+                Storage::disk('public')->delete($servicio->trabajo_servicio);
+            }
+            $servicio->delete();
+            return redirect()->route('admin.servicio_comunitario.index')->with('success', 'Servicio comunitario eliminado.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.servicio_comunitario.index')->with('error', 'Error al eliminar el servicio comunitario.');
+        }
     }
 }

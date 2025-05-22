@@ -73,7 +73,12 @@ class LineamientoDocenteController extends Controller
 
     public function destroy(LineamientoDocente $lineamientoDocente)
     {
-        $lineamientoDocente->delete();
-        return redirect()->route('admin.lineamiento-docente.index')->with('success', 'Lineamiento docente eliminado correctamente.');
+        try {
+            $lineamientoDocente->delete();
+            return redirect()->route('admin.lineamiento-docente.index')->with('success', 'Lineamiento docente eliminado correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.lineamiento-docente.index')->with('error', 'Error al eliminar el lineamiento docente.');
+        }
+       
     }
 }

@@ -80,8 +80,15 @@ class PlanEvaluacionDocenteController extends Controller
 
     public function destroy($id)
     {
-        $planEvaluacion = PlanEvaluacionDocente::findOrFail($id);
-        $planEvaluacion->delete();
-        return redirect()->route('admin.plan_evaluacion_docente.index')->with('success', 'Plan de evaluación eliminado con éxito.');
+     try {
+        
+            $planEvaluacion = PlanEvaluacionDocente::findOrFail($id);
+            $planEvaluacion->delete();
+            return redirect()->route('admin.plan_evaluacion_docente.index')->with('success', 'Plan de evaluación eliminado con éxito.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.plan_evaluacion_docente.index')->with('error', 'Error al eliminar el plan de evaluación.');
+        }
+    
+    
     }
 }

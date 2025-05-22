@@ -46,7 +46,13 @@ class PermissionController extends Controller
 
     public function destroy($id)
     {
-        Permission::where('id',decrypt($id))->delete();
-        return redirect()->route('admin.permission.index')->with('error','Permission deleted successfully.');
+        $data = Permission::where('id',decrypt($id))->first();
+        if($data){
+            $data->delete();
+            return redirect()->route('admin.permission.index')->with('success','Permission deleted successfully.');
+        }else{
+            return redirect()->route('admin.permission.index')->with('error','Permission not found.');
+        }
+    
     }
 }

@@ -130,7 +130,11 @@ class DocenteController extends Controller
 
     public function destroy(Docente $docente)
     {
-        $docente->delete();
-        return redirect()->route('admin.docente.index')->with('success', 'Docente eliminado correctamente.');
+        try {
+            $docente->delete();
+            return redirect()->route('admin.docente.index')->with('success', 'Docente eliminado correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.docente.index')->with('error', 'No se puede eliminar el docente porque tiene registros asociados.');
+        }
     }
 }

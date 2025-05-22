@@ -67,8 +67,11 @@ class LicenciaDocenteController extends Controller
 
     public function destroy(LicenciaDocente $licencia_docente)
     {
-        $licencia_docente->delete();
-
-        return redirect()->route('licencia_docentes.index')->with('success', 'Licencia eliminada con éxito.');
+        try {
+            $licencia_docente->delete();
+            return redirect()->route('licencia_docentes.index')->with('success', 'Licencia eliminada con éxito.');
+        } catch (\Exception $e) {
+            return redirect()->route('licencia_docentes.index')->with('error', 'Error al eliminar la licencia: ' . $e->getMessage());
+        }
     }
 }
