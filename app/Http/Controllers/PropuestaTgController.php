@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ArrayHelper;
 use App\Models\Docente;
 use App\Models\PropuestaTg;
 use App\Models\UnidadCurricular;
@@ -18,7 +19,7 @@ class PropuestaTgController extends Controller
     public function create()
     {
         $docentes = Docente::all();
-        $carreras = UnidadCurricular::select('carrera')->distinct()->pluck('carrera');
+        $carreras = ArrayHelper::carreras();
         return view('admin.propuesta_tg.create', compact('docentes', 'carreras'));
     }
     
@@ -110,9 +111,10 @@ class PropuestaTgController extends Controller
 
     public function edit($id)
     {
+        
         $propuesta = PropuestaTg::findOrFail($id);
         $docentes = Docente::all();
-        $carreras = UnidadCurricular::select('carrera')->distinct()->pluck('carrera');
+        $carreras = ArrayHelper::carreras();
         
         return view('admin.propuesta_tg.edit', compact('propuesta', 'docentes', 'carreras'));
     }

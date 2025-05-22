@@ -150,10 +150,10 @@
                                                         ' ' .
                                                         $h->docente_apellido .
                                                         '<br>' .
-                                                        'Módulo: ' .
+                                                        ' ' .
                                                         ($h->modulo ?? '-') .
                                                         '<br>' .
-                                                        'Piso: ' .
+                                                        ' ' .
                                                         ($h->piso ?? '-') .
                                                         '<br>' .
                                                         $h->modalidad .

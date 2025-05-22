@@ -1,46 +1,24 @@
 <x-admin>
     @section('title', 'Servicio Comunitario')
 
-    @section('content_header')
-        <div class="d-flex justify-content-between align-items-center">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item">
-                        <a href="{{ route('admin.dashboard') }}">
-                            <i class="fas fa-home me-1"></i>Dashboard
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        Servicios comunitarios
-                    </li>
-                </ol>
-            </nav>
-        </div>
-    @endsection
-
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
-
-    <div class="card shadow-sm border-0">
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <a href="{{ route('admin.servicio_comunitario.create') }}" class="btn btn-sm btn-success">
+    <div class="card">
+        <div class="card-body">
+            <a href="{{ route('admin.servicio_comunitario.create') }}"class="btn btn-primary mb-3">
                 Nuevo servicio
             </a>
         </div>
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
 
         <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
+                <table class="table table-bordered">
                     <thead class="table-light text-uppercase small">
                         <tr>
-                            <th scope="col" style="width:18%;">Estudiante</th>
+                            <th scope="col" style="width:18%;">Nombre Estudiante(s)</th>
                             <th scope="col" style="width:22%;">Título del servicio comunitario</th>
-                            <th scope="col" style="width:18%;">Tutor</th>
-                            <th scope="col" style="width:10%;">Estado</th>
+                            <th scope="col" style="width:18%;">Docente Tutor</th>
+                            <th scope="col" style="width:10%;">Estatus</th>
                             <th scope="col" style="width:12%;">Ingreso</th>
                             <th scope="col" style="width:14%;" class="text-end">Acciones</th>
                         </tr>
@@ -137,7 +115,6 @@
                         @endforelse
                     </tbody>
                 </table>
-            </div>
         </div>
 
         @if(method_exists($servicios, 'links'))

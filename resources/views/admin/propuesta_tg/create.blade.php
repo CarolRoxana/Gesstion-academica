@@ -16,41 +16,121 @@
 
             <form action="{{ route('admin.propuesta_tg.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-
-                <h5 class="fw-bold mb-3">Estudiantes que realizarán el trabajo</h5>
-
-                <div id="estudiantes-container">
-                    <div class="estudiante border p-3 rounded mb-3">
+                {{-- ====== TESISTA 1 (siempre visible) ====== --}}
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Datos del Tesista 1</h5>
+                    </div>
+                    <div class="card-body">
                         <div class="form-group mb-2">
                             <label>Nombre</label>
-                            <input type="text" name="estudiantes[0][nombre]" class="form-control" required>
+                            <input type="text" name="nombre_tesista" class="form-control"
+                                   value="{{ old('nombre_tesista') }}" required>
                         </div>
 
                         <div class="form-group mb-2">
                             <label>Apellido</label>
-                            <input type="text" name="estudiantes[0][apellido]" class="form-control" required>
+                            <input type="text" name="apellido_tesista" class="form-control"
+                                   value="{{ old('apellido_tesista') }}" required>
                         </div>
 
                         <div class="form-group mb-2">
                             <label>Cédula</label>
-                            <input type="text" name="estudiantes[0][cedula]" class="form-control" required>
+                            <input type="text" name="cedula" class="form-control"
+                                   value="{{ old('cedula') }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Carrera</label>
+                            <select name="carrera" class="form-control" required>
+                                <option value="">Seleccione una carrera</option>
+                                @foreach ($carreras as $carrera)
+                                    <option value="{{ $carrera->id }}" @selected(old('carrera')==$carrera->nombre)>{{ $carrera->nombre }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                 {{-- ====== TESISTA 2 (oculto al inicio) ====== --}}
+                <div id="tesista2-card" class="card mb-4" style="display:none;">
+                    <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Datos del Tesista 2</h5>
+                        <button type="button" class="btn-close bg-white" id="hide-tesista2"></button>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group mb-2">
+                            <label>Nombre</label>
+                            <input type="text" name="nombre_tesista2" class="form-control"
+                                   value="{{ old('nombre_tesista2') }}">
                         </div>
 
                         <div class="form-group mb-2">
+                            <label>Apellido</label>
+                            <input type="text" name="apellido_tesista2" class="form-control"
+                                   value="{{ old('apellido_tesista2') }}">
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label>Cédula</label>
+                            <input type="text" name="cedula2" class="form-control"
+                                   value="{{ old('cedula2') }}">
+                        </div>
+
+                        <div class="form-group">
                             <label>Carrera</label>
-                            <select name="estudiantes[0][carrera]" class="form-control" required>
+                            <select name="carrera2" class="form-control">
                                 <option value="">Seleccione una carrera</option>
                                 @foreach ($carreras as $carrera)
-                                    <option value="{{ $carrera }}">{{ $carrera }}</option>
+                                    <option value="{{ $carrera->id }}" @selected(old('carrera2')==$carrera->nombre)>{{ $carrera->nombre }}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-outline-primary btn-sm mb-3" id="agregar-estudiante">
-                    + Agregar otro estudiante
-                </button>
+                {{-- ====== TESISTA 3 (oculto al inicio) ====== --}}
+                <div id="tesista3-card" class="card mb-4" style="display:none;">
+                    <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Datos del Tesista 3</h5>
+                        <button type="button" class="btn-close bg-white" id="hide-tesista3"></button>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group mb-2">
+                            <label>Nombre</label>
+                            <input type="text" name="nombre_tesista3" class="form-control"
+                                   value="{{ old('nombre_tesista3') }}">
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label>Apellido</label>
+                            <input type="text" name="apellido_tesista3" class="form-control"
+                                   value="{{ old('apellido_tesista3') }}">
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label>Cédula</label>
+                            <input type="text" name="cedula3" class="form-control"
+                                   value="{{ old('cedula3') }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Carrera</label>
+                            <select name="carrera3" class="form-control">
+                                <option value="">Seleccione una carrera</option>
+                                @foreach ($carreras as $carrera)
+                                    <option value="{{ $carrera->id }}" @selected(old('carrera3')==$carrera->nombre)>{{ $carrera->nombre }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Botón para agregar tesistas --}}
+                <div class="text-center mb-4">
+                    <button type="button" id="add-tesista-btn" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i> Agregar otro tesista
+                    </button>
+                </div>
 
                 <div class="form-group">
                     <label>Título de la Propuesta</label>
@@ -70,6 +150,7 @@
                 <div class="form-group">
                     <label>Estatus</label>
                     <select name="estatus" class="form-control" required>
+                        <option value="proceso">Proceso</option>
                         <option value="pendiente">Pendiente</option>
                         <option value="aprobada">Aprobada</option>
                         <option value="rechazada">Rechazada</option>
@@ -92,45 +173,47 @@
         </div>
     </div>
 
-    @push('scripts')
+   {{-- ====== SCRIPTS ====== --}}
     <script>
-        let estudianteIndex = 1;
+        document.addEventListener('DOMContentLoaded', () => {
+            const addBtn   = document.getElementById('add-tesista-btn');
+            const card2    = document.getElementById('tesista2-card');
+            const card3    = document.getElementById('tesista3-card');
+            const hide2    = document.getElementById('hide-tesista2');
+            const hide3    = document.getElementById('hide-tesista3');
+            let   visibles = 0;
 
-        document.getElementById('agregar-estudiante').addEventListener('click', () => {
-            const container = document.getElementById('estudiantes-container');
+            // Restaurar estado si hubo errores
+            @if (old('nombre_tesista2') || old('apellido_tesista2') || old('cedula2') || old('carrera2'))
+                card2.style.display = 'block'; visibles = 1;
+            @endif
+            @if (old('nombre_tesista3') || old('apellido_tesista3') || old('cedula3') || old('carrera3'))
+                card2.style.display = 'block'; card3.style.display = 'block'; visibles = 2; addBtn.style.display='none';
+            @endif
 
-            const html = `
-            <div class="estudiante border p-3 rounded mb-3">
-                <div class="form-group mb-2">
-                    <label>Nombre</label>
-                    <input type="text" name="estudiantes[${estudianteIndex}][nombre]" class="form-control" required>
-                </div>
+            addBtn.addEventListener('click', () => {
+                visibles++;
+                if (visibles === 1) {
+                    card2.style.display = 'block';
+                } else if (visibles === 2) {
+                    card3.style.display = 'block';
+                    addBtn.style.display = 'none';
+                }
+            });
 
-                <div class="form-group mb-2">
-                    <label>Apellido</label>
-                    <input type="text" name="estudiantes[${estudianteIndex}][apellido]" class="form-control" required>
-                </div>
+            hide2.addEventListener('click', () => {
+                card2.style.display = 'none';
+                visibles--; if (addBtn.style.display === 'none') addBtn.style.display='';
+                // Limpiar campos
+                card2.querySelectorAll('input,select').forEach(el => el.value='');
+            });
 
-                <div class="form-group mb-2">
-                    <label>Cédula</label>
-                    <input type="text" name="estudiantes[${estudianteIndex}][cedula]" class="form-control" required>
-                </div>
-
-                <div class="form-group mb-2">
-                    <label>Carrera</label>
-                    <select name="estudiantes[${estudianteIndex}][carrera]" class="form-control" required>
-                        <option value="">Seleccione una carrera</option>
-                        @foreach ($carreras as $carrera)
-                            <option value="{{ $carrera }}">{{ $carrera }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            `;
-
-            container.insertAdjacentHTML('beforeend', html);
-            estudianteIndex++;
+            hide3.addEventListener('click', () => {
+                card3.style.display = 'none';
+                visibles--;
+                addBtn.style.display='';
+                card3.querySelectorAll('input,select').forEach(el => el.value='');
+            });
         });
     </script>
-    @endpush
 </x-admin>

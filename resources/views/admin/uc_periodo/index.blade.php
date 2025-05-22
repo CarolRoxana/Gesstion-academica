@@ -10,7 +10,6 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Unidad Curricular</th>
                         <th>Periodo</th>
                         <th>Sede</th>
@@ -21,7 +20,6 @@
                 <tbody>
                     @foreach($registros as $registro)
                         <tr>
-                            <td>{{ $registro->id }}</td>
                             <td>{{ $registro->unidadCurricular->nombre }}</td>
                             <td>{{ $registro->periodoAcademico->periodo }}</td>
                             <td>{{ $registro->sede }}</td>
