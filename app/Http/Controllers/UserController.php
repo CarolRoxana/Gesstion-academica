@@ -74,6 +74,7 @@ class UserController extends Controller
     }
     public function updateRole(Request $request, User $user)
     {
+        
         $user->syncRoles([$request->role]);
         return back()->with('success', 'Rol actualizado correctamente.');
     }
