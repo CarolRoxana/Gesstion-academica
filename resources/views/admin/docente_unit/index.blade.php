@@ -3,9 +3,7 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Docentes</h3>
-            <div class="card-tools">
-                <a href="{{ route('admin.docente.create') }}" class="btn btn-sm btn-info">Nuevo</a>
-            </div>
+           
         </div>
         <div class="card-body">
             <table class="table table-striped" id="docenteTable">
@@ -28,20 +26,14 @@
                             <td>{{ $docente->correo }}</td>
                             <td>{{ $docente->telefono }}</td>
                             <td>
-                                <a href="{{ route('admin.docente.show', $docente->id) }}"
+                                <a href="{{ route('admin.docente_unit.show', $docente->id) }}"
                                     class="btn btn-sm btn-success">Ver</a>
-                                <a href="{{ route('admin.docente.edit', $docente->id) }}"
+                                <a href="{{ route('admin.docente_unit.edit', $docente->id) }}"
                                     class="btn btn-sm btn-primary">Editar</a>
                                 {{-- CHEQUEA SI EL USUARIO TIENE EL PERMISO --}}
-                                @can('eliminar_docentes')
-                                    <form action="{{ route('admin.docente.destroy', $docente->id) }}" method="POST"
-                                        style="display:inline-block"
-                                        onsubmit="return confirm('¿Seguro que desea eliminar este docente?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
-                                    </form>
-                                @endcan
+                             
+                                 
+                                
                             </td>
                         </tr>
                     @endforeach

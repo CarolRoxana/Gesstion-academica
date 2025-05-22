@@ -3,7 +3,9 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Create User</h3>
+              @can('ver_usuarios')
             <div class="card-tools"><a href="{{ route('admin.user.index') }}" class="btn btn-sm btn-dark">Back</a></div>
+            @endcan
         </div>
         <div class="card-body">
             <form action="{{ route('admin.user.store') }}" method="POST">

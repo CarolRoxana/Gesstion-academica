@@ -88,7 +88,7 @@
             @foreach ($unidades as $unidad)
                 <option value="{{ $unidad['id'] }}"
                     {{ old('unidad_curricular_id', isset($horario) ? $horario->unidad_curricular_id : '') == $unidad['id'] ? 'selected' : '' }}>
-                    {{ $unidad['nombre'] }}
+                    {{ $unidad['nombre'] }} - {{ $unidad['modalidad'] }}
                 </option>
             @endforeach
         @endisset
@@ -335,9 +335,10 @@
             .then(data => {
                 select.innerHTML = '<option value="">Seleccione una unidad curricular</option>';
                 data.forEach(item => {
+                    console.log(item);
                     const option = document.createElement('option');
                     option.value = item.id;
-                    option.text = item.nombre;
+                    option.text = item.nombre + ' - ' + item.modalidad;
                     select.appendChild(option);
                 });
             })
