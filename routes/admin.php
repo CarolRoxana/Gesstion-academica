@@ -60,6 +60,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
         //Route::get('/propuestas/pasantia/pdf', [PropuestaPDFController::class, 'exportPasantiaPDF'])->name('propuestas.pasantia.pdf');
         Route::get('/unidad-curricular/{id}/secciones', [UnidadCurricularController::class, 'getSecciones']);
         //Route::resource('/servicio_comunitario', ServicioComunitarioController::class)->parameters(['servicio_comunitario' => 'servicio']);
+        Route::get('/profesores/export', [ProfesorController::class, 'export'])->name('profesores.export');
     });
 
 

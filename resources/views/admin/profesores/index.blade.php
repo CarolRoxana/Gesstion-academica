@@ -24,17 +24,17 @@
                 </thead>
                 <tbody>
                     @foreach ($profesores as $profesor)
-                    <tr>
-                        <td>{{ $profesor->sede }}</td>
-                        <td>{{ $profesor->docente }}</td>
-                        <td>{{ $profesor->cedula }}</td>
-                        <td>{{ $profesor->correo }}</td>
-                        <td>{{ $profesor->carrera }}</td>
-                        <td>{{ $profesor->unidad_curricular }}</td>
-                        <td>{{ $profesor->num_secciones }}</td>
-                        <td>{{ $profesor->modalidad }}</td>
-                    </tr>
-                     @endforeach
+                        <tr>
+                            <td>{{ $profesor->sede }}</td>
+                            <td>{{ $profesor->docente}}</td>
+                            <td>{{ $profesor->cedula }}</td>
+                            <td>{{ $profesor->correo }}</td>
+                            <td>{{ $profesor->carrera }}</td>
+                            <td>{{ $profesor->unidad_curricular }}</td>
+                            <td>{{ $profesor->num_secciones }}</td>
+                            <td>{{ $profesor->modalidad }}</td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
