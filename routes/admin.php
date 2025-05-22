@@ -53,7 +53,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
         //Route::resource('/temario_docente', TemarioDocenteController::class);
         Route::resource('/propuesta_tg', PropuestaTgController::class);
         //Route::resource('/propuesta_tp', PropuestaTpController::class);
-        Route::resource('/talento_humano', TalentoHumanoController::class);
+        //Route::resource('/talento_humano', TalentoHumanoController::class);
         Route::resource('/incidente-estudiantil', IncidenteEstudiantilController::class);
         Route::get('/horarios/pdf/{periodo}', [HorarioPDFController::class, 'exportHorarioPDF'])->name('admin.horarios.pdf');
         Route::get('/propuestas/grado/pdf', [PropuestaPDFController::class, 'exportGradoPDF'])->name('admin.propuestas.grado.pdf');
@@ -64,8 +64,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
 
 
     Route::middleware(['role:Jefe departamento'])->group(function () {
-       // Route::resource('/talento_humano', TalentoHumanoController::class);
-       // Route::resource('/curso-inter-semestral', CursoInterSemestralController::class);
+        // Route::resource('/talento_humano', TalentoHumanoController::class);
+        // Route::resource('/curso-inter-semestral', CursoInterSemestralController::class);
     });
     Route::middleware(['role:Jefe area'])->group(function () {
         //Route::resource('/talento_humano', TalentoHumanoController::class);
@@ -101,18 +101,28 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
 
     //VERDADERO ORDEN DE RUTAS
     Route::middleware(['role:Jefe departamento|Admin|Coordinador'])->group(function () {
-            Route::resource('/talento_humano', TalentoHumanoController::class);
+
         Route::resource('/curso-inter-semestral', CursoInterSemestralController::class);
     });
 
     Route::middleware(['role:Jefe area|Admin|Coordinador'])->group(function () {
-        Route::resource('/talento_humano', TalentoHumanoController::class);
+
         Route::resource('/desempeno-docente', DesempenoDocenteController::class);
     });
 
 
+    Route::middleware(['role:Jefe area|Jefe departamento|Admin|Coordinador'])->group(function () {
+        Route::resource('/talento_humano', TalentoHumanoController::class);
+    });
+
+    Route::middleware(['role:Admin|Coordinador|Secretaria|Jefe area|Secretaria'])->group(function () {
+    Route::resource('/docente', DocenteController::class);
+    });
+
+
+
     Route::middleware(['role:Secretaria|Admin|Coordinador'])->group(function () {
-        Route::resource('/docente', DocenteController::class);
+       
         Route::get('/horario', [HorarioController::class, 'index'])->name('horario.index');
         Route::get('/horarios/pdf/{periodo}', [HorarioPDFController::class, 'exportHorarioPDF'])->name('horarios.pdf');
     });
@@ -120,7 +130,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::middleware(['role:Docente|Admin|Coordinador'])->group(function () {
         Route::resource('/plan_evaluacion_docente', PlanEvaluacionDocenteController::class);
         Route::resource('/temario_docente', TemarioDocenteController::class);
-       
     });
 
     Route::middleware(['role:Jefe area|Admin|Coordinador|Secretaria'])->group(function () {
@@ -133,6 +142,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
         Route::resource('/propuesta_tg', PropuestaTgController::class)->names('propuesta_tg');
         Route::get('/propuestas/grado/pdf', [PropuestaPDFController::class, 'exportGradoPDF'])->name('propuestas.grado.pdf');
         Route::get('/propuestas/pasantia/pdf', [PropuestaPDFController::class, 'exportPasantiaPDF'])->name('propuestas.pasantia.pdf');
-         Route::resource('/servicio_comunitario', ServicioComunitarioController::class)->parameters(['servicio_comunitario' => 'servicio']);
+        Route::resource('/servicio_comunitario', ServicioComunitarioController::class)->parameters(['servicio_comunitario' => 'servicio']);
     });
 });
