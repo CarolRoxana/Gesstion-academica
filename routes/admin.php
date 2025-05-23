@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CuerpoHorarioController;
 use App\Http\Controllers\CursoInterSemestralController;
 use App\Http\Controllers\DesempenoDocenteController;
 use App\Http\Controllers\DocenteController;
@@ -33,6 +34,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
 
     Route::middleware(['role:Admin|Coordinador'])->group(function () {
 
+
+
+        Route::get('/cuerpo_horario', [CuerpoHorarioController::class, 'index'])->name('cuerpo_horario.index');
+        Route::get('/cuerpo_horario/{id}/edit', [CuerpoHorarioController::class, 'edit'])->name('cuerpo_horario.edit');
+        Route::put('/cuerpo_horario/{id}', [CuerpoHorarioController::class, 'update'])->name('cuerpo_horario.update');
         Route::resource('user', UserController::class);
         Route::put('user/{user}/role', [UserController::class, 'updateRole'])->name('user.updateRole');
         Route::resource('role', RoleController::class);
@@ -117,13 +123,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     });
 
     Route::middleware(['role:Admin|Coordinador|Secretaria|Jefe area|Secretaria'])->group(function () {
-    Route::resource('/docente', DocenteController::class);
+        Route::resource('/docente', DocenteController::class);
     });
 
 
 
     Route::middleware(['role:Secretaria|Admin|Coordinador'])->group(function () {
-       
+
         Route::get('/horario', [HorarioController::class, 'index'])->name('horario.index');
         Route::get('/horarios/pdf/{periodo}', [HorarioPDFController::class, 'exportHorarioPDF'])->name('horarios.pdf');
     });
