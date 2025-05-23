@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class CuerpoHorarioController extends Controller
 {
- 
+
 
     public function edit($id)
     {
@@ -30,17 +30,19 @@ class CuerpoHorarioController extends Controller
         $cuerpo_horario = CuerpoHorario::find($id);
 
         if ($cuerpo_horario) {
+            $descripcionLimpia = str_replace('?', '', $request->descripcion);
             $cuerpo_horario->update([
-                'descripcion' => $request->descripcion,
+                'descripcion' => $descripcionLimpia,
             ]);
         } else {
             // Si no existe, crea uno nuevo
+            $descripcionLimpia = str_replace('?', '', $request->descripcion);
             CuerpoHorario::create([
-                'descripcion' => $request->descripcion,
+                'descripcion' => $descripcionLimpia,
             ]);
         }
 
 
-         return redirect()->route('admin.horario.index')->with('message', 'Cuerpo Horario registrado correctamente');
+        return redirect()->route('admin.horario.index')->with('message', 'Cuerpo Horario registrado correctamente');
     }
 }

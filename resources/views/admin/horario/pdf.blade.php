@@ -1,6 +1,6 @@
 @php
     use Carbon\Carbon;
-     use App\Helpers\ArrayHelper;
+    use App\Helpers\ArrayHelper;
 @endphp
 
 <!DOCTYPE html>
@@ -69,12 +69,17 @@
 </head>
 
 <body>
-
-    <div class="header">
-        <div class="title">{{ $titulo }}</div>
-        <div class="subtitle">Generado: {{ $fecha }}</div>
+    <div style="text-align: center;">
+        <img src="file://{{ public_path('admin/dist/img/UnegLogo_160x160.jpg') }}" alt="Logo UNEG"
+            style="max-width: 100px; max-height: 100px; display: inline-block;">
     </div>
-    
+    <br>
+    @if ($cuerpo_horario)
+        <div class="">
+            {!! $cuerpo_horario->descripcion !!}
+        </div>
+    @endif
+
     @foreach ($agrupados as $sede => $semestres)
         @foreach ($semestres as $semestre => $secciones)
             @foreach ($secciones as $seccion => $horarios)
@@ -111,8 +116,6 @@
                                 @foreach ($dias as $dia)
                                     @php
 
-                                    
-
                                         // Verificar si ya se imprimió por rowspan
                                         $bloqueKey = $i . '_' . $dia;
                                         if (isset($ocupadas[$bloqueKey])) {
@@ -144,7 +147,7 @@
                                                         break;
                                                     }
                                                 }
-                                              
+
                                                 if ($sede == 'Villa Asia') {
                                                     $resultado = ArrayHelper::descripcionAulaVillasiaPorId($h->aula_id);
 
@@ -154,7 +157,7 @@
                                                         '</strong><br>' .
                                                         $h->docente_nombre .
                                                         ' ' .
-                                                        $h->docente_apellido . 
+                                                        $h->docente_apellido .
                                                         '<br>' .
                                                         $resultado;
                                                 } elseif (isset($h->modalidad) && $h->modalidad !== 'Virtual') {
@@ -206,9 +209,9 @@
         @endforeach
     @endforeach
 
-    <div class="footer">
+    {{--   <div class="footer">
         Sistema Académico - {{ config('app.name') }}
-    </div>
+    </div> --}}
 </body>
 
 </html>

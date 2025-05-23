@@ -136,7 +136,7 @@ class HorarioPDFController extends Controller
         $titulo = "Reporte de Horarios Docentes";
 
         $fecha =  Carbon::now()->isoFormat('D [de] MMMM [de] YYYY, h:mm a');
-        $pdf = Pdf::loadView('admin.horario.pdf', compact('bloques', 'horarios', "fecha", "titulo", "agrupados", "dias"))
+        $pdf = Pdf::loadView('admin.horario.pdf', compact('bloques', 'horarios', "fecha", "titulo", "agrupados", "dias","cuerpo_horario"))
             ->setPaper('A4', 'landscape');
 
         return $pdf->stream('horarios_' . now()->format('dmy_His') . '.pdf');

@@ -23,7 +23,7 @@
                 @csrf
                 @method('PUT')
                 <img src="{{ asset('admin/dist/img/UnegLogo_160x160.jpg') }}" alt="Logo UNEG"
-                    style="max-width: 160px; max-height: 160px; display: block; margin: 0 auto;">
+                    style="max-width: 100px; max-height: 100px; display: block; margin: 0 auto;">
                 <br>
                     <textarea class="textarea" name="descripcion">{{ old('descripcion', $cuerpo_horario->descripcion ?? '') }}</textarea>
 
