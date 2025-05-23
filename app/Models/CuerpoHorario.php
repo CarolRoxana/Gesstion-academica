@@ -14,4 +14,5 @@ class CuerpoHorario extends Model
     protected $fillable = [
         "descripcion",
     ];
+    public $timestamps = false;
 }

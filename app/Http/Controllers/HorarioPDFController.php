@@ -29,7 +29,15 @@ class HorarioPDFController extends Controller
             return back()->withErrors(['conflicto' => $mensaje])->withInput();
         }
 
-        // dd("hola",$periodo,$data_periodo);
+        
+        //debe existir el cuerpo horario
+        $cuerpo_horario = DB::table('cuerpo_horario')->first();
+        if (!$cuerpo_horario) {
+            $mensaje = "<div style='padding: 8px 0; background:#d9534f; color:#fff; border-radius:4px; text-align:center;'>";
+            $mensaje .= "<span style='font-weight:bold;'>No existe el cuerpo horario, por favor registre uno.</span>";
+            $mensaje .= "</div>";
+            return back()->withErrors(['conflicto' => $mensaje])->withInput();
+        }
 
         // Establecer el locale en español
         Carbon::setLocale('es');

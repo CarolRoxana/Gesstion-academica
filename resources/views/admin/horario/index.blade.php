@@ -17,21 +17,27 @@
         <div class="card-header">
             <h3 class="card-title">Listado de Horarios</h3>
             <div class="card-tools">
-              
+
                 <a href="#" id="btnGenerarPDF" class="btn btn-sm btn-danger" data-toggle="modal"
                     data-target="#modalFiltros">
                     Generar PDF
                 </a>
 
                 @can('crear_horarios')
-                    <a href="{{ route('admin.horario.create') }}" class="btn btn-sm btn-info">Nuevo</a>
+                    <a href="{{ route('admin.horario.create', ) }}" class="btn btn-sm btn-info">Nuevo Horario</a>
                 @endcan
+                @canany(['ver_cuerpo_horario', 'crear_cuerpo_horario'])
+                    <a href="{{ route('admin.cuerpo_horario.edit', $cuerpo_horario ? $cuerpo_horario->id : 0) }}"
+                        class="btn btn-sm btn-info">Contenido de horario</a>
+                @endcanany
             </div>
         </div>
         <div class="card-body">
             @if (session('message'))
                 <div class="alert alert-success">{{ session('message') }}</div>
             @endif
+
+
             <table class="table table-striped" id="horarioTable">
                 <thead>
                     <tr>
@@ -131,7 +137,7 @@
                     callSwalAlert('Por favor selecciona un período.');
                     return;
                 }
-             
+
                 window.location.href = `/admin/horarios/pdf/${periodoSelect.value}`;
 
 
