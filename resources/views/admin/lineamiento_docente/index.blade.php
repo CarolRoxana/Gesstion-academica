@@ -2,8 +2,8 @@
 @section('title', 'Lineamientos Docentes')
 
 <div class="card shadow-sm">
-    <div class="card-header bg-light d-flex justify-content-between align-items-center py-3">
-        <a href="{{ route('admin.lineamiento-docente.create') }}" class="btn btn-primary">
+    <div class="card-header">
+        <a href="{{ route('admin.lineamiento-docente.create') }}" class="btn btn-sm btn-primary">
             <i class="fas fa-plus-circle me-1"></i> Crear Lineamiento
         </a>
     </div>
@@ -18,7 +18,7 @@
         
         <div class="table-responsive">
             <table class="table table-bordered table-hover" id="lineamientosTable" style="width:100%">
-                <thead class="table-light">
+                <thead>
                     <tr>
                         <th>Docente</th>
                         <th>Fecha Supervisión</th>

@@ -1,7 +1,8 @@
 <x-admin>
     @section('title', 'Unidades Curriculares')
 
-    <a href="{{ route('admin.unidad-curricular.create') }}" class="btn btn-primary mb-3">Nueva Unidad Curricular</a>
+    <a href="{{ route('admin.unidad-curricular.create') }}" class="btn btn-primary mb-3">
+        <i class="fas fa-plus-circle me-1"></i> Nueva Unidad Curricular</a>
 
     <div class="card">
         <div class="card-body table-responsive">

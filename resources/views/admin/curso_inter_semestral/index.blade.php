@@ -1,10 +1,11 @@
 <x-admin>
     @section('title', 'Cursos Intersemestrales')
     <div class="mb-3">
-        <a href="{{ route('admin.curso-inter-semestral.create') }}" class="btn btn-primary">Nuevo Curso</a>
-    </div>
-
-    <div class="card">
+        <a href="{{ route('admin.curso-inter-semestral.create') }}" class="btn btn-sm btn-primary">
+            <i class="fas fa-plus-circle me-1"></i> Nuevo Curso</a>
+        </div>
+        
+        <div class="card">
         <div class="card-body">
             <table class="table table-bordered">
                 <thead>

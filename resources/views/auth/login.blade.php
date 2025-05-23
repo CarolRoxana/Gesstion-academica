@@ -32,9 +32,9 @@
                         <input id="password" class="form-control" type="password" name="password" required placeholder="**********"
                             autocomplete="current-password">
                         <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
+                            <button type="button" class="btn btn-outline-secondary" id="togglePassword" tabindex="-1">
+                                <span id="iconoPassword" class="fas fa-lock"></span>
+                            </button>
                         </div>
                         <x-input-error :messages="$errors->get('password')" class="mt-2" />
                     </div>
@@ -57,12 +57,27 @@
                 <p class="mb-1 text-center">
                     <a href="{{ route('password.request') }}">Recuperar contraseña</a>
                 </p>
-                <p class="mb-0 text-center">
+                {{-- <p class="mb-0 text-center">
                     <a href="{{ route('register') }}" class="text-center">Registrar una nueva cuenta</a>
-                </p>
+                </p> --}}
             </div>
             <!-- /.card-body -->
         </div>
         <!-- /.card -->
     </div>
+<script>
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const passwordInput = document.getElementById('password');
+        const icon = document.getElementById('iconoPassword');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-lock');
+                icon.classList.add('fa-lock-open');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-lock-open');
+                icon.classList.add('fa-lock');
+            }
+    });
+</script>
 </x-guest-layout>

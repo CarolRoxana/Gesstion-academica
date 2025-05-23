@@ -2,7 +2,8 @@
     @section('title', 'Unidades Curriculares por Periodo')
 
     <div class="mb-3">
-        <a href="{{ route('admin.unidad-curricular-periodo.create') }}" class="btn btn-success">Nueva Asignación</a>
+        <a href="{{ route('admin.unidad-curricular-periodo.create') }}" class="btn btn-sm btn-success">
+            <i class="fas fa-plus-circle me-1"></i> Nueva Asignación</a>
     </div>
 
     <div class="card">
@@ -10,7 +11,6 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Unidad Curricular</th>
                         <th>Periodo</th>
                         <th>Sede</th>
@@ -21,7 +21,6 @@
                 <tbody>
                     @foreach($registros as $registro)
                         <tr>
-                            <td>{{ $registro->id }}</td>
                             <td>{{ $registro->unidadCurricular->nombre }}</td>
                             <td>{{ $registro->periodoAcademico->periodo }}</td>
                             <td>{{ $registro->sede }}</td>

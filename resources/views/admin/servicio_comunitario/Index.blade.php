@@ -1,49 +1,24 @@
 <x-admin>
     @section('title', 'Servicio Comunitario')
 
-    @section('content_header')
-        <div class="d-flex justify-content-between align-items-center">
-
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item">
-                        <a href="{{ route('admin.dashboard') }}">
-                            <i class="fas fa-home me-1"></i>Dashboard
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        Servicios comunitarios
-                    </li>
-                </ol>
-            </nav>
-        </div>
-    @endsection
-
-
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
-
-
-    <div class="card shadow-sm border-0">
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <a href="{{ route('admin.servicio_comunitario.create') }}"  class="btn btn-sm btn-success">
-                Nuevo servicio
+    <div class="card">
+        <div class="card-body">
+            <a href="{{ route('admin.servicio_comunitario.create') }}"class="btn btn-sm btn-primary mb-3">
+                <i class="fas fa-plus-circle me-1"></i> Nuevo servicio
             </a>
         </div>
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
 
         <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light text-uppercase small">
+                <table class="table table-bordered">
+                    <thead class=" text-uppercase small">
                         <tr>
-                            <th scope="col" style="width:18%;">Estudiante</th>
+                            <th scope="col" style="width:18%;">Nombre Estudiante(s)</th>
                             <th scope="col" style="width:22%;">Título del servicio comunitario</th>
-                            <th scope="col" style="width:18%;">Tutor</th>
-                            <th scope="col" style="width:10%;">Estado</th>
+                            <th scope="col" style="width:18%;">Docente Tutor</th>
+                            <th scope="col" style="width:10%;">Estatus</th>
                             <th scope="col" style="width:12%;">Ingreso</th>
                             <th scope="col" style="width:14%;" class="text-end">Acciones</th>
                         </tr>
@@ -59,9 +34,17 @@
                                 };
                             @endphp
                             <tr>
-
                                 <td>
-                                    {{ $servicio->nombre_estudiante }} {{ $servicio->apellido_estudiante }}<br>
+                                   {{ $servicio->nombre_estudiante }} {{ $servicio->apellido_estudiante }}
+                                    @for ($i = 2; $i <= 5; $i++)
+                                        @php
+                                            $nombre = 'nombre_estudiante' . $i;
+                                            $apellido = 'apellido_estudiante' . $i;
+                                        @endphp
+                                        @if(!empty($servicio->$nombre))
+                                            <br>{{ $servicio->$nombre }} {{ $servicio->$apellido }}
+                                        @endif
+                                    @endfor
                                 </td>
 
                                 <td>{{ Str::limit($servicio->titulo_servicio, 45) }}</td>
@@ -83,45 +66,24 @@
                                 <td>{{ \Carbon\Carbon::parse($servicio->fecha_ingreso)->format('d/m/Y') }}</td>
 
                                 <td class="text-end">
-                                    <a  href="{{ route('admin.servicio_comunitario.show',  $servicio->id) }}"
-                                        class="btn btn-sm btn-success" title="Ver detalle">
+                                    <a href="{{ route('admin.servicio_comunitario.show',  $servicio->id) }}"
+                                       class="btn btn-sm btn-success" title="Ver detalle">
                                         Ver
                                     </a>
 
-                                    <a  href="{{ route('admin.servicio_comunitario.edit',  $servicio->id) }}"
-                                        class="btn btn-sm btn-primary" title="Editar">
+                                    <a href="{{ route('admin.servicio_comunitario.edit',  $servicio->id) }}"
+                                       class="btn btn-sm btn-primary" title="Editar">
                                         Editar
                                     </a>
 
-                                    <form action="{{ route('admin.servicio_comunitario.destroy', $servicio) }}" method="POST"
-                                        onsubmit="return confirm('¿Estás seguro de eliminar este registro?')">
+                                    <!-- Botón que abre el modal -->
+                                    <form action="{{ route('admin.servicio_comunitario.destroy', $servicio->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar este servicio comunitario?')">
+                                            Eliminar
+                                        </button>
                                     </form>
-
-                                    <div class="modal fade" id="deleteModal{{ $servicio->id }}" tabindex="-1">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <div class="modal-header bg-danger text-white">
-                                                    <h5 class="modal-title">
-                                                        <i class="fas fa-triangle-exclamation me-2"></i>Confirmar eliminación
-                                                    </h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    ¿Seguro que deseas eliminar el servicio comunitario
-                                                    <strong>“{{ $servicio->titulo_servicio }}”</strong>?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                        Cancelar
-                                                    </button>
-                                                     
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </td>
                             </tr>
                         @empty
@@ -133,7 +95,6 @@
                         @endforelse
                     </tbody>
                 </table>
-            </div>
         </div>
 
         @if(method_exists($servicios, 'links'))

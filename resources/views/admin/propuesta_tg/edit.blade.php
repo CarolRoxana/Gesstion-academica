@@ -41,8 +41,8 @@
                             <select name="carrera" class="form-control" required>
                                 <option value="">Seleccione una carrera</option>
                                 @foreach ($carreras as $carrera)
-                                    <option value="{{ $carrera }}" {{ old('carrera', $propuesta->carrera) == $carrera ? 'selected' : '' }}>
-                                        {{ $carrera }}
+                                    <option value="{{ $carrera->id }}" {{ old('carrera', $propuesta->carrera) == $carrera->nombre ? 'selected' : '' }}>
+                                        {{ $carrera->nombre }}
                                     </option>
                                 @endforeach
                             </select>
@@ -76,8 +76,8 @@
                             <select name="carrera2" class="form-control">
                                 <option value="">Seleccione una carrera</option>
                                 @foreach ($carreras as $carrera)
-                                    <option value="{{ $carrera }}" {{ old('carrera2', $propuesta->carrera2) == $carrera ? 'selected' : '' }}>
-                                        {{ $carrera }}
+                                    <option value="{{ $carrera->id }}" {{ old('carrera2', $propuesta->carrera2) == $carrera->nombre ? 'selected' : '' }}>
+                                        {{ $carrera->nombre }}
                                     </option>
                                 @endforeach
                             </select>
@@ -111,8 +111,8 @@
                             <select name="carrera3" class="form-control">
                                 <option value="">Seleccione una carrera</option>
                                 @foreach ($carreras as $carrera)
-                                    <option value="{{ $carrera }}" {{ old('carrera3', $propuesta->carrera3) == $carrera ? 'selected' : '' }}>
-                                        {{ $carrera }}
+                                    <option value="{{ $carrera->id }}" {{ old('carrera3', $propuesta->carrera3) == $carrera->nombre ? 'selected' : '' }}>
+                                        {{ $carrera->nombre }}
                                     </option>
                                 @endforeach
                             </select>
@@ -183,10 +183,10 @@
 
                 <div class="text-center">
                     <button type="submit" class="btn btn-success btn-lg">
-                        <i class="fas fa-save"></i> Actualizar Propuesta
+                         Actualizar Propuesta
                     </button>
                     <a href="{{ route('admin.propuesta_tg.index') }}" class="btn btn-secondary btn-lg ml-2">
-                        <i class="fas fa-arrow-left"></i> Volver
+                        </i> Volver
                     </a>
                 </div>
             </form>

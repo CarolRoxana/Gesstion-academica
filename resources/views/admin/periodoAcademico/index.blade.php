@@ -3,7 +3,8 @@
 
     <div class="d-flex justify-content-between mb-3">
         <h2>Lista de Periodos Académicos</h2>
-        <a href="{{ route('admin.periodo-academico.create') }}" class="btn btn-success">Nuevo Periodo</a>
+        <a href="{{ route('admin.periodo-academico.create') }}" class="btn btn-sm btn-success">
+            <i class="fas fa-plus-circle me-1"></i> Nuevo Periodo</a>
     </div>
 
     @if(session('success'))

@@ -2,9 +2,10 @@
     @section('title', 'Propuestas de Trabajo de grado')
 
     <div class="card">
-        <div class="card-body">
-            <a href="{{ route('admin.propuesta_tg.create') }}" class="btn btn-primary mb-3">Crear Propuesta</a>
-            <a href="{{ route('admin.propuestas.grado.pdf') }}" class="btn btn-danger mb-3">
+        <div class="card-header">
+            <a href="{{ route('admin.propuesta_tg.create') }}" class="btn btn-sm btn-primary mb-3">
+                <i class="fas fa-plus-circle me-1"></i> Crear Propuesta</a>
+            <a href="{{ route('admin.propuestas.grado.pdf') }}" class="btn btn-sm btn-danger mb-3">
                 <i class="fas fa-file-pdf"></i> Exportar Trabajos de Grado
             </a>
             
@@ -13,16 +14,17 @@
             @endif
 
             <table class="table table-bordered">
-                <thead>
+                <thead class=" text-uppercase small">
                     <tr>
-                        <th>Nombre(s) Tesista(s)</th>
-                        <th>Título de Propuesta</th>
-                        <th>Docente Tutor</th>
-                        <th>Estatus</th>
-                        <th>Fecha Ingreso</th>
+                        <th scope="col" style="width:18%;">Nombre(s) Tesista(s)</th>
+                        <th scope="col" style="width:22%;">Título de Propuesta</th>
+                        <th scope="col" style="width:18%;">Docente Tutor</th>
+                        <th scope="col" style="width:10%;">Estatus</th>
+                        <th scope="col" style="width:12%;">Fecha Ingreso</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
+                @if(count($propuestas) > 0)        
                 <tbody>
                     @foreach ($propuestas as $propuesta)
                         <tr>
@@ -53,6 +55,11 @@
                         </tr>
                     @endforeach
                 </tbody>
+                @else
+                 <li class="list-group-item text-center text-muted">
+                    <i class="fas fa-info-circle me-2"></i>No hay propuestas de grado registradas.
+                </li>
+                @endif
             </table>
         </div>
     </div>

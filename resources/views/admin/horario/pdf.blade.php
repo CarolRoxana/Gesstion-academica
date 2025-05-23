@@ -74,7 +74,7 @@
         <div class="title">{{ $titulo }}</div>
         <div class="subtitle">Generado: {{ $fecha }}</div>
     </div>
-
+    
     @foreach ($agrupados as $sede => $semestres)
         @foreach ($semestres as $semestre => $secciones)
             @foreach ($secciones as $seccion => $horarios)
@@ -166,10 +166,10 @@
                                                         ' ' .
                                                         $h->docente_apellido .
                                                         '<br>' .
-                                                        'Módulo: ' .
+                                                        ' ' .
                                                         ($h->modulo ?? '-') .
                                                         '<br>' .
-                                                        'Piso: ' .
+                                                        ' ' .
                                                         ($h->piso ?? '-') .
                                                         '<br>' .
                                                         $h->modalidad .

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ArrayHelper;
 use App\Models\Docente;
 use App\Models\PropuestaTp;
 use App\Models\UnidadCurricular;
@@ -18,7 +19,7 @@ class PropuestaTpController extends Controller
     public function create()
     {
         $docentes = Docente::all();
-        $carreras = UnidadCurricular::select('carrera')->distinct()->pluck('carrera');
+        $carreras = ArrayHelper::carreras();
         return view('admin.propuesta_tp.create', compact('docentes', 'carreras'));
     }
     public function show($id)
@@ -111,7 +112,7 @@ class PropuestaTpController extends Controller
         
         $propuesta = PropuestaTp::findOrFail($id);
         $docentes = Docente::all();
-        $carreras = UnidadCurricular::select('carrera')->distinct()->pluck('carrera');
+        $carreras = ArrayHelper::carreras();
         
         return view('admin.propuesta_tp.edit', compact('propuesta', 'docentes', 'carreras'));
     }

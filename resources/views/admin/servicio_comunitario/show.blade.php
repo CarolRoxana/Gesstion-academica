@@ -14,35 +14,67 @@
         </div>
     @endsection
 
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-header bg-primary text-white py-3">
-                    <h4 class="mb-0"><i class="fas fa-file-alt me-2"></i>   {{ $servicio->titulo_servicio }}  </h4>
-                </div>
-                <div class="card-body">
-                    <div class="mb-4">
-                        <div class="d-flex align-items-center mb-2">
-                            <div class="bg-light rounded-circle p-2 me-3">
-                                <i class="fas fa-user-graduate text-primary"></i>
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card shadow-sm border-0 mb-4">
+                            <div class="card-header bg-primary text-white py-3">
+                                <h4 class="mb-0"><i class="fas fa-file-alt me-2"></i>   {{ $servicio->titulo_servicio }}  </h4>
                             </div>
-                            <h5 class="mb-0">Información del Estudiante</h5>
-                        </div>
-                        <div class="ps-5 border-start border-2 border-light ms-2 mt-3">
+                            <div class="card-body">
+                                <div class="mb-4">
+                <div class="d-flex align-items-center mb-2">
+                    <div class="bg-light rounded-circle p-2 me-3">
+                        <i class="fas fa-user-graduate text-primary"></i>
+                    </div>
+                    <h5 class="mb-0">
+                        Información {{ isset($servicio->nombre_estudiante2) || isset($servicio->nombre_estudiante3) ? 'de los Estudiantes' : 'del Estudiante' }}
+                    </h5>
+                </div>
+                {{-- Estudiante 1 --}}
+                <div class="ps-5 border-start border-2 border-light ms-2 mt-3">
+                    @if(isset($servicio->nombre_estudiante2) || isset($servicio->nombre_estudiante3) || isset($servicio->nombre_estudiante4) || isset($servicio->nombre_estudiante5))
+                        <h6 class="fw-bold mb-2">Estudiante 1</h6>
+                    @endif
+                    <div class="row mb-2">
+                        <div class="col-md-3 text-muted">Nombre completo:</div>
+                        <div class="col-md-9 fw-bold">{{ $servicio->nombre_estudiante }} {{ $servicio->apellido_estudiante }}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3 text-muted">Cédula:</div>
+                        <div class="col-md-9">{{ $servicio->cedula }}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3 text-muted">Carrera:</div>
+                        <div class="col-md-9">{{ \App\Helpers\ArrayHelper::carrerasPorId($servicio->carrera) }}</div>
+                    </div>
+                </div>
+                {{-- Estudiantes 2 a 5 --}}
+                @for ($i = 2; $i <= 5; $i++)
+                    @php
+                        $nombre = 'nombre_estudiante' . $i;
+                        $apellido = 'apellido_estudiante' . $i;
+                        $cedula = 'cedula' . $i;
+                        $carrera = 'carrera' . $i;
+                    @endphp
+                    @if(!empty($servicio->$nombre))
+                        <div class="ps-5 border-start border-2 border-light ms-2 mt-4">
+                            <h6 class="fw-bold mb-2">Estudiante {{ $i }}</h6>
                             <div class="row mb-2">
                                 <div class="col-md-3 text-muted">Nombre completo:</div>
-                                <div class="col-md-9 fw-bold">{{ $servicio->nombre_estudiante }} {{ $servicio->apellido_estudiante }}</div>
+                                <div class="col-md-9 fw-bold">{{ $servicio->$nombre }} {{ $servicio->$apellido }}</div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-3 text-muted">Cédula:</div>
-                                <div class="col-md-9">{{ $servicio->cedula }}</div>
+                                <div class="col-md-9">{{ $servicio->$cedula }}</div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-3 text-muted">Carrera:</div>
-                                <div class="col-md-9">{{ $servicio->carrera }}</div>
+                                <div class="col-md-9">{{ \App\Helpers\ArrayHelper::carrerasPorId($servicio->$carrera) }}</div>
                             </div>
                         </div>
-                    </div>
+                    @endif
+                @endfor
+            </div>
 
                     <div class="mb-4">
                         <div class="d-flex align-items-center mb-2">
@@ -129,7 +161,7 @@
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                             <span><i class="fas fa-graduation-cap text-primary me-2"></i>Carrera</span>
-                            <span class="badge bg-light text-dark">{{ $servicio->carrera }}</span>
+                            <div class="col-md-9">{{\App\Helpers\ArrayHelper::carrerasPorId ($servicio->carrera) }}</div>
                         </li>
                     </ul>
                 </div>

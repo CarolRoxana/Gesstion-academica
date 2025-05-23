@@ -46,7 +46,7 @@
                             <select name="carrera" class="form-control" required>
                                 <option value="">Seleccione una carrera</option>
                                 @foreach ($carreras as $carrera)
-                                    <option value="{{ $carrera }}" @selected(old('carrera')==$carrera)>{{ $carrera }}</option>
+                                    <option value="{{ $carrera->id }}" @selected(old('carrera')==$carrera->nombre)>{{ $carrera->nombre }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -83,7 +83,7 @@
                             <select name="carrera2" class="form-control">
                                 <option value="">Seleccione una carrera</option>
                                 @foreach ($carreras as $carrera)
-                                    <option value="{{ $carrera }}" @selected(old('carrera2')==$carrera)>{{ $carrera }}</option>
+                                    <option value="{{ $carrera->id }}" @selected(old('carrera2')==$carrera->nombre)>{{ $carrera->nombre }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -120,7 +120,7 @@
                             <select name="carrera3" class="form-control">
                                 <option value="">Seleccione una carrera</option>
                                 @foreach ($carreras as $carrera)
-                                    <option value="{{ $carrera }}" @selected(old('carrera3')==$carrera)>{{ $carrera }}</option>
+                                    <option value="{{ $carrera->id }}" @selected(old('carrera3')==$carrera->nombre)>{{ $carrera->nombre }}</option>
                                 @endforeach
                             </select>
                         </div>

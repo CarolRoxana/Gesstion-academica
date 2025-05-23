@@ -42,7 +42,7 @@
                         </div>
                         <div class="row mb-2">
                             <div class="col-md-3 text-muted">Carrera:</div>
-                            <div class="col-md-9">{{ $propuesta->carrera }}</div>
+                            <div class="col-md-9">{{\App\Helpers\ArrayHelper::carrerasPorId ($propuesta->carrera) }}</div>
                         </div>
                     </div>
                     
@@ -60,7 +60,7 @@
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-3 text-muted">Carrera:</div>
-                                <div class="col-md-9">{{ $propuesta->carrera2 }}</div>
+                                <div class="col-md-9">{{\App\Helpers\ArrayHelper::carrerasPorId ($propuesta->carrera2) }}</div>
                             </div>
                         </div>
                     @endif
@@ -79,7 +79,7 @@
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-3 text-muted">Carrera:</div>
-                                <div class="col-md-9">{{ $propuesta->carrera3 }}</div>
+                                <div class="col-md-9">{{\App\Helpers\ArrayHelper::carrerasPorId ($propuesta->carrera3) }}</div>
                             </div>
                         </div>
                     @endif
@@ -182,7 +182,7 @@
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                             <span><i class="fas fa-graduation-cap text-primary me-2"></i>Carrera</span>
-                            <span class="badge bg-light text-dark">{{ $propuesta->carrera }}</span>
+                            <span class="badge bg-light text-dark">{{\App\Helpers\ArrayHelper::carrerasPorId ($propuesta->carrera) }}</span>
                         </li>
                     </ul>
                 </div>

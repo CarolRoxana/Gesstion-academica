@@ -87,10 +87,6 @@ class HorarioPDFController extends Controller
             ->orderBy('horarios.periodo_academico_id')
             ->get();
 
-
-
-
-
         $agrupados = [];
 
         foreach ($horarios as $horario) {

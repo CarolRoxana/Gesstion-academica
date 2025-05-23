@@ -2,8 +2,11 @@
     @section('title', 'Listado de Talento Humano')
     <div class="card">
         <div class="card-body">
-            <a href="{{ route('admin.talento_humano.create') }}" class="btn btn-primary">Nuevo Talento Humano</a>
-            <table class="table mt-3">
+            <a href="{{ route('admin.talento_humano.create') }}" class="btn btn-sm btn-primary">
+                <i class="fas fa-plus-circle me-1"></i> Nuevo Talento Humano</a>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Nombre</th>
@@ -33,6 +36,7 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>    
         </div>
     </div>
 </x-admin>

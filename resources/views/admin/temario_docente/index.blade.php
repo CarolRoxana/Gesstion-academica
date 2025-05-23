@@ -2,7 +2,9 @@
     @section('title', 'Temarios Docente')
     <div class="card">
         <div class="card-header">
-            <a href="{{ route('admin.temario_docente.create') }}" class="btn btn-primary">Agregar Temario</a>
+            <a href="{{ route('admin.temario_docente.create') }}" class="btn btn-sm btn-primary">
+             <i class="fas fa-plus-circle me-1"></i>   Agregar Temario
+            </a>
         </div>
         <div class="card-body">
             <table class="table table-striped">
