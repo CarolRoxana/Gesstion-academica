@@ -29,7 +29,17 @@ $(function () {
   })
 
   // bootstrap WYSIHTML5 - text editor
-  $('.textarea').summernote()
+  $('.textarea').summernote({
+            height: 200,
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']]
+            ]
+        })
 
   $('.daterange').daterangepicker({
     ranges: {

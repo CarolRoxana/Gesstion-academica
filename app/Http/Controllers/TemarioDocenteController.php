@@ -60,10 +60,13 @@ class TemarioDocenteController extends Controller
 
     public function destroy($id)
     {
-        $temario = TemarioDocente::findOrFail($id);
-        // Eliminar el archivo de la carpeta 'temarios'
-        // \Storage::disk('public')->delete($temario->contenido);
-        $temario->delete();
-        return redirect()->route('admin.temario_docente.index')->with('success', 'Temario eliminado con éxito.');
+        try {
+            $temario = TemarioDocente::findOrFail($id);
+            $temario->delete();
+            return redirect()->route('admin.temario_docente.index')->with('success', 'Temario eliminado con éxito.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.temario_docente.index')->with('error', 'Error al eliminar el temario.');
+        }
+   
     }
 }

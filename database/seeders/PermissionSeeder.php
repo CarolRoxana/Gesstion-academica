@@ -131,6 +131,10 @@ class PermissionSeeder extends Seeder
             'crear_servicio_comunitario',
             'editar_servicio_comunitario',
             'eliminar_servicio_comunitario',
+
+            //CUERPO DE HORARIO
+            'ver_cuerpo_horario',
+            'crear_cuerpo_horario',
         ];
 
         foreach ($permissions as $permission) {

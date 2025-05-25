@@ -107,13 +107,13 @@ class UnidadCurricularController extends Controller
 
     public function destroy(UnidadCurricular $unidad_curricular)
     {
-        if ($unidad_curricular->horarios()->exists()) {
-            return back()->withErrors(['error' => 'No se puede eliminar la unidad curricular porque tiene horarios asociados.']);
+        try {
+            $unidad_curricular->delete();
+            return redirect()->route('admin.unidad-curricular.index')
+                             ->with('success', 'Unidad Curricular eliminada correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.unidad-curricular.index')
+                             ->with('error', 'Error al eliminar la Unidad Curricular: ' . $e->getMessage());
         }
-    
-        $unidad_curricular->delete();
-    
-        return redirect()->route('admin.unidad-curricular.index')
-                         ->with('success', 'Unidad Curricular eliminada correctamente.');
     }
 }

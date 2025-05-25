@@ -92,10 +92,14 @@ class UnidadCurricularPeriodoAcademicoController extends Controller
 
     public function destroy($id)
     {
-        $registro = UnidadCurricularPeriodoAcademico::findOrFail($id);
-        $registro->delete();
-
-        return redirect()->route('admin.unidad-curricular-periodo.index')
-            ->with('success', 'Registro eliminado exitosamente.');
+        try {
+            $registro = UnidadCurricularPeriodoAcademico::findOrFail($id);
+            $registro->delete();
+            return redirect()->route('admin.unidad-curricular-periodo.index')
+                ->with('success', 'Registro eliminado exitosamente.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.unidad-curricular-periodo.index')
+                ->with('error', 'Error al eliminar el registro: ' . $e->getMessage());
+        }
     }
 }

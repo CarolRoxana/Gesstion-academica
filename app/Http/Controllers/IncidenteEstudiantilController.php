@@ -71,8 +71,12 @@ class IncidenteEstudiantilController extends Controller
 
     public function destroy(IncidenteEstudiantil $incidente_estudiantil)
     {
-        $incidente_estudiantil->delete();
-
-        return redirect()->route('admin\incidente_estudiantiles\index')->with('success', 'Incidente eliminado');
+        try {
+            $incidente_estudiantil->delete();
+            return redirect()->route('admin.incidente-estudiantil.index')->with('success', 'Incidente eliminado correctamente');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.incidente-estudiantil.index')->with('error', 'Error al eliminar el incidente');
+        }
+    
     }
 }

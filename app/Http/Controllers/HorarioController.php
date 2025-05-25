@@ -9,6 +9,7 @@ use App\Models\UnidadCurricular;
 use App\Models\PeriodoAcademico;
 use App\Models\Seccion;
 use App\Helpers\ArrayHelper;
+use App\Models\CuerpoHorario;
 use App\Models\UnidadCurricularPeriodoAcademico;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +20,7 @@ class HorarioController extends Controller
     public function index(Request $request)
     {
         $docentes = Docente::orderBy('apellido')->get();
-
+        $cuerpo_horario = CuerpoHorario::first();
         $horarios = Horario::with(['docente', 'unidadCurricular', 'periodoAcademico'])
             ->when($request->filled('docente_id'), function ($query) use ($request) {
                 $query->where('docente_id', $request->docente_id);
@@ -28,7 +29,7 @@ class HorarioController extends Controller
 
         $periodos  = PeriodoAcademico::all();
 
-        return view('admin\horario\index', compact('horarios', 'docentes', "periodos"));
+        return view('admin\horario\index', compact('horarios', 'docentes', "periodos","cuerpo_horario"));
     }
 
     /**
@@ -404,11 +405,15 @@ class HorarioController extends Controller
      */
     public function destroy($id)
     {
-        $horario = Horario::findOrFail($id);
-        $horario->delete();
 
-        return redirect()->route('admin.horario.index')->with('message', 'Horario eliminado correctamente');
-    }
+        try {
+            $horario = Horario::findOrFail($id);
+            $horario->delete();
+            return redirect()->route('admin.horario.index')->with('message', 'Horario eliminado correctamente');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.horario.index')->with('error', 'Error al eliminar el horario. Asegúrese de que no esté relacionado con otros registros.');
+        }
+     }
     public function aulasPorSede($sede)
     {
 

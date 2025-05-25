@@ -73,7 +73,11 @@ class CursoInterSemestralController extends Controller
 
     public function destroy(CursoInterSemestral $curso_inter_semestral)
     {
-        $curso_inter_semestral->delete();
-        return back()->with('success', 'Curso eliminado.');
+      try {
+            $curso_inter_semestral->delete();
+            return redirect()->route('admin.curso-inter-semestral.index')->with('success', 'Curso eliminado exitosamente.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.curso-inter-semestral.index')->with('error', 'Error al eliminar el curso. Asegúrese de que no esté asociado a otros registros.');
+        }
     }
 }

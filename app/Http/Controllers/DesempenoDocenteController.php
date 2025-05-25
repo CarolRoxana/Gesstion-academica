@@ -101,7 +101,12 @@ class DesempenoDocenteController extends Controller
 
     public function destroy(DesempenoDocente $desempenoDocente)
     {
-        $desempenoDocente->delete();
-        return redirect()->route('admin.desempeno-docente.index')->with('success', 'Desempeño docente eliminado correctamente.');
-    }
+
+        try {
+            $desempenoDocente->delete();
+            return redirect()->route('admin.desempeno-docente.index')->with('success', 'Desempeño docente eliminado correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.desempeno-docente.index')->with('error', 'Error al eliminar el desempeño docente. Asegúrese de que no esté relacionado con otros registros.');
+        }
+   }
 }

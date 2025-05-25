@@ -55,7 +55,7 @@ class PeriodoAcademicoController extends Controller
     {
 
         //dd($request->all(), $periodo_academico);
-    
+
 
         // Actualizar el periodo académico con los campos validados
         $data = PeriodoAcademico::find($periodo_academico);
@@ -63,7 +63,7 @@ class PeriodoAcademicoController extends Controller
         $data->fecha_inicio = $request->fecha_inicio;
         $data->fecha_finalizacion = $request->fecha_finalizacion;
 
-     
+
         $data->save();
 
 
@@ -72,7 +72,13 @@ class PeriodoAcademicoController extends Controller
 
     public function destroy(PeriodoAcademico $periodo_academico)
     {
-        $periodo_academico->delete();
-        return redirect()->route('admin.periodo-academico.index')->with('success', 'Periodo académico eliminado.');
+
+
+        try {
+            $periodo_academico->delete();
+            return redirect()->route('admin.periodo-academico.index')->with('success', 'Periodo académico eliminado.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.periodo-academico.index')->with('error', 'No se puede eliminar el periodo académico porque está en uso.');
+        }
     }
 }

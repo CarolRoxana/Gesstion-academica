@@ -32,7 +32,7 @@ Ahora puede niciar el servidor para ejecutar el proyecto.
 --------
 Manual de usuario
 
-[Manual de usuario - Gestión academica.pdf](https://github.com/user-attachments/files/20178459/Manual.de.usuario.-.Gestion.academica.pdf)
+[MANUAL USURARIO GESTION ACADEMICA.pdf](https://github.com/user-attachments/files/20394397/MANUAL.USURARIO.GESTION.ACADEMICA.pdf)
 
 --------
                                        
@@ -42,22 +42,25 @@ Manual de usuario
 - Admin
 
 email: ```testadmin@gmail.com```
-password: ```p$ssw#rd```
+password: ```testadmin@gmail.com```
 
 - Secretaria
 
 email: ```secretaria@gmail.com```
-password: ```p$ssw#rd```
+password: ```secretaria@gmail.com```
 
 - Coordinador
 
 email: ```coordinador@gmail.com```
-password: ```p$ssw#rd```
+password: ```coordinador@gmail.com```
 
 - Jefe area
 
 email: ```jefeArea@gmail.com```
-password: ```p$ssw#rd```
+password: ```jefeArea@gmail.com```
+
+
+Al crear un nuevo docente, este ingresa al sistema con su correo y su número de cédula.
 
 - Jefe departamento
 

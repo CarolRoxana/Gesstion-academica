@@ -1,6 +1,6 @@
-<x-admin>
-    @section('title', 'Horarios')
-    @include('admin.horario.modal_periodos', ['periodos' => $periodos])
+{{-- <x-admin>
+    @section('title', 'Cuerpo de Horario')
+ 
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -17,27 +17,21 @@
         <div class="card-header">
             <h3 class="card-title">Listado de Horarios</h3>
             <div class="card-tools">
-
+              
                 <a href="#" id="btnGenerarPDF" class="btn btn-sm btn-danger" data-toggle="modal"
                     data-target="#modalFiltros">
                     Generar PDF
                 </a>
 
                 @can('crear_horarios')
-                    <a href="{{ route('admin.horario.create', ) }}" class="btn btn-sm btn-info">Nuevo Horario</a>
+                    <a href="{{ route('admin.horario.create') }}" class="btn btn-sm btn-info">Nuevo</a>
                 @endcan
-                @canany(['ver_cuerpo_horario', 'crear_cuerpo_horario'])
-                    <a href="{{ route('admin.cuerpo_horario.edit', $cuerpo_horario ? $cuerpo_horario->id : 0) }}"
-                        class="btn btn-sm btn-info">Contenido de horario</a>
-                @endcanany
             </div>
         </div>
         <div class="card-body">
             @if (session('message'))
                 <div class="alert alert-success">{{ session('message') }}</div>
             @endif
-
-
             <table class="table table-striped" id="horarioTable">
                 <thead>
                     <tr>
@@ -100,51 +94,5 @@
 
     @section('js')
 
-        <script>
-            function callSwalAlert(body) {
-                window.dispatchEvent(new CustomEvent('success', {
-                    detail: [{
-                        title: "Mensaje de error",
-                        message: body,
-                    }]
-                }));
-            }
-        </script>
-        <script>
-            $(function() {
-                $('#horarioTable').DataTable({
-                    "paging": true,
-                    "searching": true,
-                    "ordering": true,
-                    "responsive": true,
-                });
-            });
-        </script>
-        // Modal para filtros
-        <script>
-            document.getElementById('btnResetFiltros').addEventListener('click', function() {
-                // Lógica para reiniciar filtros
-                $('#modalFiltros').modal('hide');
-            });
-
-            document.getElementById('btnAplicarFiltros').addEventListener('click', function() {
-                // Lógica para aplicar filtros
-                //evalua que el select de periodo no este vacio y tenga un valor seleccionado
-
-                const periodoSelect = document.getElementById('filtroPeriodo');
-                $('#modalFiltros').modal('hide');
-                if (periodoSelect.value === '') {
-                    callSwalAlert('Por favor selecciona un período.');
-                    return;
-                }
-
-                window.location.href = `/admin/horarios/pdf/${periodoSelect.value}`;
-
-
-
-
-            });
-        </script>
-
-    @endsection
 </x-admin>
+ --}}

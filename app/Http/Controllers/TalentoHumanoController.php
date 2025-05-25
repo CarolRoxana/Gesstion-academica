@@ -79,9 +79,12 @@ class TalentoHumanoController extends Controller
 
     public function destroy($id)
     {
-        $talentoHumano = TalentoHumano::findOrFail($id);
-        $talentoHumano->delete();
-
-        return redirect()->route('admin.talento_humano.index')->with('success', 'Talento Humano eliminado con éxito.');
+        try {
+            $talentoHumano = TalentoHumano::findOrFail($id);
+            $talentoHumano->delete();
+            return redirect()->route('admin.talento_humano.index')->with('success', 'Talento Humano eliminado con éxito.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.talento_humano.index')->with('error', 'Error al eliminar el Talento Humano.');
+        }
     }
 }
