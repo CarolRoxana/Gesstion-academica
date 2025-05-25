@@ -42,6 +42,12 @@ class ServicioComunitario extends Model
         'cedula5',
         'carrera5',
 
+        // Sexto estudiante
+        'nombre_estudiante5',
+        'apellido_estudiante5',
+        'cedula5',
+        'carrera5',
+
         // Otros campos
         'titulo_servicio',
         'trabajo_servicio',

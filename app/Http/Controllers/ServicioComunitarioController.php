@@ -62,6 +62,12 @@ class ServicioComunitarioController extends Controller
         'cedula5' => 'nullable|string|max:255',
         'carrera5' => 'nullable|string|max:255',
 
+        // Sexto estudiante (opcionales)
+        'nombre_estudiante6' => 'nullable|string|max:255',
+        'apellido_estudiante6' => 'nullable|string|max:255',
+        'cedula6' => 'nullable|string|max:255',
+        'carrera6' => 'nullable|string|max:255',
+
         'titulo_servicio' => 'required|string|max:255',
         'trabajo_servicio' => 'required|file|mimes:pdf|max:10240',
         'docente_id' => 'required|exists:docentes,id',
@@ -100,6 +106,14 @@ class ServicioComunitarioController extends Controller
         $validationRules['apellido_estudiante5'] = 'required|string|max:255';
         $validationRules['cedula5'] = 'required|string|max:255';
         $validationRules['carrera5'] = 'required|string|max:255';
+    }
+    // Validación adicional para estudiante 6
+    if ($request->filled('nombre_estudiante6') || $request->filled('apellido_estudiante6') ||
+        $request->filled('cedula5') || $request->filled('carrera6')) {
+        $validationRules['nombre_estudiante6'] = 'required|string|max:255';
+        $validationRules['apellido_estudiante6'] = 'required|string|max:255';
+        $validationRules['cedula6'] = 'required|string|max:255';
+        $validationRules['carrera6'] = 'required|string|max:255';
     }
 
     $request->validate($validationRules);
@@ -147,6 +161,13 @@ class ServicioComunitarioController extends Controller
         $servicioData['cedula5'] = $request->cedula5;
         $servicioData['carrera5'] = $request->carrera5;
     }
+        // Agregar datos si existe estudiante 6
+    if ($request->filled('nombre_estudiante6')) {
+        $servicioData['nombre_estudiante6'] = $request->nombre_estudiante6;
+        $servicioData['apellido_estudiante6'] =$request->apellido_tesista6;
+        $servicioData['cedula6'] = $request->cedula6;
+        $servicioData['carrera6'] = $request->carrera6;
+    }
 
     ServicioComunitario::create($servicioData);
 
@@ -187,6 +208,11 @@ class ServicioComunitarioController extends Controller
         'cedula5' => 'nullable|string|max:255',
         'carrera5' => 'nullable|string|max:255',
 
+        'nombre_estudiante6' => 'nullable|string|max:255',
+        'apellido_estudiante6' => 'nullable|string|max:255',
+        'cedula6' => 'nullable|string|max:255',
+        'carrera6' => 'nullable|string|max:255',
+
         'titulo_servicio' => 'required|string|max:255',
         'trabajo_servicio' => 'nullable|file|mimes:pdf|max:10240',
         'docente_id' => 'required|exists:docentes,id',
@@ -221,6 +247,13 @@ class ServicioComunitarioController extends Controller
         $validationRules['apellido_estudiante5'] = 'required|string|max:255';
         $validationRules['cedula5'] = 'required|string|max:255';
         $validationRules['carrera5'] = 'required|string|max:255';
+    }
+    if ($request->filled('nombre_estudiante6') || $request->filled('apellido_estudiante6') ||
+        $request->filled('cedula6') || $request->filled('carrera6')) {
+        $validationRules['nombre_estudiante6'] = 'required|string|max:255';
+        $validationRules['apellido_estudiante6'] = 'required|string|max:255';
+        $validationRules['cedula6'] = 'required|string|max:255';
+        $validationRules['carrera6'] = 'required|string|max:255';
     }
 
     $request->validate($validationRules);
@@ -259,6 +292,11 @@ class ServicioComunitarioController extends Controller
         $servicio->apellido_estudiante5 = $request->apellido_estudiante5;
         $servicio->cedula5 = $request->cedula5;
         $servicio->carrera5 = $request->carrera5;  
+    // Actualizar datos del estudiante 6
+        $servicio->nombre_estudiante6 = $request->nombre_estudiante6;
+        $servicio->apellido_estudiante6 = $request->apellido_estudiante6;
+        $servicio->cedula6 = $request->cedula6;
+        $servicio->carrera6 = $request->carrera6;  
 
     $servicio->save();
 

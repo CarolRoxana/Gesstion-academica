@@ -39,6 +39,12 @@ return new class extends Migration
             $table->string('apellido_estudiante5')->nullable();
             $table->string('cedula5')->nullable();
             $table->string('carrera5')->nullable();
+           
+            // Sexto estudiante (opcional)
+            $table->string('nombre_estudiante6')->nullable();
+            $table->string('apellido_estudiante6')->nullable();
+            $table->string('cedula6')->nullable();
+            $table->string('carrera6')->nullable();
             
             $table->string('titulo_servicio');
             $table->string('trabajo_servicio');

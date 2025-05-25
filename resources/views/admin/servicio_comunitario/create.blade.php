@@ -70,8 +70,8 @@
                             </select>
                         </div>
                     </div>
-                    {{-- Estudiantes 2 a 5 (opcionales) --}}
-                    @for ($i = 2; $i <= 5; $i++)
+                    {{-- Estudiantes 2 a 6 (opcionales) --}}
+                    @for ($i = 2; $i <= 6; $i++)
                         <div class="row mb-3">
                             <div class="col-md-3">
                                 <input type="text" name="nombre_estudiante{{ $i }}" class="form-control" placeholder="Nombre estudiante {{ $i }}" value="{{ old('nombre_estudiante'.$i) }}">
