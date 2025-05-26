@@ -71,15 +71,15 @@ protected $fillable = [
         return $this->hasMany(LineamientoDocente::class);
     }
 
-     public function temarios(): HasManyThrough
+    public function temarios(): HasManyThrough
     {
         return $this->hasManyThrough(
-            TemarioDocente::class,                 
+            TemarioDocente::class,                  
             UnidadCurricularPeriodoAcademico::class, 
-            'docente_id',     
-            'unidad_curricular_periodo_academico_id',
-            'id',              // clave primaria en Docente
-            'id'               // clave primaria en UCPA
+            'docente_id', // Clave foránea en UCPA que apunta a docente
+            'unidad_curricular_periodo_academico_id', // Clave foránea en TemarioDocente que apunta a UCPA
+            'id', // Docente.id
+            'id'  // UCPA.id
         )->orderByDesc('fecha_agregado');
     }
 

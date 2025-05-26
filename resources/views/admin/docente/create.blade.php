@@ -39,7 +39,7 @@
 
                 <div class="form-group">
                     <label>Teléfono</label>
-                    <input type="text" name="telefono" class="form-control"
+                    <input type="number" name="telefono" class="form-control"
                            value="{{ old('telefono') }}">
                 </div>
 

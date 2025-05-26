@@ -17,6 +17,8 @@ return new class extends Migration
             $table->text('contenido');
             $table->date('fecha_agregado');
             $table->foreign('unidad_curricular_periodo_academico_id')->references('id')->on('unidad_curricular_periodo_academico');
+            $table->unsignedBigInteger('docente_id');
+            $table->foreign('docente_id')->references('id')->on('docentes');
             $table->timestamps();
         });
     }

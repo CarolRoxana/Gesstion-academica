@@ -2,8 +2,18 @@
     @section('title', 'Agregar Temario Docente')
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.temario_docente.store') }}" method="POST" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('admin.temario_docente.store') }}" enctype="multipart/form-data">
                 @csrf
+               <div class="mb-3">
+                    <label for="docente_id" class="form-label">Docente</label>
+                    <select name="docente_id" class="form-control" required>
+                        @foreach($docentes as $docente)
+                            <option value="{{ $docente->id }}" {{ old('docente_id', $temario->docente_id ?? '') == $docente->id ? 'selected' : '' }}>
+                                {{ $docente->apellido }}, {{ $docente->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="form-group">
                     <label>Unidad Curricular y Período Académico</label>
                     <select name="unidad_curricular_periodo_academico_id" class="form-control" required>

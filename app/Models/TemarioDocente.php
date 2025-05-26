@@ -15,11 +15,12 @@ class TemarioDocente extends Model
         'unidad_curricular_periodo_academico_id',
         'contenido',
         'fecha_agregado',
+        'docente_id',
     ];
 
     public function unidadCurricularPeriodoAcademico()
     {
-        return $this->belongsTo(UnidadCurricularPeriodoAcademico::class);
+        return $this->belongsTo(UnidadCurricularPeriodoAcademico::class, 'unidad_curricular_periodo_academico_id');
     }
 
     public static function boot()
@@ -43,4 +44,10 @@ class TemarioDocente extends Model
     {
         return $this->belongsTo(PeriodoAcademico::class);
     }
+
+    public function docente()
+    {
+        return $this->belongsTo(Docente::class, 'docente_id');
+    }
+
 }
