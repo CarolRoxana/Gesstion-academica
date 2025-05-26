@@ -55,8 +55,11 @@ class TemarioDocenteController extends Controller
         return view('admin.temario_docente.edit', compact('temario', 'unidadCurricularPeriodoAcademico', 'docentes'));
     }
 
-    public function update(Request $request, TemarioDocente $temario)
+    public function update(Request $request, $id)
+
     {
+        $temario = TemarioDocente::findOrFail($id);
+      
         
         $validated = $request->validate([
             'unidad_curricular_periodo_academico_id' => 'required|exists:unidad_curricular_periodo_academico,id',
@@ -72,7 +75,13 @@ class TemarioDocenteController extends Controller
             $validated['contenido'] = $request->file('contenido')->store('temarios', 'public');
         }
         
-        $temario->update($validated);
+      $validated['docente_id'] = $request->input('docente_id'); // Aseguramos que docente_id se actualice
+      $temario->docente_id = $validated['docente_id'];
+        $temario->save();
+    
+       
+    
+
 
         return redirect()->route('admin.temario_docente.index')->with('success', 'Temario actualizado correctamente.');
     }
