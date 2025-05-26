@@ -16,10 +16,19 @@ class PlanEvaluacionDocente extends Model
         'porcentaje_evaluacion',
         'fecha_evaluacion',
         'tipo_evaluacion',
+        'docente_id',
     ];
     
+    protected $casts = [
+        'fecha_evaluacion' => 'date',
+    ];
+
     public function unidadCurricularPeriodoAcademico()
     {
         return $this->belongsTo(UnidadCurricularPeriodoAcademico::class);
+    }
+    public function docente()
+    {
+        return $this->belongsTo(Docente::class);
     }
 }

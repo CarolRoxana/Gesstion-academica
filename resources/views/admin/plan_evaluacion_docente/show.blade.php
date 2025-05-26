@@ -22,8 +22,8 @@
                 </dd>
                 <dt class="col-sm-4">Docente</dt>
                 <dd class="col-sm-8">
-                    {{ optional($plan->unidadCurricularPeriodoAcademico?->docente)->nombre ?? 'Sin docente' }}
-                    {{ optional($plan->unidadCurricularPeriodoAcademico?->docente)->apellido ?? '' }}
+                    {{ optional($plan->docente)->nombre ?? 'Sin docente' }}
+                    {{ optional($plan->docente)->apellido ?? '' }}
                 </dd>
                 <dt class="col-sm-4">Tipo de Evaluación</dt>
                 <dd class="col-sm-8">{{ $plan->tipo_evaluacion }}</dd>

@@ -21,6 +21,8 @@ return new class extends Migration
             ->references('id')
             ->on('unidad_curricular_periodo_academico');
             $table->timestamps();
+            $table->unsignedBigInteger('docente_id');
+            $table->foreign('docente_id')->references('id')->on('docentes');
         });
     }
 
