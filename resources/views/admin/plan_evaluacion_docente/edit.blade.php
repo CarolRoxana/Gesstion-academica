@@ -1,33 +1,34 @@
+{{-- filepath: resources/views/admin/plan_evaluacion_docente/edit.blade.php --}}
 <x-admin>
     @section('title', 'Editar Plan de Evaluación Docente')
     <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span>Editar Plan de Evaluación Docente</span>
+            <a href="{{ route('admin.plan_evaluacion_docente.index') }}" class="btn btn-secondary btn-sm">
+                Atrás
+            </a>
+        </div>
         <div class="card-body">
-            <form action="{{ route('admin.plan_evaluacion_docente.update', $planEvaluacion->id) }}" method="POST">
+            <form action="{{ route('admin.plan_evaluacion_docente.update', $plan->id) }}" method="POST">
                 @csrf
                 @method('PUT')
-                <div class="form-group">
-                    <label>Unidad Curricular y Período Académico</label>
-                    <select name="unidad_curricular_periodo_academico_id" class="form-control" required>
-                        @foreach($unidadCurricularPeriodoAcademico as $uc)
-                            <option value="{{ $uc->id }}" {{ $uc->id == $planEvaluacion->unidad_curricular_periodo_academico_id ? 'selected' : '' }}>
-                                {{ $uc->nombre }}
-                            </option>
-                        @endforeach
-                    </select>
+                <div class="mb-3">
+                    <label>Unidad Curricular</label>
+                    <input type="text" class="form-control" value="{{ optional($plan->unidadCurricularPeriodoAcademico?->unidadCurricular)->nombre }}" disabled>
                 </div>
-                <div class="form-group">
-                    <label>Porcentaje de Evaluación</label>
-                    <input type="number" name="porcentaje_evaluacion" class="form-control" min="0" max="100" value="{{ $planEvaluacion->porcentaje_evaluacion }}" required>
-                </div>
-                <div class="form-group">
-                    <label>Fecha de Evaluación</label>
-                    <input type="datetime-local" name="fecha_evaluacion" class="form-control" value="{{ $planEvaluacion->fecha_evaluacion->format('Y-m-d\TH:i') }}" required>
-                </div>
-                <div class="form-group">
+                <div class="mb-3">
                     <label>Tipo de Evaluación</label>
-                    <input type="text" name="tipo_evaluacion" class="form-control" value="{{ $planEvaluacion->tipo_evaluacion }}" required>
+                    <input type="text" name="tipo_evaluacion" class="form-control" value="{{ $plan->tipo_evaluacion }}" required>
                 </div>
-                <button type="submit" class="btn btn-success">Actualizar</button>
+                <div class="mb-3">
+                    <label>Porcentaje</label>
+                    <input type="number" name="porcentaje_evaluacion" class="form-control" value="{{ $plan->porcentaje_evaluacion }}" min="0" max="100" required>
+                </div>
+                <div class="mb-3">
+                    <label>Fecha de Evaluación</label>
+                    <input type="date" name="fecha_evaluacion" class="form-control" value="{{ $plan->fecha_evaluacion }}" required>
+                </div>
+                <button type="submit" class="btn btn-success">Guardar Cambios</button>
             </form>
         </div>
     </div>

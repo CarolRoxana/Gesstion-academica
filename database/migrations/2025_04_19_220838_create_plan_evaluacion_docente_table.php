@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('unidad_curricular_periodo_academico_id');
             $table->integer('porcentaje_evaluacion');
-            $table->dateTime('fecha_evaluacion');
+            $table->date('fecha_evaluacion');
             $table->string('tipo_evaluacion');
             $table->foreign('unidad_curricular_periodo_academico_id', 'uc_pa')
             ->references('id')

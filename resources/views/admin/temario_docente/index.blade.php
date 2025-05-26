@@ -20,8 +20,8 @@
                 <tbody>
                     @foreach($temarios as $temario)
                         <tr>
-                            <td>{{ $temario->unidadCurricularPeriodoAcademico->docente->nombre }} {{ $temario->unidadCurricularPeriodoAcademico->docente->apellido }}</td>
-                            <td>{{ $temario->unidadCurricularPeriodoAcademico->unidadCurricular->nombre }}</td>
+                            <td>{{ $temario->docente_asignado }}</td>
+                            <td>{{ $temario->unidadCurricularPeriodoAcademico->unidadCurricular->nombre ?? '-' }}</td>
                             <td>
                                 <a href="{{ asset('storage/' . $temario->contenido) }}" target="_blank" class="btn btn-info">Ver PDF</a>
                             </td>

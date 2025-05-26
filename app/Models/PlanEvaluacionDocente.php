@@ -17,7 +17,7 @@ class PlanEvaluacionDocente extends Model
         'fecha_evaluacion',
         'tipo_evaluacion',
     ];
-
+    
     public function unidadCurricularPeriodoAcademico()
     {
         return $this->belongsTo(UnidadCurricularPeriodoAcademico::class);

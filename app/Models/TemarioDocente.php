@@ -33,4 +33,14 @@ class TemarioDocente extends Model
             }
         });
     }
+
+    public function unidadCurricular()
+    {
+        return $this->belongsTo(UnidadCurricular::class);
+    }
+
+    public function periodoAcademico()
+    {
+        return $this->belongsTo(PeriodoAcademico::class);
+    }
 }

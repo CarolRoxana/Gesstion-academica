@@ -48,8 +48,8 @@
                         <div class="col-md-9">{{ \App\Helpers\ArrayHelper::carrerasPorId($servicio->carrera) }}</div>
                     </div>
                 </div>
-                {{-- Estudiantes 2 a 5 --}}
-                @for ($i = 2; $i <= 5; $i++)
+                {{-- Estudiantes 2 a 6 --}}
+                @for ($i = 2; $i <= 6; $i++)
                     @php
                         $nombre = 'nombre_estudiante' . $i;
                         $apellido = 'apellido_estudiante' . $i;
@@ -133,8 +133,8 @@
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between">
-                    <a href="{{ route('admin.servicio_comunitario.index') }}" class="btn btn-secondary">
-                        <i class="fas fa-arrow-left me-1"></i> Volver al listado
+                    <a href="{{ url()->previous() }} " class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Volver
                     </a>
                     <a href="{{ route('admin.servicio_comunitario.edit', $servicio) }}" class="btn btn-primary">
                         <i class="fas fa-edit me-1"></i> Editar

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('piso')->nullable();
             $table->string('modulo')->nullable();
 
-            $table->unsignedBigInteger('unidad_curricular_id');
+            $table->unsignedBigInteger('unidad_curricular_id'); 
             $table->unsignedBigInteger('periodo_academico_id');
             $table->foreign('docente_id')->references('id')->on('docentes');
             $table->foreignId('seccion_id')->constrained()->onDelete('cascade');

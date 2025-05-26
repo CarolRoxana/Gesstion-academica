@@ -74,7 +74,7 @@
                             </select>
                         </div>
                     </div>
-                    {{-- Estudiantes 2 a 5 (opcionales) --}}
+                    {{-- Estudiantes 2 a 6 (opcionales) --}}
                     @for ($i = 2; $i <= 6; $i++)
                         <div class="row mb-3">
                             <div class="col-md-3">

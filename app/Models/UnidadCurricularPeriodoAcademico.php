@@ -33,7 +33,12 @@ class UnidadCurricularPeriodoAcademico extends Model
 
     public function docente()
     {
-        return $this->belongsTo(Docente::class)->withDefault();
+        return $this->belongsTo(Docente::class, 'docente_id');
+    }
+
+    public function horarios()
+    {
+        return $this->hasMany(Horario::class, 'unidad_curricular_periodo_academico_id');
     }
     
 }

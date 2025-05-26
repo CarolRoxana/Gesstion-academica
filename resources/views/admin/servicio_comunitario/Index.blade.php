@@ -36,7 +36,7 @@
                             <tr>
                                 <td>
                                    {{ $servicio->nombre_estudiante }} {{ $servicio->apellido_estudiante }}
-                                    @for ($i = 2; $i <= 5; $i++)
+                                    @for ($i = 2; $i <= 6; $i++)
                                         @php
                                             $nombre = 'nombre_estudiante' . $i;
                                             $apellido = 'apellido_estudiante' . $i;

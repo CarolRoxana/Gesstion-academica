@@ -1,3 +1,4 @@
+{{-- filepath: resources/views/admin/plan_evaluacion_docente/index.blade.php --}}
 <x-admin>
     @section('title', 'Planes de Evaluación Docente')
     <div class="card">
@@ -16,18 +17,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($planEvaluaciones->groupBy(fn($plan) => $plan->unidadCurricularPeriodoAcademico->docente->id) as $docenteId => $evaluaciones)
-                        @php
-                            $docente = $evaluaciones->first()->unidadCurricularPeriodoAcademico->docente;
-                        @endphp
-                        <tr>
-                            <th>{{ $docente->unidadCurricularPeriodoAcademico->nombre }}</th>
-                            <td>{{ $docente->nombre }} {{ $docente->apellido }}</td>
-                            <td>
-                                <a href="{{ route('admin.plan_evaluacion_docente.show', $docente->id) }}" class="btn btn-info">Ver Evaluaciones</a>
-                            </td>
-                        </tr>
-                    @endforeach
+                @forelse($planEvaluaciones as $plan)
+                    @php
+                        $ucpa = $plan->unidadCurricularPeriodoAcademico;
+                        $docente = $ucpa?->docente;
+                        $unidadCurricular = $ucpa?->unidadCurricular;
+                    @endphp
+                    <tr>
+                        <td>
+                            {{ $docente ? $docente->nombre . ' ' . $docente->apellido : 'Sin docente' }}
+                        </td>
+                        <td>
+                            {{ $unidadCurricular ? $unidadCurricular->nombre : 'Sin unidad curricular' }}
+                        </td>
+                        <td>
+                            <a href="{{ route('admin.plan_evaluacion_docente.show', $plan->id) }}" class="btn btn-info btn-sm">Ver</a>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="3" class="text-center">No hay planes de evaluación registrados.</td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
         </div>

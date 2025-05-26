@@ -4,21 +4,28 @@
         <div class="card-body">
             <form action="{{ route('admin.plan_evaluacion_docente.store') }}" method="POST">
                 @csrf
-                <div class="form-group">
+                
+                <div class="form-group"><div class="form-group">
                     <label>Unidad Curricular </label>
                     <select name="unidad_curricular_periodo_academico_id" class="form-control" required>
                         @foreach($unidadCurricularPeriodoAcademico as $uc)
-                            <option value="{{ $uc->id }}">{{ $uc->nombre}}</option>
+                            <option value="{{ $uc->id }}">
+                                {{ $uc->unidadCurricular->nombre }} - {{ $uc->modalidad }}  </option>
                         @endforeach
                     </select>
                 </div>
-                <div class="form-group">
                     <label>Porcentaje de Evaluación</label>
                     <input type="number" name="porcentaje_evaluacion" class="form-control" min="0" max="100" required>
                 </div>
                 <div class="form-group">
                     <label>Fecha de Evaluación</label>
-                    <input type="datetime-local" name="fecha_evaluacion" class="form-control" required>
+                     <input 
+                        type="date" 
+                        name="fecha_evaluacion" 
+                        class="form-control" 
+                        value="{{ old('fecha_evaluacion', \Carbon\Carbon::now()->format('Y-m-d')) }}" 
+                        required
+                    >
                 </div>
                 <div class="form-group">
                     <label>Tipo de Evaluación</label>

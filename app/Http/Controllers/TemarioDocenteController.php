@@ -16,8 +16,8 @@ class TemarioDocenteController extends Controller
 
     public function create()
     {
-        $unidadCurricularPeriodoAcademico = UnidadCurricularPeriodoAcademico::all();
-        return view('admin.temario_docente.create', compact('unidadCurricularPeriodoAcademico'));
+      $unidadCurricularPeriodoAcademico = UnidadCurricularPeriodoAcademico::with('unidadCurricular', 'periodoAcademico')->get();
+      return view('admin.temario_docente.create', compact('unidadCurricularPeriodoAcademico'));
     }
 
     public function store(Request $request)
@@ -34,8 +34,8 @@ class TemarioDocenteController extends Controller
 
     public function edit($id)
     {
-        $temario = TemarioDocente::findOrFail($id);
-        $unidadCurricularPeriodoAcademico = UnidadCurricularPeriodoAcademico::all();
+         $temario = TemarioDocente::findOrFail($id);
+        $unidadCurricularPeriodoAcademico = UnidadCurricularPeriodoAcademico::with('unidadCurricular', 'periodoAcademico')->get();
         return view('admin.temario_docente.edit', compact('temario', 'unidadCurricularPeriodoAcademico'));
     }
 

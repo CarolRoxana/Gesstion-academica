@@ -10,24 +10,17 @@ class PlanEvaluacionDocenteController extends Controller
 {
     public function index(Request $request)
     {
-        $query = PlanEvaluacionDocente::query()->with('unidadCurricularPeriodoAcademico.docente', 'unidadCurricularPeriodoAcademico.unidadCurricular');
+        $planEvaluaciones = PlanEvaluacionDocente::with([
+        'unidadCurricularPeriodoAcademico.docente',
+        'unidadCurricularPeriodoAcademico.unidadCurricular'
+    ])->get();
 
-        if ($request->filled('docente')) {
-            $docente = $request->input('docente');
-            $query->whereHas('unidadCurricularPeriodoAcademico.docente', function ($q) use ($docente) {
-                $q->where('nombre', 'like', "%$docente%")
-                  ->orWhere('apellido', 'like', "%$docente%");
-            });
-        }
-    
-        $planEvaluaciones = $query->paginate(10); // puedes ajustar el número
-    
-        return view('admin.plan_evaluacion_docente.index', compact('planEvaluaciones'));
+    return view('admin.plan_evaluacion_docente.index', compact('planEvaluaciones'));
     }
 
     public function create()
     {
-        $unidadCurricularPeriodoAcademico = UnidadCurricularPeriodoAcademico::all();
+        $unidadCurricularPeriodoAcademico = UnidadCurricularPeriodoAcademico::with('unidadCurricular', 'periodoAcademico')->get();
         return view('admin.plan_evaluacion_docente.create', compact('unidadCurricularPeriodoAcademico'));
     }
 
@@ -44,38 +37,43 @@ class PlanEvaluacionDocenteController extends Controller
         return redirect()->route('admin.plan_evaluacion_docente.index')->with('success', 'Plan de evaluación creado con éxito.');
     }
 
-    public function show($docenteId)
+    public function show($id)
     {
-        $evaluaciones = PlanEvaluacionDocente::with('unidadCurricularPeriodoAcademico.unidadCurricular', 'unidadCurricularPeriodoAcademico.docente')
-        ->whereHas('unidadCurricularPeriodoAcademico', function ($query) use ($docenteId) {
-            $query->where('docente_id', $docenteId);
-        })->get();
+        $plan = PlanEvaluacionDocente::with('unidadCurricularPeriodoAcademico.docente', 'unidadCurricularPeriodoAcademico.unidadCurricular')
+        ->findOrFail($id);
 
-        $docente = $evaluaciones->first()?->unidadCurricularPeriodoAcademico->docente;
-
-        return view('admin.plan_evaluacion_docente.show', compact('evaluaciones', 'docente'));
+        return view('admin.plan_evaluacion_docente.show', compact('plan'));
     }
 
     public function edit($id)
     {
-        $planEvaluacion = PlanEvaluacionDocente::findOrFail($id);
-        $unidadCurricularPeriodoAcademico = UnidadCurricularPeriodoAcademico::all();
-        return view('admin.plan_evaluacion_docente.edit', compact('planEvaluacion', 'unidadCurricularPeriodoAcademico'));
+         $plan = PlanEvaluacionDocente::with('unidadCurricularPeriodoAcademico.docente', 'unidadCurricularPeriodoAcademico.unidadCurricular')
+        ->findOrFail($id);
+
+    // Si necesitas pasar más datos para selects, agrégalos aquí
+    // $unidades = UnidadCurricularPeriodoAcademico::with('unidadCurricular')->get();
+
+        return view('admin.plan_evaluacion_docente.edit', compact('plan'));
     }
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'unidad_curricular_periodo_academico_id' => 'required|exists:unidad_curricular_periodo_academico,id',
-            'porcentaje_evaluacion' => 'required|integer|min:0|max:100',
-            'fecha_evaluacion' => 'required|date',
-            'tipo_evaluacion' => 'required|string',
-        ]);
+    $request->validate([
+        'tipo_evaluacion' => 'required|string',
+        'porcentaje_evaluacion' => 'required|integer|min:0|max:100',
+        'fecha_evaluacion' => 'required|date',
+    ]);
 
-        $planEvaluacion = PlanEvaluacionDocente::findOrFail($id);
-        $planEvaluacion->update($request->all());
+    $plan = PlanEvaluacionDocente::findOrFail($id);
 
-        return redirect()->route('admin.plan_evaluacion_docente.index')->with('success', 'Plan de evaluación actualizado con éxito.');
+    $plan->update([
+        'tipo_evaluacion' => $request->tipo_evaluacion,
+        'porcentaje_evaluacion' => $request->porcentaje_evaluacion,
+        'fecha_evaluacion' => $request->fecha_evaluacion,
+    ]);
+
+    return redirect()->route('admin.plan_evaluacion_docente.show', $plan->id)
+        ->with('success', 'Plan de evaluación actualizado correctamente.');
     }
 
     public function destroy($id)
