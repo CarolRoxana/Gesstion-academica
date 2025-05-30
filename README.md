@@ -31,6 +31,7 @@ Ahora puede niciar el servidor para ejecutar el proyecto.
 
 --------
 Manual de usuario
+
 [MANUAL USURARIO GESTION ACADEMICA.pdf](https://github.com/user-attachments/files/20516182/MANUAL.USURARIO.GESTION.ACADEMICA.pdf)
 
 
