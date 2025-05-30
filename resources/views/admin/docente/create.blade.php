@@ -74,23 +74,29 @@
                            placeholder="Otra formación relevante">
                 </div>
 
-                <div class="form-group">
-                    <label>Categoría</label>
-                    <select name="categoria" class="form-control">
-                        <option value="" {{ old('categoria') == '' ? 'selected' : '' }}>
-                            Sin asignar
-                        </option>
-                        <option value="Categoría 1" {{ old('categoria') == 'Categoría 1' ? 'selected' : '' }}>
-                            Categoría&nbsp;1
-                        </option>
-                        <option value="Categoría 2" {{ old('categoria') == 'Categoría 2' ? 'selected' : '' }}>
-                            Categoría&nbsp;2
-                        </option>
-                        <option value="Categoría 3" {{ old('categoria') == 'Categoría 3' ? 'selected' : '' }}>
-                            Categoría&nbsp;3
-                        </option>
-                    </select>
-                </div>
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <select name="categoria" class="form-control">
+                            <option value="" {{ old('categoria') == '' ? 'selected' : '' }}>
+                                Sin asignar
+                            </option>
+                            <option value="Categoría 1" {{ old('categoria') == 'Categoría 1' ? 'selected' : '' }}>
+                                Categoría&nbsp;1
+                            </option>
+                            <option value="Categoría 2" {{ old('categoria') == 'Categoría 2' ? 'selected' : '' }}>
+                                Categoría&nbsp;2
+                            </option>
+                            <option value="Categoría 3" {{ old('categoria') == 'Categoría 3' ? 'selected' : '' }}>
+                                Categoría&nbsp;3
+                            </option>
+                            <option value="Categoría 4" {{ old('categoria') == 'Categoría 4' ? 'selected' : '' }}>
+                                Categoría&nbsp;4
+                            </option>
+                            <option value="Categoría 5" {{ old('categoria') == 'Categoría 5' ? 'selected' : '' }}>
+                                Categoría&nbsp;5
+                            </option>
+                        </select>
+                    </div>
 
                 <div class="form-group">
                     <label>Tipo de Contratación</label>

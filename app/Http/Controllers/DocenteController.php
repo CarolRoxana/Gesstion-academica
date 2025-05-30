@@ -33,7 +33,7 @@ class DocenteController extends Controller
             'doctorado' => 'nullable|string|max:255',
             'postgrado' => 'nullable|string|max:255',
             'otro' => 'nullable|string|max:255',
-            'categoria' => 'nullable|in:Categoría 1,Categoría 2,Categoría 3',
+            'categoria' => 'nullable|in:Categoría 1,Categoría 2,Categoría 3,Categoría 4,Categoría 5',
             'tipo_contratacion' => 'nullable|in:Fijo,Honorario profesionales,Contratación especial',
         ]);
 
@@ -116,7 +116,7 @@ class DocenteController extends Controller
             'doctorado' => 'nullable|string|max:255',
             'postgrado' => 'nullable|string|max:255',
             'otro' => 'nullable|string|max:255',
-            'categoria' => 'nullable|in:Categoría 1,Categoría 2,Categoría 3',
+            'categoria' => 'nullable|in:Categoría 1,Categoría 2,Categoría 3,Categoría 4,Categoría 5',
             'tipo_contratacion' => 'nullable|in:Fijo,Honorario profesionales,Contratación especial',
         ]);
 

@@ -93,6 +93,14 @@
                             {{ old('categoria', $docente->categoria) == 'Categoría 3' ? 'selected' : '' }}>
                             Categoría&nbsp;3
                         </option>
+                        <option value="Categoría 4"
+                            {{ old('categoria', $docente->categoria) == 'Categoría 4' ? 'selected' : '' }}>
+                            Categoría&nbsp;4
+                        </option>
+                        <option value="Categoría 5"
+                            {{ old('categoria', $docente->categoria) == 'Categoría 5' ? 'selected' : '' }}>
+                            Categoría&nbsp;5
+                        </option>
                     </select>
                 </div>
 
