@@ -65,5 +65,5 @@ Al crear un nuevo docente, este ingresa al sistema con su correo y su número de
 - Jefe departamento
 
 email: ```jefeDepartamento@gmail.com```
-password: ```p$ssw#rd```
+password: ```jefeDepartamento@gmail.com```
 
